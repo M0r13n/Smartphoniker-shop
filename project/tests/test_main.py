@@ -12,7 +12,6 @@ class TestMainBlueprint(BaseTestCase):
         response = self.client.get("/", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Welcome!", response.data)
-        self.assertIn(b"Login", response.data)
 
     def test_404(self):
         # Ensure 404 error is handled.
