@@ -43,4 +43,4 @@ jobs:
         run: python manage.py cov
 
       - name: Run Flake8
-        run: flake8
+        run: flake8 project
