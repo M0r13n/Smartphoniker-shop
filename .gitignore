@@ -15,6 +15,7 @@ venv*
 win*
 amps-standalone*
 coverage.xml
+htmlcov
 dist/
 docs/_build
 docs/build
