@@ -1,0 +1,6 @@
+{% extends "_base.html" %}
+{% block page_title %}- Forbidden{% endblock %}
+{% block content %}
+    <h1>403</h1>
+    <p>You are forbidden from viewing this page. Please <a href="{{ url_for('user.login')}}">log in</a>.</p>
+{% endblock %}
