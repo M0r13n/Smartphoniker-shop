@@ -1,6 +1,5 @@
 # manage.py
-
-
+import os
 import unittest
 
 import coverage
@@ -14,6 +13,10 @@ import sys
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.join(HERE, "project")
+TEST_PATH = os.path.join(PROJECT_ROOT, "tests")
 
 # code coverage
 COV = coverage.coverage(
@@ -44,8 +47,7 @@ def drop_db():
 @cli.command()
 def create_admin():
     """Creates the admin user."""
-    db.session.add(User(email="ad@min.com", password="admin", admin=True))
-    db.session.commit()
+    User.create(email="ad@min.com", password="admin", admin=True)
 
 
 @cli.command()
@@ -57,29 +59,18 @@ def create_data():
 @cli.command()
 def test():
     """Runs the unit tests without test coverage."""
-    tests = unittest.TestLoader().discover("project/tests", pattern="test*.py")
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
-    if result.wasSuccessful():
-        sys.exit(0)
-    else:
-        sys.exit(1)
+    import pytest
+    print(TEST_PATH)
+    rv = pytest.main([TEST_PATH, "--verbose"])
+    sys.exit(rv)
 
 
 @cli.command()
 def cov():
     """Runs the unit tests with coverage."""
-    tests = unittest.TestLoader().discover("project/tests")
-    result = unittest.TextTestRunner(verbosity=2).run(tests)
-    if result.wasSuccessful():
-        COV.stop()
-        COV.save()
-        print("Coverage Summary:")
-        COV.report()
-        COV.html_report()
-        COV.erase()
-        sys.exit(0)
-    else:
-        sys.exit(1)
+    import pytest
+    rv = pytest.main(["--verbose", "--cov=project project/tests", "--cov", "--cov-report=term"])
+    sys.exit(rv)
 
 
 @cli.command()

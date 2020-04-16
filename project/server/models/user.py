@@ -1,11 +1,15 @@
 # project/server/user.py
 import datetime
 
+from flask_login import UserMixin
+
 from project.server import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from .crud import CRUDMixin
 
-class User(db.Model):
+
+class User(UserMixin, CRUDMixin, db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

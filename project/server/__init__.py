@@ -4,12 +4,12 @@
 import os
 
 from flask import Flask, render_template
+from flask_admin import Admin
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
 
 # instantiate the extensions
 login_manager = LoginManager()
@@ -17,10 +17,10 @@ bcrypt = Bcrypt()
 toolbar = DebugToolbarExtension()
 db = SQLAlchemy()
 migrate = Migrate()
+flask_admin = Admin(name='admin', base_template='admin/admin_master.html', template_mode='bootstrap3')
 
 
 def create_app(script_info=None):
-
     # instantiate the app
     app = Flask(
         __name__,
@@ -41,19 +41,12 @@ def create_app(script_info=None):
     db.init_app(app)
     migrate.init_app(app, db)
 
-    # register blueprints
-    from project.server.main.views import main_blueprint
-    app.register_blueprint(main_blueprint)
+    # Views
+    init_blueprints(app)
+    init_admin(app)
 
     # flask login
-    from project.server.models import User
-
-    login_manager.login_view = "user.login"
-    login_manager.login_message_category = "danger"
-
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.query.filter(User.id == int(user_id)).first()
+    init_login(app)
 
     # error handlers
     @app.errorhandler(401)
@@ -78,3 +71,26 @@ def create_app(script_info=None):
         return {"app": app, "db": db}
 
     return app
+
+
+def init_login(app):
+    from project.server.models import User
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.filter(User.id == int(user_id)).first()
+
+
+def init_blueprints(app):
+    # register blueprints
+    from project.server.main.views import main_blueprint
+    app.register_blueprint(main_blueprint)
+
+
+def init_admin(app):
+    from .admin.views import ProtectedIndexView
+    flask_admin.init_app(app, url='/admin', index_view=ProtectedIndexView(name="Admin") )
+
+    # Add the admin panel
+    with app.app_context():
+        from project.server.admin import views
