@@ -37,4 +37,3 @@ class TestUserCrud:
         user.save()
 
         assert User.query.filter_by(email="Wurst@Salami.com").first() is not None
-

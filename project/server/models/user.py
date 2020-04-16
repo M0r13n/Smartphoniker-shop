@@ -2,10 +2,9 @@
 import datetime
 
 from flask_login import UserMixin
-
-from project.server import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from project.server import db
 from .crud import CRUDMixin
 
 

@@ -8,7 +8,6 @@ from flask_login import current_user, login_user, logout_user
 
 from project.server import flask_admin as admin, db
 from project.server.models import User
-
 # Create customized model view class
 from .forms import LoginForm
 

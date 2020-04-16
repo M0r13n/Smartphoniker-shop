@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import StringField, PasswordField
 from wtforms import validators
+from wtforms.fields import StringField, PasswordField
 
 from project.server import db
 from project.server.models import User

@@ -43,4 +43,3 @@ class TestAdmin:
         assert "Willkommen" in res
         assert "Log out" in res
         assert res.status_code == 200
-
