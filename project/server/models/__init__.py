@@ -1,5 +1,5 @@
-from .user import User
 from .customer import Customer
+from .user import User
 
 __all__ = [
     'User',

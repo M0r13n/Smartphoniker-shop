@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Optional, Iterable, Any
 
 import requests as r
-
-from typing import Optional, Iterable, Any
 
 from project.server.models.customer import Customer
 

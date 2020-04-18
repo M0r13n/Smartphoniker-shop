@@ -1,6 +1,5 @@
 # manage.py
 import os
-import unittest
 
 import coverage
 
