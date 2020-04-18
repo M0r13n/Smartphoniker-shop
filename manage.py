@@ -31,8 +31,13 @@ COV = coverage.coverage(
 COV.start()
 
 
+def create_sample_data():
+    pass
+
+
 @cli.command()
 def create_db():
+    """ Drops all existing tables and creates them afterwards """
     db.drop_all()
     db.create_all()
     db.session.commit()
@@ -53,7 +58,17 @@ def create_admin():
 @cli.command()
 def create_data():
     """Creates sample data."""
-    pass
+    create_sample_data()
+
+
+@cli.command()
+def clean_db():
+    """ Restore a clean working state """
+    db.drop_all()
+    db.create_all()
+    db.session.commit()
+    User.create(email="ad@min.com", password="admin", admin=True)
+    create_sample_data()
 
 
 @cli.command()

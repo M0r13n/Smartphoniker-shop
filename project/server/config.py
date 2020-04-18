@@ -17,6 +17,7 @@ class BaseConfig(object):
     APP_NAME = os.getenv("APP_NAME", "PricePicker-v2")
     BCRYPT_LOG_ROUNDS = 8
     SECRET_KEY = os.getenv("SECRET_KEY", "my_precious")
+    TRICOMA_API_URL = os.getenv("TRICOMA_API_URL", None)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # set optional bootswatch theme
     FLASK_ADMIN_SWATCH = 'Cyborg'

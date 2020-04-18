@@ -21,6 +21,8 @@ By default the app is set to use the production configuration. If you would like
 $ export APP_SETTINGS=project.server.config.DevelopmentConfig
 ```
 
+You can set the `TRICOMA_API_URL` if you want to use the API to create customers.
+
 ### Create DB
 At first you need to create a new local postgres database:
 ```postgresql
