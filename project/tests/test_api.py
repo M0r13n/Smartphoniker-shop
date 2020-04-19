@@ -4,6 +4,7 @@ import pytest
 
 from project.server.common.tricoma_api import TricomaCustomer, TricomaAPI, extract_customer_data, TRICOMA_DATE_FMT
 from project.server.models import Customer
+from project.server.common.tricoma_client import TricomaClient, extract_customers
 
 
 class TestTricomaAPI:
@@ -116,3 +117,50 @@ class TestTricomaAPI:
         assert isinstance(customers[0], TricomaCustomer)
         assert isinstance(customers[0].to_db_model(), Customer)
         assert customers[0].to_db_model().save()
+
+
+class TestTricomaClient:
+    def test_wrong_client(self):
+        client = TricomaClient("example.com", "some", "user")
+        assert client.host == "example.com"
+        assert client.base_url == "https://example.com"
+        assert client.username == "some"
+        assert client.password == "user"
+        assert not client.authorised
+        assert client.export_customers().status_code == 404
+
+    def test_extract_method(self):
+        sample = "ID|Anrede|Nachname|Vorname|Firma|Strasse|PLZ|Ort|Land|Email|Telefon|Fax|Kategorie|\n" \
+                 "33053|Frau|Sabine|Wurst|Firma ABC|Straße str. 47|12345|Kiel||foto@domain.com|123456|||"
+        customer = extract_customers(sample)
+        assert isinstance(customer, list)
+        assert len(customer) == 1
+        assert isinstance(customer[0], TricomaCustomer)
+        c: TricomaCustomer = customer[0]
+        assert c.id == "33053"
+        assert c.name == "Sabine"
+        assert c.vorname == "Wurst"
+        assert c.strasse == "Straße str. 47"
+        assert c.plz == "12345"
+        assert c.ort == "Kiel"
+        assert c.mail == "foto@domain.com"
+        assert c.telefon == "123456"
+
+    def test_client(self):
+        url = os.getenv("TRICOMA_BASE_URL")
+        username = os.getenv("TRICOMA_USERNAME")
+        password = os.getenv("TRICOMA_PASSWORD")
+        if url is None or username is None or password is None:
+            pytest.skip("Skipping Real World Tricoma Client test, because TRICOMA LOGIN DATA is not set.")
+            return
+        client = TricomaClient(url, username, password)
+        assert client.authorised
+
+        response = client.export_customers(34207)
+        test_user = extract_customers(response.text)[0]
+        assert test_user
+        # Don't worry. This is not a real customer. Its a test customer that I created for testing :-)
+        assert test_user.id == "34207"
+        assert test_user.name == "Richter"
+        assert test_user.vorname == "Leon"
+        assert test_user.mail == "Leon"
