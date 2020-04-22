@@ -52,6 +52,15 @@ $ python manage.py run
 
 Access the application at the address [http://localhost:5000/](http://localhost:5000/)
 
+### Start Celery
+If you want to start the celery worker, you need to have Redis running somewhere. 
+Change the `REDIS_URL` accordingly inside your `config.py` or `.env`.
+You can start a celery worker by calling:
+
+```sh
+$ python manage.py start-worker [loglevel]
+```
+
 ### Testing
 
 Without coverage:

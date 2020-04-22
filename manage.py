@@ -3,6 +3,7 @@ import os
 import subprocess
 import sys
 
+import click
 import coverage
 from flask.cli import FlaskGroup
 
@@ -67,6 +68,21 @@ def clean_db():
     db.session.commit()
     User.create(email="ad@min.com", password="admin", admin=True)
     create_sample_data()
+
+
+@cli.command()
+@click.argument("loglevel",
+                default="info",
+                required=True,
+                type=click.Choice(['error', 'warning', 'info', 'debug'],
+                                  case_sensitive=False))
+def start_worker(loglevel):
+    """
+    Starts celery worker
+    """
+    # celery worker -A myapi.celery_app:app --loglevel=info
+    import subprocess
+    subprocess.run(["celery", "worker", "-A", "project.server.celery_app:app", f"--loglevel={loglevel}"])
 
 
 @cli.command()

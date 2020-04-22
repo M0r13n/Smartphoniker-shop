@@ -4,20 +4,8 @@
 import os
 
 from flask import Flask, render_template
-from flask_admin import Admin
-from flask_bcrypt import Bcrypt
-from flask_debugtoolbar import DebugToolbarExtension
-from flask_login import LoginManager
-from flask_migrate import Migrate
-from flask_sqlalchemy import SQLAlchemy
 
-# instantiate the extensions
-login_manager = LoginManager()
-bcrypt = Bcrypt()
-toolbar = DebugToolbarExtension()
-db = SQLAlchemy()
-migrate = Migrate()
-flask_admin = Admin(name='admin', base_template='admin/admin_master.html', template_mode='bootstrap3')
+from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery
 
 
 def create_app(script_info=None):
@@ -35,18 +23,10 @@ def create_app(script_info=None):
     app.config.from_object(app_settings)
 
     # set up extensions
-    login_manager.init_app(app)
-    bcrypt.init_app(app)
-    toolbar.init_app(app)
-    db.init_app(app)
-    migrate.init_app(app, db)
+    init_extensions(app)
 
     # Views
     init_blueprints(app)
-    init_admin(app)
-
-    # flask login
-    init_login(app)
 
     # error handlers
     @app.errorhandler(401)
@@ -73,6 +53,17 @@ def create_app(script_info=None):
     return app
 
 
+def init_extensions(app):
+    login_manager.init_app(app)
+    bcrypt.init_app(app)
+    toolbar.init_app(app)
+    db.init_app(app)
+    migrate.init_app(app, db)
+    init_admin(app)
+    init_login(app)
+    init_celery(app)
+
+
 def init_login(app):
     from project.server.models import User
 
@@ -93,5 +84,21 @@ def init_admin(app):
 
     # Add the admin panel
     with app.app_context():
-        from project.server.admin import views  # noqa: F401
         pass
+
+
+def init_celery(app=None):
+    app = app or create_app()
+    celery.conf.broker_url = app.config["CELERY_BROKER_URL"]
+    celery.conf.result_backend = app.config["CELERY_RESULT_BACKEND"]
+    celery.conf.update(app.config)
+
+    class ContextTask(celery.Task):
+        """Make celery tasks work with Flask app context"""
+
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return self.run(*args, **kwargs)
+
+    celery.Task = ContextTask
+    return celery
