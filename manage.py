@@ -1,14 +1,13 @@
 # manage.py
 import os
-
-import coverage
-
-from flask.cli import FlaskGroup
-
-from project.server import create_app, db
-from project.server.models import User
 import subprocess
 import sys
+
+import coverage
+from flask.cli import FlaskGroup
+
+from project.server.app import create_app, db
+from project.server.models import User
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
