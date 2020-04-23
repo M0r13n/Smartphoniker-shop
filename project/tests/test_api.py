@@ -127,7 +127,12 @@ class TestTricomaClient:
         assert client.username == "some"
         assert client.password == "user"
         assert not client.authorised
-        assert client.export_customers().status_code == 404
+        # make sure a error is thrown
+        try:
+            client.export_customers()
+            assert False
+        except ValueError:
+            pass
 
     def test_extract_method(self):
         sample = "ID|Anrede|Nachname|Vorname|Firma|Strasse|PLZ|Ort|Land|Email|Telefon|Fax|Kategorie|\n" \
@@ -164,3 +169,17 @@ class TestTricomaClient:
         assert test_user.name == "Richter"
         assert test_user.vorname == "Leon"
         assert test_user.mail == "Leon"
+
+    def test_limit_max_wrong_logins(self):
+        client = TricomaClient("example.com", "some", "user")
+        assert client.login_tries == 1
+        client.login(client.username, client.password)
+        assert client.login_tries == 2
+        client.login(client.username, client.password)
+        assert client.login_tries == 3
+
+        try:
+            client.login(client.username, client.password)
+            assert False
+        except ValueError:
+            pass

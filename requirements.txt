@@ -1,3 +1,4 @@
+speaklater
 coverage
 click
 celery

@@ -4,8 +4,6 @@ from typing import Optional, Iterable, Any
 
 import requests as r
 
-from project.server.models.customer import Customer
-
 CUSTOMER_KEY_MAPPING = [
     ('tricoma_id', 'id'),
     ('registered_on', 'registered_on'),
@@ -44,7 +42,8 @@ class TricomaCustomer(object):
     def to_list(self) -> list:
         return [(k, getattr(self, k)) for k in dir(self) if not callable(getattr(self, k)) and not k.startswith('_')]
 
-    def to_db_model(self) -> Customer:
+    def to_db_model(self):
+        from project.server.models import Customer
         c = Customer()
         for k in dir(self):
             if not callable(getattr(self, k)) and not k.startswith('_'):
@@ -52,7 +51,7 @@ class TricomaCustomer(object):
         return c
 
     @classmethod
-    def from_db_model(cls, customer: Customer):
+    def from_db_model(cls, customer):
         c = cls()
         for customer_key, tricoma_key in CUSTOMER_KEY_MAPPING:
             setattr(c, tricoma_key, getattr(customer, customer_key))
@@ -72,7 +71,15 @@ def extract_customer_data(html_text) -> list:
 
 class TricomaAPI(object):
 
-    def __init__(self, base_url: Optional[str]):
+    def __init__(self, base_url: Optional[str] = None):
+        self.base_url = None
+        if base_url:
+            self.init(base_url)
+
+    def init_app(self, app):
+        self.init(app.config.get('TRICOMA_API_URL'))
+
+    def init(self, base_url):
         self.base_url = base_url
 
     @property

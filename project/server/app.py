@@ -5,7 +5,7 @@ import os
 
 from flask import Flask, render_template
 
-from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery
+from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api
 
 
 def create_app(script_info=None):
@@ -59,6 +59,8 @@ def init_extensions(app):
     toolbar.init_app(app)
     db.init_app(app)
     migrate.init_app(app, db)
+    tricoma_client.init_app(app)
+    tricoma_api.init_app(app)
     init_admin(app)
     init_login(app)
     init_celery(app)
@@ -73,12 +75,14 @@ def init_login(app):
 
 
 def init_blueprints(app):
+    """ Register all blueprints"""
     # register blueprints
     from project.server.main.views import main_blueprint
     app.register_blueprint(main_blueprint)
 
 
 def init_admin(app):
+    """ Setup Flask-Admin"""
     from .admin.views import ProtectedIndexView
     flask_admin.init_app(app, url='/admin', index_view=ProtectedIndexView(name="Admin"))
 
@@ -88,9 +92,12 @@ def init_admin(app):
 
 
 def init_celery(app=None):
+    """ Setup celery with application factory """
     app = app or create_app()
     celery.conf.broker_url = app.config["CELERY_BROKER_URL"]
     celery.conf.result_backend = app.config["CELERY_RESULT_BACKEND"]
+    # This is needed to fix the indefinite hang of delay and apply_async if celery is down
+    celery.conf.broker_transport_options = {"max_retries": 3, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
     celery.conf.update(app.config)
 
     class ContextTask(celery.Task):

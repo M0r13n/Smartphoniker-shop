@@ -17,13 +17,27 @@ class BaseConfig(object):
     APP_NAME = os.getenv("APP_NAME", "PricePicker-v2")
     BCRYPT_LOG_ROUNDS = 8
     SECRET_KEY = os.getenv("SECRET_KEY", "my_precious")
-    TRICOMA_API_URL = os.getenv("TRICOMA_API_URL", None)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # set optional bootswatch theme
     FLASK_ADMIN_SWATCH = 'Cyborg'
     REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
     CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", REDIS_URL)
     CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND_URL", REDIS_URL)
+
+    # Tricoma stuff
+    TRICOMA_BASE_URL = os.getenv("TRICOMA_BASE_URL")
+    TRICOMA_USERNAME = os.getenv("TRICOMA_USERNAME")
+    TRICOMA_PASSWORD = os.getenv("TRICOMA_PASSWORD")
+    TRICOMA_API_URL = os.getenv("TRICOMA_API_URL")
+
+    # Mail
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+    MAIL_SERVER = os.getenv("MAIL_SERVER")
+    MAIL_USE_TLS = os.getenv("MAIL_USE_TLS")
+    MAIL_USE_SSL = os.getenv("MAIL_USE_SSL")
+    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER")
+    MAIL_PORT = os.getenv("MAIL_PORT")
 
 
 class DevelopmentConfig(BaseConfig):
