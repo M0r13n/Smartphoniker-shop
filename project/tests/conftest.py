@@ -8,7 +8,7 @@ from webtest import TestApp
 
 from project.server import create_app
 from project.server import db as _db
-from project.server.models import User
+from project.server.models import User, Manufacturer, Color, Device, Customer, Shop
 
 
 @pytest.fixture
@@ -70,3 +70,31 @@ def user(db):
     """Create user for the tests."""
     user = User.create(email="ad@min.com", password="admin", admin=True)
     return user
+
+
+@pytest.fixture
+def sample_manufacturer():
+    """Create a sample manufacturer"""
+    return Manufacturer.create(name="Apple")
+
+
+@pytest.fixture
+def sample_color():
+    """Create a sample color"""
+    return Color.create(name="Black", color_code="#000000")
+
+
+@pytest.fixture
+def sample_device(sample_manufacturer, sample_color):
+    """ Create a sample device """
+    return Device.create(name="iPhone 6S", colors=[sample_color], manufacturer=sample_manufacturer)
+
+
+@pytest.fixture
+def sample_customer():
+    return Customer.create(first_name="Test", last_name="Kunde", street="Eine Straße 1", zip_code="11233", city="Kiel", tel="+49 113455665 45", email="leon.morten@gmail.com")
+
+
+@pytest.fixture
+def sample_shop():
+    return Shop.create(name="Zentrale")

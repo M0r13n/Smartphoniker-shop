@@ -8,7 +8,8 @@ import coverage
 from flask.cli import FlaskGroup
 
 from project.server.app import create_app, db
-from project.server.models import User
+from project.server.models import User, Shop, Customer, Manufacturer
+from project.server.models.device import Color, Device
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -31,7 +32,19 @@ COV.start()
 
 
 def create_sample_data():
-    pass
+    Shop.create(name="Zentrale")
+    Shop.create(name="Kiel")
+    Shop.create(name="Schwentinental")
+    Shop.create(name="Itzehoe")
+    Shop.create(name="Lübeck")
+    Shop.create(name="Rendsburg")
+    Customer.create(first_name="Test", last_name="Kunde", street="Eine Straße 1", zip_code="11233", city="Kiel", tel="+49 113455665 45", email="leon.morten@gmail.com")
+    b = Color.create(name="Black", color_code="#000000")
+    w = Color.create(name="White", color_code="#FFFFFF")
+    a = Manufacturer.create(name="Apple")
+    Device.create(name="iPhone 6S", colors=[b, w], manufacturer=a)
+    Device.create(name="iPhone 7", colors=[b, w], manufacturer=a)
+    User.create(email="ad@min.com", password="admin", admin=True)
 
 
 @cli.command()
@@ -39,6 +52,15 @@ def create_db():
     """ Drops all existing tables and creates them afterwards """
     db.drop_all()
     db.create_all()
+    db.session.commit()
+
+
+@cli.command()
+def dev_db():
+    """Restore a clean DB with sample Data"""
+    db.drop_all()
+    db.create_all()
+    create_sample_data()
     db.session.commit()
 
 

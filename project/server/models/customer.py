@@ -6,7 +6,7 @@ from .crud import CRUDMixin
 
 
 class Customer(CRUDMixin, db.Model):
-    __tablename__ = "customers"
+    __tablename__ = "customer"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tricoma_id = db.Column(db.String, nullable=True, index=True)
@@ -19,6 +19,9 @@ class Customer(CRUDMixin, db.Model):
     tel = db.Column(db.String(64), nullable=True, unique=False, index=True)
     email = db.Column(db.String(255), nullable=False, unique=False, index=True)
     registered_on = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+
+    # Relations
+    orders = db.relationship("Order", back_populates="customer")
 
     def __repr__(self):
         return f"<Customer {self.email}>"
