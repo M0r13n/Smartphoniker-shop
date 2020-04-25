@@ -1,18 +1,43 @@
-# The following code from `indico.util.emails` which is licensed under
-# the MIT license and is available on the following url:
-# https://github.com/indico/indico
-# The former code is taken almost verbatim from `django.core.mail`,
-# which is licensed under the three-clause BSD license and is originally
-# available on the following URL:
-# https://github.com/django/django/tree/stable/1.11.x/django/core/mail/
-# Credits of the original code go to the Django Software Foundation
-# and their contributors.
+"""
+Flask-Mail is no longer maintained. So there is no good and usable email module for Python/Flask.
+This forced us to write our own.
+
+The following code is taken almost verbatim from the Indico project and their code is heavily based
+on Django's mail implementation. See their projects for details:
+- https://github.com/indico/indico : (indico.util.emails)
+- https://github.com/django/django/tree/stable/1.11.x/django/core/mail/ : (django.core.mail)
+
+This code is licensed under the MIT license.
+
+MIT License
+
+Copyright (c) 2020 Leon Morten Richter
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+"""
 
 from __future__ import unicode_literals
 
 import mimetypes
 import os
 import random
+import re
 import time
 from email import charset as Charset
 from email import encoders as Encoders
@@ -278,6 +303,11 @@ class EmailMessage(object):
         for k in dir(self):
             if not callable(getattr(self, k)) and not k.startswith('_') and k in dto.keys():
                 setattr(self, k, dto.get(k))
+
+        if not self.to:
+            self.extra_headers['To'] = 'Undisclosed-recipients:;'
+        if 'html' in dto.keys():
+            self.content_subtype = 'html'
         return self
 
     def get_connection(self, fail_silently=False):
@@ -482,3 +512,78 @@ class EmailMultiAlternatives(EmailMessage):
             for alternative in self.alternatives:
                 msg.attach(self._create_mime_attachment(*alternative))
         return msg
+
+
+def make_email(to_list=None, cc_list=None, bcc_list=None, from_address=None, reply_address=None, attachments=None,
+               subject=None, body=None):
+    """Creates an email.
+    The preferred way to specify the email content is using the
+    `template` argument. To do so, use :func:`.get_template_module` on
+    a template inheriting from ``emails/base.txt`` for text emails or
+    ``emails/base.html`` for HTML emails.
+    :param to_list: The recipient email or a collection of emails
+    :param cc_list: The CC email or a collection of emails
+    :param bcc_list: The BCC email or a collection of emails
+    :param from_address: The sender address. Defaults to noreply.
+    :param reply_address: The reply-to address or a collection of addresses.
+                          Defaults to empty.
+    :param attachments: A list of attachments. Each attachment can be
+                        a `MIMEBase` subclass, a 3-tuple of the form
+                        ``(filename, content, mimetype)``, or a 2-tuple
+                        ``(filename, content)`` in which case the mime
+                        type will be guessed from the file name.
+    :param subject: The subject of the email.
+    :param body: The body of the email:
+    """
+    subject = re.sub(r'\s+', ' ', subject)
+    if to_list is None:
+        to_list = set()
+    if cc_list is None:
+        cc_list = set()
+    if bcc_list is None:
+        bcc_list = set()
+    to_list = {to_list} if isinstance(to_list, str) else to_list
+    cc_list = {cc_list} if isinstance(cc_list, str) else cc_list
+    bcc_list = {bcc_list} if isinstance(bcc_list, str) else bcc_list
+    reply_address = {reply_address} if isinstance(reply_address, str) else (reply_address or set())
+
+    msg = dict(
+        subject=subject.strip(),
+        body=body.strip(),
+        from_email=from_address,
+        to=set(to_list),
+        cc=set(cc_list),
+        bcc=set(bcc_list),
+        reply_to=set(reply_address),
+        attachments=attachments or []
+    )
+    return msg
+
+
+def make_html_mail(to_list=None, cc_list=None, bcc_list=None, from_address=None, reply_address=None, attachments=None,
+                   subject=None, html_body=None):
+    """
+    Creates an email.
+        The preferred way to specify the email content is using the
+        `template` argument. To do so, use :func:`.get_template_module` on
+        a template inheriting from ``emails/base.txt`` for text emails or
+        ``emails/base.html`` for HTML emails.
+        :param to_list: The recipient email or a collection of emails
+        :param cc_list: The CC email or a collection of emails
+        :param bcc_list: The BCC email or a collection of emails
+        :param from_address: The sender address. Defaults to noreply.
+        :param reply_address: The reply-to address or a collection of addresses.
+                              Defaults to empty.
+        :param attachments: A list of attachments. Each attachment can be
+                            a `MIMEBase` subclass, a 3-tuple of the form
+                            ``(filename, content, mimetype)``, or a 2-tuple
+                            ``(filename, content)`` in which case the mime
+                            type will be guessed from the file name.
+        :param subject: The subject of the email.
+        :param html_body: The body of the email as HTML.
+    """
+    msg = make_email(to_list, cc_list, bcc_list, from_address, reply_address, attachments, subject, body=html_body)
+    msg.update({
+        'html': True,
+    })
+    return msg
