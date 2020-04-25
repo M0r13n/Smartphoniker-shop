@@ -7,7 +7,7 @@ from flask_admin.contrib.sqla import ModelView as _ModelView
 from flask_login import current_user, login_user, logout_user
 
 from project.server import flask_admin as admin, db
-from project.server.models import User, Customer
+from project.server.models import User, Customer, MailLog
 # Create customized model view class
 from .forms import LoginForm
 
@@ -56,3 +56,4 @@ class ProtectedIndexView(AdminIndexView):
 
 admin.add_view(ProtectedModelView(User, db.session))  # User
 admin.add_view(ProtectedModelView(Customer, db.session))  # Customer
+admin.add_view(ProtectedModelView(MailLog, db.session))  # Mails
