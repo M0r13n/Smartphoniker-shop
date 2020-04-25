@@ -4,7 +4,7 @@ from celery.exceptions import MaxRetriesExceededError, Retry
 from flask import current_app
 
 from project.common.email.backend import EmailBackend
-from project.common.email.message import EmailMessage
+from project.common.email.message import EmailMessage, EmailMultiAlternatives
 from project.server.extensions import celery
 
 MAX_TRIES = 10
@@ -49,9 +49,18 @@ def validate(func):
 
 @validate
 def _send_mail(mail_dto: dict):
+    """
+    Send a email.
+    This is a normal, BLOCKING, Python method.
+    You are mostly not wanting to call this directly, but rather through celery or in a separate thread.
+    """
     conf = current_app.config
 
-    msg = EmailMessage.from_dict(mail_dto)
+    if mail_dto.get('html', False) and mail_dto.get('text_body', False):
+        msg = EmailMultiAlternatives.from_dict(mail_dto)
+        msg.attach_alternative(mail_dto.get('text_body'), 'text/plain')
+    else:
+        msg = EmailMessage.from_dict(mail_dto)
 
     with EmailBackend(timeout=30, host=conf['MAIL_SERVER'], port=conf['MAIL_PORT'], username=conf['MAIL_USERNAME'],
                       password=conf['MAIL_PASSWORD'], use_tls=conf['MAIL_USE_TLS'], use_ssl=conf['MAIL_USE_SSL']) as conn:

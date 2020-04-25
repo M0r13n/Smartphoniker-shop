@@ -10,7 +10,7 @@ class TestEMail:
         assert isinstance(msg, dict)
         mail = EmailMessage.from_dict(msg)
         assert isinstance(mail, EmailMessage)
-        assert mail.to == {"leon.morten@gmail.com"}
+        assert mail.to == ["leon.morten@gmail.com"]
         assert mail.from_email == "anfrage@smartphoniker.de"
         assert mail.subject == "Ich will das hier html drinnen ist"
         assert mail.body == "Blaa"
@@ -27,7 +27,7 @@ class TestEMail:
         assert isinstance(msg, dict)
         mail = EmailMessage.from_dict(msg)
         assert isinstance(mail, EmailMessage)
-        assert mail.to == {"leon.morten@gmail.com"}
+        assert mail.to == ["leon.morten@gmail.com"]
         assert mail.from_email == "anfrage@smartphoniker.de"
         assert mail.subject == "Ich will das hier html drinnen ist"
         assert mail.body == "<h1> HEADER </h1>"

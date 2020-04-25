@@ -303,7 +303,6 @@ class EmailMessage(object):
         for k in dir(self):
             if not callable(getattr(self, k)) and not k.startswith('_') and k in dto.keys():
                 setattr(self, k, dto.get(k))
-
         if not self.to:
             self.extra_headers['To'] = 'Undisclosed-recipients:;'
         if 'html' in dto.keys():
@@ -551,17 +550,17 @@ def make_email(to_list=None, cc_list=None, bcc_list=None, from_address=None, rep
         subject=subject.strip(),
         body=body.strip(),
         from_email=from_address,
-        to=set(to_list),
-        cc=set(cc_list),
-        bcc=set(bcc_list),
-        reply_to=set(reply_address),
+        to=list(set(to_list)),
+        cc=list(set(cc_list)),
+        bcc=list(set(bcc_list)),
+        reply_to=list(set(reply_address)),
         attachments=attachments or []
     )
     return msg
 
 
 def make_html_mail(to_list=None, cc_list=None, bcc_list=None, from_address=None, reply_address=None, attachments=None,
-                   subject=None, html_body=None):
+                   subject=None, html_body=None, text_body=None):
     """
     Creates an email.
         The preferred way to specify the email content is using the
@@ -581,9 +580,14 @@ def make_html_mail(to_list=None, cc_list=None, bcc_list=None, from_address=None,
                             type will be guessed from the file name.
         :param subject: The subject of the email.
         :param html_body: The body of the email as HTML.
+        :param text_body: An alternative to HTML as plain text.
     """
     msg = make_email(to_list, cc_list, bcc_list, from_address, reply_address, attachments, subject, body=html_body)
     msg.update({
         'html': True,
     })
+    if text_body:
+        msg.update({
+            'text_body': text_body,
+        })
     return msg
