@@ -237,6 +237,10 @@ ul {
   max-height: 450px !important;
 }
 
+.hide {
+  display: none;
+}
+
 .container {
   padding: 14px 18px 0;
   text-align: center;
@@ -673,14 +677,20 @@ ul {
 
 .hero__chronic {
   font-weight: 300;
-  margin: -1em auto 0;
+  color: #424242;
   text-align: left;
   max-width: 80%;
+  margin-top: -.3em;
 }
 
 .hero__chroniclink {
   color: #424242;
   font-size: .9em;
+}
+
+.hero__chroniclink:hover {
+  -webkit-text-decoration: underline #8a8a8a;
+          text-decoration: underline #8a8a8a;
 }
 
 .bestseller {
@@ -705,23 +715,23 @@ ul {
 
 @media screen and (min-width: 750px) {
   .bestseller__list {
-    -ms-grid-columns: (minmax(10em, 15em))[3];
-        grid-template-columns: repeat(3, minmax(10em, 15em));
+    -ms-grid-columns: minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em);
+        grid-template-columns: minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em);
   }
 }
 
 @media screen and (min-width: 900px) {
   .bestseller__list {
     padding: 0 1.5em;
-    -ms-grid-columns: (minmax(10em, 15em))[4];
-        grid-template-columns: repeat(4, minmax(10em, 15em));
+    -ms-grid-columns: minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em);
+        grid-template-columns: minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em);
   }
 }
 
 @media screen and (min-width: 1250px) {
   .bestseller__list {
-    -ms-grid-columns: (minmax(10em, 15em))[5];
-        grid-template-columns: repeat(5, minmax(10em, 15em));
+    -ms-grid-columns: minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em);
+        grid-template-columns: minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em) minmax(10em, 15em);
   }
 }
 
@@ -841,16 +851,16 @@ ul {
       -ms-flex-pack: center;
           justify-content: center;
   justify-items: center;
-  -ms-grid-columns: (minmax(8em, 1fr))[2];
-      grid-template-columns: repeat(2, minmax(8em, 1fr));
+  -ms-grid-columns: minmax(8em, 1fr) minmax(8em, 1fr);
+      grid-template-columns: minmax(8em, 1fr) minmax(8em, 1fr);
   grid-row-gap: 10%;
   grid-column-gap: 4vw;
 }
 
 @media screen and (min-width: 650px) {
   .brands__list {
-    -ms-grid-columns: (minmax(8em, 1fr))[4];
-        grid-template-columns: repeat(4, minmax(8em, 1fr));
+    -ms-grid-columns: minmax(8em, 1fr) minmax(8em, 1fr) minmax(8em, 1fr) minmax(8em, 1fr);
+        grid-template-columns: minmax(8em, 1fr) minmax(8em, 1fr) minmax(8em, 1fr) minmax(8em, 1fr);
     grid-column-gap: 2%;
   }
 }
@@ -916,10 +926,17 @@ ul {
 .grid {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (minmax(100px, 1fr))[auto-fit];
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  -ms-grid-columns: (minmax(120px, 1fr))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   grid-gap: 2em 1em;
   margin: -3em auto 3em;
+}
+
+@media screen and (min-width: 800px) {
+  .grid {
+    -ms-grid-columns: (minmax(150px, 1fr))[auto-fit];
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
 }
 
 .grid__item {
@@ -934,6 +951,12 @@ ul {
   }
 }
 
+@media screen and (min-width: 800px) {
+  .grid__item {
+    height: 200px;
+  }
+}
+
 .grid__link {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -945,12 +968,20 @@ ul {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 
 .grid__image {
   display: block;
   width: 60%;
   padding: 0;
+}
+
+.grid__phoneframe {
+  max-height: 75%;
+  width: 100%;
+  margin-bottom: -.6em;
 }
 
 .grid__more {
@@ -1146,6 +1177,60 @@ ul {
 .datagb ol li {
   padding-bottom: 1em;
   word-wrap: break-word;
+}
+
+.progressbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  max-width: 90%;
+  margin: 2em auto 7em;
+}
+
+.progressbar__step {
+  max-width: 100px;
+}
+
+.progressbar__number {
+  color: #8a8a8a;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  max-height: 48px;
+  max-width: 48px;
+  border-radius: 50%;
+  display: -ms-grid;
+  display: grid;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  font-size: 1.4em;
+  border: 2px solid #FF6C00;
+}
+
+.progressbar__number--active {
+  background-color: #FF6C00;
+  color: white;
+  border: 0px;
+  max-width: 52px;
+  max-height: 52px;
+}
+
+.progressbar__text {
+  color: #8a8a8a;
+  font-weight: 300;
+  text-align: center;
+  margin-top: .5em;
+}
+
+.progressbar__divider {
+  background-color: #8a8a8a;
+  height: 2px;
+  width: 100%;
+  margin-top: 1.5em;
+  border-radius: 3px;
 }
 
 footer {
