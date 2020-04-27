@@ -20,7 +20,9 @@ class ImageMixin(object):
         if self.image:
             return self.image.get_path()
         if default_fallback:
-            return Image.query.filter(Image.default == True).first().get_path()  # noqa
+            i = Image.query.filter(Image.default == True).first()  # noqa
+            if i:
+                return i.get_path()
         return None
 
 
