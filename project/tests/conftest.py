@@ -8,7 +8,7 @@ from webtest import TestApp
 
 from project.server import create_app
 from project.server import db as _db
-from project.server.models import User, Manufacturer, Color, Device, Customer, Shop
+from project.server.models import User, Manufacturer, Color, Device, Customer, Shop, Repair, Image
 
 
 @pytest.fixture
@@ -92,9 +92,23 @@ def sample_device(sample_manufacturer, sample_color):
 
 @pytest.fixture
 def sample_customer():
+    """ Return a sample customer """
     return Customer.create(first_name="Test", last_name="Kunde", street="Eine Straße 1", zip_code="11233", city="Kiel", tel="+49 113455665 45", email="leon.morten@gmail.com")
 
 
 @pytest.fixture
 def sample_shop():
+    """ Return a sample Shop """
     return Shop.create(name="Zentrale")
+
+
+@pytest.fixture
+def sample_repair(sample_device):
+    """ Return a sample repair """
+    return Repair.create(name="Display", price=69, device=sample_device)
+
+
+@pytest.fixture
+def sample_image():
+    """ Return a sample image """
+    return Image.create(name="iPhone Picture", path="phone-frames/Apple/iphone678.svg")
