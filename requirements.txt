@@ -1,3 +1,4 @@
+sqlalchemy
 speaklater
 coverage
 click

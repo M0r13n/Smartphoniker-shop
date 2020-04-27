@@ -7,7 +7,7 @@ from flask_admin.contrib.sqla import ModelView as _ModelView
 from flask_login import current_user, login_user, logout_user
 
 from project.server import flask_admin as admin, db
-from project.server.models import User, Customer, MailLog, Shop, Order, Device, Manufacturer
+from project.server.models import User, Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image
 # Create customized model view class
 from .forms import LoginForm
 from ..models.device import Color
@@ -63,3 +63,5 @@ admin.add_view(ProtectedModelView(Order, db.session))  # Orders
 admin.add_view(ProtectedModelView(Device, db.session))  # Devices
 admin.add_view(ProtectedModelView(Color, db.session))  # Colors
 admin.add_view(ProtectedModelView(Manufacturer, db.session))  # Manufacturers
+admin.add_view(ProtectedModelView(Repair, db.session))  # Repairs
+admin.add_view(ProtectedModelView(Image, db.session))  # Images

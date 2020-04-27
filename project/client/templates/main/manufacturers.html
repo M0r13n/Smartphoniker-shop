@@ -1,0 +1,45 @@
+{% extends "_base.html" %}
+{% block content %}
+    <div class="container container--small">
+        <section class="hero hero--datenschutz">
+            <h1 class="hero__heading">Hersteller auswählen</h1>
+            <p class="hero__chronic hide-mobile">
+                <a class="hero__chroniclink" href="{{ url_for('/') }}">Shop > </a>
+            </p>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="grid">
+            {% for manu in manufacturers %}
+                <div class="grid__item">
+                    <a class="grid__link" href="#">
+                        {% if manu.image %}
+                            <img class="grid__image" src="{{ manu.get_image_path() }}" alt="{{ manu.name }} auswählen">
+                        {% else %}
+                            <div>{{ manu.name }}</div>
+                        {% endif %}
+                    </a>
+                </div>
+            {% endfor %}
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="divider">
+            <span class="divider__line"></span>
+            <span class="divider__text">oder</span>
+            <span class="divider__line"></span>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="hero hero--searchdevice">
+            <label for="hero__search">
+                <h1 class="hero__heading hero__heading--searchdevice">Schnellsuche</h1>
+            </label>
+            <input id="HERO__SEARCH--SEARCHDEVICE" class="hero__search hero__search--searchdevice" type="text" placeholder="Modellbezeichnung eingeben">
+            <button class="hero__cta hero__cta--searchdevice">Suchen</button>
+        </section>
+    </div>
+{% endblock %}

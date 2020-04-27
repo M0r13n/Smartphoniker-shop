@@ -1,10 +1,68 @@
 {% extends "_base.html" %}
 {% block content %}
 
-<div>
-  <h1>Welcome!</h1>
-  <hr><br>
-  <p>Add some content here!</p>
-</div>
+    <div class="container container--small">
+        <section class="hero hero--home">
+            <h1 class="hero__heading">Professionelle&thinsp;Handy-Reparatur</h1>
+            <p class="hero__subheading">
+                Bildschirm kaputt? Akku schwach? <br class="hide-desktop">
+                Niemand versteht dich mehr? <br class="hide-desktop">
+                Kein Problem, lass das den <br class="hide-desktop">
+                Smartphoniker machen! <br class="hide-desktop">
+                <span class="hide-mobile">Wir reparieren dein Handy in
+                        sehr kurzer Zeit. Egal ob iPhone, Samsung, Huawei
+                        oder ganz was anderes. Hier bist du richtig!</span>
+            </p>
+            <a class="hero__cta" href="#">Gerät auswählen</a>
+        </section>
+    </div>
 
+    <div class="container container--small bestseller">
+        <h2 class="bestseller__heading">Bestseller</h2>
+        <ul class="bestseller__list">
+            {% for seller in bestseller %}
+                <li class="bestseller__item">
+                    <a class="bestseller__link" href="TODO">
+                        <img class="bestseller__img" src="{{ seller.get_image_path() }}" alt="{{ seller.device.name }} {{ seller.name }}">
+                        <h3 class="bestseller__devicename">{{ seller.device.name }}</h3>
+                        <p class="bestseller__repair">{{ seller.name }}</p>
+                        <p class="bestseller__price">{{ seller.price }}€</p>
+                    </a>
+                </li>
+            {% endfor %}
+            <li class="bestseller__item">
+                <p class="bestseller__text">Dein Gerät ist <br> nicht dabei?</p>
+                <a class="bestseller__cta" href="{{ url_for('.manufacturers') }}">Alle ansehen</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="container container--wide brands-container">
+        <div class="brands">
+            <h2 class="brands__heading">Spezialist für:</h2>
+            <ul class="brands__list">
+                <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Apple.svg") }}" alt="show apple devices"></a></li>
+                <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Huawei.svg") }}" alt="show huawei devices"></a></li>
+                <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Samsung_Galaxy.svg") }}" alt="show samsung devices"></a></li>
+                <li class="brands__item"><a class="brands__link" href="{{ url_for('main.manufacturers') }}">Viele<br>mehr</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container container--small last-section">
+        <section class="testimonial">
+            <h2 class="testimonial__heading">Das sagen Kunden</h2>
+            <img class="testimonial__img" src="{{ url_for('static', filename="images/googleratingplaceholder.png") }}" alt="Google Bewertungen">
+        </section>
+        <section class="faq">
+            <h2 class="faq__heading">FAQ</h2>
+            <ul class="faq__list">
+                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=15) }}">Wie lange dauert die Reparatur?</a></li>
+                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=13) }}">Benutzt ihr Originale Ersatzteile?</a></li>
+                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=26) }}">Gibt es eine Garantie auf die Reparatur?</a></li>
+                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=7) }}">Welche Bezahlungsmethoden gibt es?</a></li>
+                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=27) }}">Was ist, wenn ich nach der Reparatur Probleme habe?</a></li>
+            </ul>
+        </section>
+    </div>
 {% endblock %}

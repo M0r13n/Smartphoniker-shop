@@ -2,13 +2,14 @@
 import os
 import subprocess
 import sys
+from pathlib import Path
 
 import click
 import coverage
 from flask.cli import FlaskGroup
 
 from project.server.app import create_app, db
-from project.server.models import User, Shop, Customer, Manufacturer
+from project.server.models import User, Shop, Customer, Manufacturer, Repair, Image
 from project.server.models.device import Color, Device
 
 app = create_app()
@@ -41,9 +42,40 @@ def create_sample_data():
     Customer.create(first_name="Test", last_name="Kunde", street="Eine Straße 1", zip_code="11233", city="Kiel", tel="+49 113455665 45", email="leon.morten@gmail.com")
     b = Color.create(name="Black", color_code="#000000")
     w = Color.create(name="White", color_code="#FFFFFF")
-    a = Manufacturer.create(name="Apple")
-    Device.create(name="iPhone 6S", colors=[b, w], manufacturer=a)
-    Device.create(name="iPhone 7", colors=[b, w], manufacturer=a)
+    a = Manufacturer.create(name="Apple", activated=True)
+    a1 = Device.create(name="iPhone 6S", colors=[b, w], manufacturer=a)
+    a2 = Device.create(name="iPhone 7", colors=[b, w], manufacturer=a)
+    Repair.create(name="Display Reparatur", device=a1, price=69, bestseller=True)
+    Repair.create(name="Akku Reparatur", device=a1, price=69, bestseller=True)
+    Repair.create(name="Kleinteilreparatur", device=a1, price=69)
+    Repair.create(name="Display Reparatur", device=a2, price=69)
+
+    # Manus
+    Manufacturer.create(name="ASUS")
+    Manufacturer.create(name="BlackBerry")
+    Manufacturer.create(name="Blackview")
+    Manufacturer.create(name="CAT")
+    Manufacturer.create(name="Cubot")
+    Manufacturer.create(name="Emporia")
+    Manufacturer.create(name="Google")
+    Manufacturer.create(name="Honor")
+    Manufacturer.create(name="HTC", activated=True)
+    Manufacturer.create(name="Huawei", activated=True)
+    Manufacturer.create(name="LG")
+    Manufacturer.create(name="Medion")
+    Manufacturer.create(name="Motorola")
+    Manufacturer.create(name="Nokia")
+    Manufacturer.create(name="OnePlus")
+    Manufacturer.create(name="Oppo")
+    Manufacturer.create(name="Razer")
+    Manufacturer.create(name="Samsung", activated=True)
+    Manufacturer.create(name="Sony", activated=True)
+    Manufacturer.create(name="Ulefone")
+    Manufacturer.create(name="Vivo")
+    Manufacturer.create(name="Wiko")
+    Manufacturer.create(name="Xiaomi", activated=True)
+    Manufacturer.create(name="ZTE")
+
     User.create(email="ad@min.com", password="admin", admin=True)
 
 
@@ -90,6 +122,25 @@ def clean_db():
     db.session.commit()
     User.create(email="ad@min.com", password="admin", admin=True)
     create_sample_data()
+
+
+@cli.command()
+def load_svg():
+    """ Load all SVG's from a default path """
+    Image.query.delete()
+
+    img_path = "client/static/images"
+    search_dir = os.path.join(PROJECT_ROOT, img_path)
+    assert os.path.exists(search_dir)
+
+    rootdir = Path(search_dir)
+
+    for f in rootdir.glob('**/*'):
+        if f.is_file() and f.exists() and f.suffix == '.svg':
+            f = f.relative_to(rootdir)
+            file = f.parts[-1]
+            i = Image.create(path=str(f.as_posix()), name=file)
+            assert os.path.exists(os.path.join(search_dir, i.path))
 
 
 @cli.command()

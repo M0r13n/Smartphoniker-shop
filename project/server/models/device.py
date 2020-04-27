@@ -40,5 +40,7 @@ class Device(db.Model, CRUDMixin):
 
     orders = db.relationship("Order", back_populates="device")
 
+    repairs = db.relationship("Repair", back_populates="device")
+
     def __repr__(self):
         return f"<Device: {self.name}>"

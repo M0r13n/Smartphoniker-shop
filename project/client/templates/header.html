@@ -1,1 +1,23 @@
 <!-- Navigation -->
+<div class="heroimage container container--wide">
+    <header class="header">
+        <a class="header__logocontainer" href="/">
+            <img class="header__logo" src="{{ url_for('static', filename='images/smartphoniker-logo.svg') }}" alt="Smartphoniker Logo">
+        </a>
+
+        <nav class="header__nav">
+            <a href="#" class="header__togglecontainer hide-desktop">
+                <input class="header__menutoggle" type="checkbox" id="menu">
+                <span class="header__burgerline"></span>
+                <span class="header__burgerline"></span>
+                <span class="header__burgerline"></span>
+                <!-- <img src="images/ham-icon.svg" alt="toggle menu" class="header__icon" id="menu"> -->
+            </a>
+            <ul class="header__list show-desktop" id="nav">
+                <li class="header__item"><a class="header__link" href="{{ url_for('main.home') }}">Home</a></li>
+                <li class="header__item"><a class="header__link" href="{{ url_for('main.home') }}">Shop</a></li>
+                <li class="header__item"><a class="header__link" href="{{ url_for('main.faq') }}">FAQ</a></li>
+            </ul>
+        </nav>
+    </header>
+</div>

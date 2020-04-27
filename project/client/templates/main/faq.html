@@ -1,0 +1,347 @@
+{% extends "_base.html" %}
+{% block content %}
+
+    <div class="container container--small">
+        <section class="hero hero--faq">
+            <label for="hero__search">
+                <h1 class="hero__heading hero__heading--search">Wie können wir helfen?</h1>
+            </label>
+            <input id="HERO__SEARCH" class="hero__search" type="text" placeholder="Suchbegriff eingeben">
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="faq faq--search">
+            <ul id="FAQ__LIST" class="faq__list faq__list--search">
+                <h2 class="faq__category">Bestellung</h2>
+                <li class="faq__item faq__item--search">
+                        <span class="faq__link faq__link--search">Woher weiß ich, dass Ihr meine Bestellung erhalten habt?
+                        </span>
+                    <div class="faq__answer">
+                        Sie erhalten von uns eine E-Mail mit einem Link zur Bestätigung ihrer Bestellung.
+                        Sobald sie auf den Link geklickt haben senden wir Ihnen in einer separaten E-Mail eine Bestellbestätigung zu.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Kann ich meine Bestellung stornieren?</span>
+                    <div class="faq__answer">Sie können Ihre Bestellung kostenfrei stornieren, wenn:
+                        <ul style="list-style-type: '• ';">
+                            <li>die Ersatzteile für Ihren Auftrag noch nicht bestellt wurden.</li>
+                            <li>oder die Ersatzteile bereits im Shop vorhanden sind, die Reparatur aber noch nicht begonnen wurde.</li>
+                        </ul>
+                        Danach berechnen wir 20% Bearbeitungsgebühr (mindestens aber 25 Euro).
+                    </div>
+                </li>
+
+                <h2 class="faq__category">Versand & Lieferung</h2>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wie kann ich den Status meiner Reparatur verfolgen?</span>
+                    <div class="faq__answer">
+                        Damit Sie ganz bequem auf dem Laufenden gehalten werden, erhalten Sie von uns zu verschiedenen Etappen des Vorgangs E-Mails mit dem aktuellen Status der Reparatur.
+                        Sollten Sie keine E-Mails erhalten oder mehr als 4 Tage keine E-Mail erhalten haben, kontaktieren Sie bitte unseren <a href="?q=37">Kundenservice</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Mit welchen Lieferdienst versendet ihr?</span>
+                    <div class="faq__answer">
+                        Wir versenden alle unsere Pakete professionell verpackt mit versichertem DHL-Versand.
+                        Für Sie fallen für den Versand keine zusätzlichen Kosten an.
+                        Sollten Sie den Versand mit einem anderen Anbieter oder an eine Packstation wünschen melden Sie sich gerne bei unserem <a href="?q=37">Kundenservice</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Woher weiß ich, ob ihr mein Paket erhalten habt?</span>
+                    <div class="faq__answer">
+                        Nachdem Sie online eine Reparatur gebucht haben, bekommen Sie ein kostenloses Sendelabel für den Versand mit DHL.
+                        Sobald das Packet angekommen ist, erhalten Sie von uns eine Bestätigung per E-Mail.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Das Paket ist auf dem Weg beschädigt worden. Was soll ich nun tun?</span>
+                    <div class="faq__answer">
+                        Unsere Pakete sind großzügig gepolstert, sodass transportierte Handys von den meisten Stürzen und Dellen der Außenverpackung verschont bleiben sollten.
+                        Prüfen Sie bitte zunächst den Zustand des Gerätes.
+                        Sollte Ihnen doch etwas ungewöhnliches auffallen oder beschädigt sein, melden Sie sich gerne bei unserem <a href="?q=37">Kundenservice</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wie lange dauert die Lieferung / Versand?</span>
+                    <div class="faq__answer">
+                        In den meisten Fällen beträgt die Lieferzeit 1-3 Werktage. Sollte es Verzögerungen geben, wird unser Kundenservice Sie kontaktieren.
+                    </div>
+                </li>
+
+                <h2 class="faq__category">Bezahlung</h2>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wie läuft der Bezahlvorgang ab?</span>
+                    <div class="faq__answer">
+                        <ul style="list-style-type: '• ';">
+                            <li>
+                                Privatkunden: Aktuell bieten wir eine Zahlung per Paypal, als Überweisung oder bei Abgabe in einer unserer Filialen in Bar, mit EC-Karte oder mit Kreditkarte an.
+                                Nachdem wir die Zahlung erhalten haben, senden wir Ihnen das Gerät umgehend und sicher verpackt zu.
+                                Bei vor Ort Reparaturen, händigen wir das Gerät nach Fertigstellung an Sie aus. Rechnungen sind vollständig, vor Ausgabe des Gerätes an Sie, zu zahlen.
+                                Ausnahme: Abtretungserklärung <a href="?q=11">siehe hier</a>.
+                            </li>
+                            <li>Geschäftskunden: Geschäftskunden profitieren ab der zweiten Reparatur, von einem Kauf auf Rechnung mit Zahlungsziel von 14 Tagen.</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wie lange habe ich Zeit zum bezahlen?</span>
+                    <div class="faq__answer">
+                        Das reparierte Gerät wird erst nach Zahlungseingang an Sie versendet / im Shop an Sie ausgehändigt.
+                        Sie verpflichten sich das Gerät spätestens drei Monate nach Fertigstellung zu bezahlen.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Warum kann ich nicht im Voraus bezahlen?</span>
+                    <div class="faq__answer">
+                        Technisch bedingt kann in unserem Onlineshop leider keine Vorauszahlung angeboten werden.
+                        Möchten Sie im Voraus zahlen, um die Rücksendung nicht zu verzögern, melden Sie sich gerne bei unserem <a href="?q=37">Kundenservice</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wo finde ich die AGB (Allgemeinen Geschäftsbedingungen)?</span>
+                    <div class="faq__answer">Unseren aktuellen AGB finden Sie <a href="#">hier</a>.</div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wie läuft die Abrechnung per Abtretungserklärung ab?</span>
+                    <div class="faq__answer">
+                        Sie reichen uns zusammen mit dem Gerät bei Abgabe, die schriftliche Freigabe der Versicherung + <a href="#">unsere Abtretungserklärung</a> ein.
+                        Sie berechtigen uns, direkt mit Ihrer Versicherung abzurechnen. Es gelten unsere Zahlungsbedingungen von 14 Tagen.
+                        Trotz der Abtretungserklärung bleiben Sie weiterhin unser Vertragspartner und Sie erhalten bei Zahlungsverzug auch die Mahnung.
+                        Bitte setzten Sie sich mit Ihrer Versicherung in Kontakt um Mahngebühren zu vermeiden.
+                    </div>
+                </li>
+
+                <h2 class="faq__category">Reparatur</h2>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wann erhalte ich die Rechnung zu meiner Reparatur?</span>
+                    <div class="faq__answer">
+                        Sie erhalten Ihre Rechnung entweder bei Abholung des Gerätes oder per E-Mail nach der Reparatur.
+                        Bitte beachten Sie dabei den <a href="?q=7">Ablauf des Bezahlvorgangs</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Ist immer alles auf Lager?</span>
+                    <div class="faq__answer">
+                        <ul style="list-style-type: '• ';">
+                            <li>
+                                Unser Lagerkonzept konzentriert sich an den Verkaufszahlen der Modelle. Somit können wir die meisten Reparaturen als Sofort-Reparatur anbieten.
+                                Sollte etwas nicht lagernd sein, können wir diese Ersatzteile schnell für Sie bestellen.
+                            </li>
+                            <li>
+                                Es gibt mindestens 30 Hersteller für Smartphones.
+                                Samsung hat über 60 Modelle. Bei jedem Gerät können wir über 15 unterschiedliche Teile tauschen.
+                                Bei vielen Ersatzteilen kommen noch Farbvariationen dazu. Alleine bei Samsung kommen wir damit deutlich über 1000 unterschiedliche Ersatzteile.
+                                Diese Ersatzteile haben wir nicht alle auf Lager.
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Verbaut ihr originale Ersatzteile?</span>
+                    <div class="faq__answer">
+                        Je nach Modell bieten wir verschiedene Ersatzteile an. Bei fast allen Geräten ist die Reparatur auch mit originalen Ersatzteilen möglich.
+                        Wir achten bei allen Ersatzteilen auf eine extrem hohe Qualität (aus diesem Grund geben wir auf alle Display-Reparaturen eine kostenfreie lebenslange Garantie).
+                        Wir bieten oft zwei Qualitätsstufen an: Standard & Premium. Wenn Sie mehr über die Unterschiede lernen wollen klicken Sie <a href="#">hier</a>.
+                        Sollten Sie eine entsprechende Option nicht finden, kontaktieren Sie gerne unseren <a href="?q=37">Kundenservice</a>.
+                    </div>
+
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Welche Hersteller repariert ihr alles?</span>
+                    <div class="faq__answer">
+                        Momentan bieten wir gelistete Reparaturen für Apple, Huawei, Samsung, Sony, HTC, LG, Google, OnePlus, Nokia, Honor, Wiko, CAT, Xiaomi, Vivo, Motorola, Oppo und ZTE an.
+                        Sollte Ihr Gerät nicht dabei sein, kontaktieren Sie gerne unseren Kundenservice.
+                        Häufig bekommen wir auch für andere Hersteller passende Ersatzteile und können Ihnen dann ein individuelles Angebot unterbreiten.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wie lange dauert meine Reparatur?</span>
+                    <div class="faq__answer">
+                        Eine Reparatur vor Ort dauert in der Regel etwa 1-2 Stunden.
+                        Ist ein Ersatzteil gerade nicht lagernd, werden Sie bequem per E-Mail informiert und können online einen Termin zur Reparatur buchen.
+                        So müssen Sie meistens weniger als 2 Stunden auf Ihr Smartphone verzichten.
+                        Wenn Sie unseren Versandservice nutzen, beginnen wir nach Erhalt Ihres Gerätes schnellstmöglich mit der Reparatur.
+                        In der Regel bleibt Ihr Gerät nur 1-2 Werktage bei uns und wir dann direkt an Sie zurückgeschickt (die Versandzeit beträgt meisten 1-3 Werktage).
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Ich weiß nicht, was genau defekt / kaputt ist, was nun?</span>
+                    <div class="faq__answer">
+                        Wenn Sie unsicher sind, was genau der Fehler an ihrem Smartphone ist kommen Sie gerne in eine unserer <a href="https://www.smartphoniker.de/standorte/">Filialen</a> vorbei und lassen sich dort persönlich von einem Smartphoniker beraten.
+                        Alternativ senden Sie das Gerät kostenfrei zu uns ein. Sie erhalten nach der Prüfung einen verbindlichen Kostenvoranschlag.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Ist mein Handy danach noch immer wassergeschützt?</span>
+                    <div class="faq__answer">
+                        Bei Reparaturen verwenden wir bei der Montage die originalen Dichtungen.
+                        Das Gerät wird nach der Reparatur nicht erneut auf Wasserdichtigkeit getestet. Der Schutz vor Wasser kann somit nicht garantiert werden.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Bleiben meine Daten auf dem Gerät?</span>
+                    <div class="faq__answer">
+                        Unsere Service-Techniker haben jahrelange Erfahrung im Umgang mit sensibler Elektronik und sind entsprechend geschult.
+                        Leider kann es dennoch in einzelnen Fällen zu Datenverlust kommen. Für Datenverluste übernehmen wir keine Haftung.
+                        Generell raten wir nicht nur einmalig vor einer Reparatur, sondern regelmäßig Sicherungen bzw. Backups anzulegen.
+                        Möchten Sie dies professionell erledigt haben, kommen Sie gerne in eine unserer <a href="https://www.smartphoniker.de/standorte/">Filialen</a> vorbei.
+                        Dort kann ein Mitarbeiter die Sicherung für Sie durchführen.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Muss ich meine Daten vorher löschen oder das Gerät zurücksetzen?</span>
+                    <div class="faq__answer">
+                        Es ist nicht notwendig Ihre persönlichen Daten vor einer Reparatur zu löschen.
+                        Alle Mitarbeiter und Personen, die Zugang zu Ihrem Gerät haben, sind nach §5 und $11 des BDSG zum Datengeheimnis vertraglich verpflichtet und entsprechend geschult.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Nur mein Glas ist gerissen, das Display funktioniert noch. Reparieren Sie dies auch?</span>
+                    <div class="faq__answer">
+                        Bei vielen Reparaturen kann man das Glas einzeln tauschen. Bei Serviceware der Hersteller, handelt es sich meistens um das Glas inkl. Display und oftmals sogar Rahmen.
+                        Wir haben für uns entschieden, dass wir Glas-Reparaturen bei diesen Geräten nicht anbieten. Hierfür sprechen mehrere Gründe z.B.
+                        <ol>
+                            <li>oftmals nur geringfügig günstiger, da der Ersatzteilpreis zwar günstiger ist, die Reparatur allerdings deutlich länger dauert.</li>
+                            <li>Die Qualität der Verklebung immer schlechter ist, als die der Serviceware.</li>
+                        </ol>
+                        Wir haben den Anspruch, eine günstige aber vor allem qualitativ hochwertige Reparatur anzubieten. Alle Display-Reparaturen haben eine lebenslange Garantie.
+                    </div>
+                </li>
+
+                <h2 class="faq__category">Datenschutz & Sicherheit</h2>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Kann ich euch vertrauen?</span>
+                    <div class="faq__answer">
+                        Seit über 7 Jahren steht Smartphoniker im Norden Deutschlands für fairen und professionellen Service rund um Smartphones.
+                        An 6 Standorten in Schleswig-Holstein haben wir bereits über 100.000 Reparaturen erfolgreich durchgeführt.
+                        Zu unseren Partnern zählen Media Markt, Viva con Agua und die Wertgarantie. Zudem reparieren wir für große und mittlere Unternehmen in Schleswig-Holstein.
+                        Unser tägliches Ziel ist es jeden Kunden bestmöglich zu beraten.
+                        Sind Sie sich noch immer nicht sicher, schauen Sie einfach in einer unserer Filialen vorbei und überzeugen Sie sich selbst.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Braucht ihr meinen PIN? Wofür braucht ihr meinen PIN?</span>
+                    <div class="faq__answer">
+                        Wir möchten unseren Kunden bestmöglichen Service bieten und testen daher alle Geräte bevor wir diese versenden auf einwandfreie Funktion.
+                        Das ist leider nur mithilfe des Pins möglich.
+                        So werden Sie von negativen Überraschungen verschont und sparen Ressourcen.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wird sicher mit meinen Daten umgegangen?</span>
+                    <div class="faq__answer">
+                        Alle Mitarbeiter und Personen, die Zugang zu Ihrem Gerät haben, sind nach §5 und $11 des BDSG zum Datengeheimnis vertraglich verpflichtet und entsprechend geschult.
+                        Unsere Datenschutzerklärung finden sie <a href="#">hier</a>. Sollten Sie weitere Fragen haben, melden Sie sich gerne bei unserem <a href="?q=37">Kundenservice</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wofür braucht ihr meine Adresse und Kontaktdaten?</span>
+                    <div class="faq__answer">
+                        Bei bestätigen Ihrer Bestellung schließen Sie einen Reparaturauftrag ab.
+                        Ihre Adresse und Ihre Kontaktdaten werden einerseits zur Identifikation und Zuordnung verwendet und andererseits um Rückfragen für Sie möglichst bequem zu gestalten.
+                        Über Ihre Mail-Adresse erhalten Sie zudem laufende Informationen zum Status Ihrer Reparatur.
+                    </div>
+                </li>
+
+                <h2 class="faq__category">Reklamation, Rücksendung & Garantie</h2>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Gibt es ein Widerrufsrecht?</span>
+                    <div class="faq__answer">
+                        Nach der Auftragsannahme, leiten wir die Reparatur ein. Sie haben dann keine Möglichkeit mehr den Auftrag zu widerrufen.
+                        Für Information rund um die Stornierung des Auftrages klicken Sie <a href="?q=1">hier</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Gibt es eine Garantie?</span>
+                    <div class="faq__answer">
+                        Wir sind von der Qualität unserer Ersatzteile und Reparatur überzeugt.
+                        Deshalb bieten wir auf alle unsere Displayreparaturen eine lebenslange Garantie und auf alle Akkuwechsel und sonstige Reparaturen 6 Monate Garantie an.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Was ist, wenn ich nach der Reparatur noch Probleme habe?</span>
+                    <div class="faq__answer">
+                        Sollte es wider erwarten nach der Reparatur noch zu Problemen kommen, zögern Sie nicht und kontaktieren unseren <a href="?q=37">Kundenservice</a>.
+                        Viele Probleme lassen sich bereits in einem kurzen Gespräch auflösen.
+                    </div>
+                </li>
+
+                <h2 class="faq__category">Filialen & Services</h2>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Kann ich mich auch telefonisch beraten lassen?</span>
+                    <div class="faq__answer">
+                        Natürlich erreichen Sie uns auch per Telefon. Unser Kundenservice ist von Montag bis Freitag von 10-16 Uhr unter <a href="tel:4943190700390">0431 / 90 700 390</a> erreichbar.
+                        Sollten Sie uns außerhalb dieser Zeiten kontaktieren wollen, schreiben Sie gerne eine E-Mail an support@smartphoniker.de oder kommen Sie zu den Öffnungszeiten in eine unserer <a href="https://www.smartphoniker.de/standorte/">Filialen</a> vorbei.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Verkauft Ihr auch Handys?</span>
+                    <div class="faq__answer">Ja. Gerne können wir Ihnen ein neues oder neuwertiges Gerät verkaufen. Wenden Sie sich hierfür ausschließlich an den <a href="?q=37">Kundenservice</a>.</div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Die Reparatur ist zu teuer. Gibt es noch eine andere Möglichkeit?</span>
+                    <div class="faq__answer">
+                        Sollte eine Reparatur für Sie aus finanziellen Gründen nicht möglich sein, melden Sie sich bitte bei unserem <a href="?q=37">Kundenservice</a> um weitere Optionen zu besprechen.
+                        Wir bieten unter anderem auch Datenrettung, Datenübertragung und eine umweltgerechte Entsorgung von Altgeräten an.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Was passiert mit den entsorgten Geräten und defekten Ersatzteilen?</span>
+                    <div class="faq__answer">
+                        Umweltschutz und Nachhaltigkeit sind wichtige Themen, die uns alle betreffen.
+                        Smartphoniker möchte in diesem Bereich positiv vorangehen.
+                        Deshalb geben wir sowohl defekte Altgeräte als auch ausgebaute Ersatzteile zur Wiederverwendung für neue Ersatzteile zum Refurbishing.
+                        So werden die Ressourcen optimal genutzt und nicht nur die Umwelt, sondern auch Sie gewinnen gleich doppelt.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Ich habe meinen Pin-Code verloren. Was mache ich nun?</span>
+                    <div class="faq__answer">
+                        Alles kein Problem. Heutzutage muss man sich so viele Passwörter und Pins merken, dass ist jedem schonmal passiert.
+                        Kommen Sie einfach in eine unserer <a href="https://www.smartphoniker.de/standorte/">Filialen</a> oder sprechen Sie mit unserem <a href="?q=37">Kundenservice</a> um eine Lösung zu finden.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wo sind eure Filialen?</span>
+                    <div class="faq__answer">
+                        Unsere Filialen befinden sich in Kiel, Schwentinental, Lübeck, Rendsburg und Itzehoe. <a href="https://www.smartphoniker.de/standorte/">Hier</a> finden Sie eine Übersichtskarte mit den genauen Adressen, Öffnungszeiten und Telefonnummern.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wann habt ihr auf? Was sind eure Öffnungszeiten?</span>
+                    <div class="faq__answer">
+                        Unser Kundenservice ist von Montag bis Freitag von 10-16 Uhr unter <a href="tel:4943190700390">0431 / 90 700 390</a> erreichbar.
+                        Sollten Sie uns außerhalb dieser Zeiten kontaktieren wollen, schreiben Sie gerne eine E-Mail an <a href="mailto:support@smartphoniker.de">support@smartphoniker.de</a>.
+                        Eine Karte mit den Adressen und Öffnungszeiten der Filialen finden Sie <a href="https://www.smartphoniker.de/standorte/">hier</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wie funktioniert die Reparatur und Abholung im Shop?</span>
+                    <div class="faq__answer">
+                        Wenn Sie online einen Termin zur Reparatur im Shop gebucht haben, können Sie einfach zur gebuchten Zeit in die Filiale kommen und ihr Gerät für die Reparatur abgeben.
+                        Haben Sie das Gerät bereits vorher bei uns abgegeben oder es zu uns verschickt, warten Sie zunächst auf die E-Mail mit dem Status „Abholbereit“.
+                        Sobald Sie diese Mail erhalten haben, können Sie einfach in den zuvor gewählten Shop kommen und ihr Gerät abholen.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Wie erreiche ich den Kundenservice?</span>
+                    <div class="faq__answer">
+                        Wir sind von Montag bis Freitag von 10-16 Uhr unter <a href="tel:4943190700390">0431 / 90 700 390</a> telefonisch erreichbar.
+                        Sollten Sie uns außerhalb dieser Zeiten kontaktieren wollen, schreiben Sie gerne eine E-Mail an <a href="mailto:support@smartphoniker.de">support@smartphoniker.de</a>.
+                    </div>
+                </li>
+                <li class="faq__item faq__item--search">
+                    <span class="faq__link faq__link--search">Gibt es Gutscheine?</span>
+                    <div class="faq__answer">
+                        Klar. Buchen Sie sich <a href="#">hier</a> unkompliziert einen Gutschein. Möchten Sie lieber vorbeikommen?
+                        Auch kein Problem, wir haben in jeder unserer <a href="https://www.smartphoniker.de/standorte/">Filialen</a> immer Gutscheine vor Ort.
+                    </div>
+                </li>
+
+            </ul>
+        </section>
+    </div>
+{% endblock %}

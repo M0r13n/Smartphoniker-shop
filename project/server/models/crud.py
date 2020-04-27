@@ -28,10 +28,3 @@ class CRUDMixin(object):
         db.session.delete(self)
         db.session.commit()
         return self
-
-    def test_pw_is_hidden(self, user):
-        try:
-            user.password
-            assert 1 == 2
-        except AttributeError:
-            return True
