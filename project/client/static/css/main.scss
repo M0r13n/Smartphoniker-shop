@@ -175,7 +175,7 @@ main {
     
 
     @media screen and (min-width: $medium) {
-        min-height: calc(100vh - 125px - 196px - 1em);
+        min-height: calc(100vh - 144px - 196px - 3em);
     }
 }
 
@@ -288,8 +288,11 @@ ul {
     &__logo {
         height: 42px;
 
+        @media screen and (min-width: $medium) {
+            height: 80px;
+        }
+
         @media screen and (min-width: $large) {
-            height: 60px;
             width: 140px;
         }
     }
@@ -468,7 +471,7 @@ ul {
             min-height: 670px;
         }
         @media screen and (min-width: $xxxlarge) {
-            min-height: 870px;
+            min-height: 800px;
         }
     }
 
@@ -520,7 +523,7 @@ ul {
         }
 
         @media screen and (min-width: $xlarge) {
-            margin: 3em auto 0;
+            margin: 2em auto 0;
             font-size: 2.5em;
 
             &--noheroimage {
@@ -529,7 +532,7 @@ ul {
         }
 
         @media screen and (min-width: $xxxlarge) {
-            margin: 4.4em auto .6em;
+            margin: 3.4em auto .6em;
             font-size: 3.5em;
 
             &--search {
