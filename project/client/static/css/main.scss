@@ -61,65 +61,65 @@ body {
     background-repeat: no-repeat;
 }
 
-body.home {
-    background-image: url("../images/heroimage.jpg");
-    background-size: 800px;
-    background-position: top; 
-    background-position-y: -3%;
+// body.home {
+//     background-image: url("../images/heroimage.jpg");
+//     background-size: 800px;
+//     background-position: top; 
+//     background-position-y: -3%;
 
-    @media screen and (min-width: $small) {
-        background-position-y: inherit;
-    }
+//     @media screen and (min-width: $small) {
+//         background-position-y: inherit;
+//     }
 
-    @media screen and (min-width: $medium) {
-        background-size: 900px;
-        background-position-y: -3%;
-    }
+//     @media screen and (min-width: $medium) {
+//         background-size: 900px;
+//         background-position-y: -3%;
+//     }
 
-    @media screen and (min-width: $large) {
-        background-image: url("../images/heroimage-wide.jpg");
-        background-size: 1920px;
-        background-position-y: inherit;
-        background-position-x: 62%;
-        max-height: none;
-    }
-    @media screen and (min-width: $xlarge) {
-        background-position-y: -2%;
-    }
-    @media screen and (min-width: $xxlarge) {
-        background-size: 2560px;
-        background-position-y: -3vw;
-    }
-    @media screen and (min-width: $xxxlarge) {
-        background-size: 3440px;
-        background-position-y: -6vw;
-    }
-}
+//     @media screen and (min-width: $large) {
+//         background-image: url("../images/heroimage-wide.jpg");
+//         background-size: 1920px;
+//         background-position-y: inherit;
+//         background-position-x: 62%;
+//         max-height: none;
+//     }
+//     @media screen and (min-width: $xlarge) {
+//         background-position-y: -2%;
+//     }
+//     @media screen and (min-width: $xxlarge) {
+//         background-size: 2560px;
+//         background-position-y: -3vw;
+//     }
+//     @media screen and (min-width: $xxxlarge) {
+//         background-size: 3440px;
+//         background-position-y: -6vw;
+//     }
+// }
 
-body.faq-site {
-    background-image: url("../images/lightgrey.png");
-    background-size: auto 270px;
+// body.faq-site {
+//     background-image: url("../images/lightgrey.png");
+//     background-size: auto 270px;
 
-    @media screen and (min-width: $xsmall){
-        background-size: auto 295px;
-    }
+//     @media screen and (min-width: $xsmall){
+//         background-size: auto 295px;
+//     }
 
-    @media screen and (min-width: $small){
-        background-size: auto 345px;
-    }
+//     @media screen and (min-width: $small){
+//         background-size: auto 345px;
+//     }
 
-    @media screen and (min-width: $medium){
-        background-size: auto 360px;
-    }
+//     @media screen and (min-width: $medium){
+//         background-size: auto 360px;
+//     }
 
-    @media screen and (min-width: $large){
-        background-size: 100% 355px;
-    }
+//     @media screen and (min-width: $large){
+//         background-size: 100% 355px;
+//     }
 
-    @media screen and (min-width: $xlarge){
-        background-size: 100% 440px;
-    }
-}
+//     @media screen and (min-width: $xlarge){
+//         background-size: 100% 440px;
+//     }
+// }
 
 body.imp--site {
     @media screen and (min-height: 900px) and (max-width: $large) { 
@@ -845,6 +845,7 @@ ul {
     &__item {
         @include shadow(.16);
         height: 140px;
+        transition: transform .3s ease, color .2s ease;
 
         @media screen and (min-width: $small) {
             height: 170px;
@@ -852,6 +853,11 @@ ul {
 
         @media screen and (min-width: $medium) {
             height: 200px;
+        }
+
+        &:hover {
+            @include color(primary);
+            transform: scale(.95);
         }
     }
 
@@ -983,7 +989,7 @@ ul {
         &--search {
             overflow: hidden;
             max-height: 20px;
-            transition: max-height .7s ease;
+            transition: max-height .7s ease-in-out;
         }
     }
 

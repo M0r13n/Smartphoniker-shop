@@ -1,6 +1,57 @@
 {% extends "_base.html" %}
 {% block content %}
+ <style>
+    body {
+        
+        background-image: url("{{ url_for('static', filename='images/heroimage.jpg') }}");
+        background-size: 800px;
+        background-position: top;
+        background-position-y: -3%;
+    }
 
+    @media screen and (min-width: 650px) {
+        body {
+            background-position-y: inherit;
+        }
+    }
+
+    @media screen and (min-width: 800px) {
+        body {
+            background-size: 900px;
+            background-position-y: -3%;
+        }
+    }
+
+    @media screen and (min-width: 900px) {
+        body {
+            background-image: url("{{ url_for('static', filename='images/heroimage-wide.jpg') }}");
+            background-size: 1920px;
+            background-position-y: inherit;
+            background-position-x: 62%;
+            max-height: none;
+        }
+    }
+
+    @media screen and (min-width: 1250px) {
+        body {
+            background-position-y: -2%;
+        }
+    }
+
+    @media screen and (min-width: 1920px) {
+        body {
+            background-size: 2560px;
+            background-position-y: -3vw;
+        }
+    }
+
+    @media screen and (min-width: 2560px) {
+        body {
+            background-size: 3440px;
+            background-position-y: -6vw;
+        }
+    }
+ </style>
     <div class="container container--small">
         <section class="hero hero--home">
             <h1 class="hero__heading">Professionelle&thinsp;Handy-Reparatur</h1>

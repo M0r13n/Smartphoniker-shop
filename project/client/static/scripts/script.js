@@ -3,7 +3,6 @@ document.getElementById("menu").addEventListener("click", function () {
     document.getElementById("nav").classList.toggle("header__list--in")
 }, false)
 
-
 // Das ist die Suche aus dem FAQ-Bereich
 if (document.getElementById("HERO__SEARCH")) {
     document.getElementById("HERO__SEARCH").addEventListener("keyup", function() {
@@ -39,7 +38,7 @@ function filterFunction() {
 
 
 // Das ist die Suche für Geräte aus dem Shop-Bereich
-if (document.getElementById("SHOP")) {
+if (window.location.pathname == "/manufacturers") {
     document.getElementById("SEARCHBUTTON").addEventListener("click", function(){
         appendURL()
     }, false)
@@ -58,9 +57,9 @@ if (document.getElementById("SHOP")) {
     }
 }
 
-
+// To-Do: ich muss wissen, wie die Verlinkungen funktionieren
 // Das ist um die Kreise in der Progressbar entsprechend zu füllen
-if (document.getElementById("ORDERPROCESS")) {
+if (window.location.pathname == "/manufacturer_grid" || window.location.pathname == "/series_grid" || window.location.pathname == "/device__grid") {
     query = window.location.search.substring(1).split("step=")[1];
     if (query.length == 1) {
         query = parseInt(query, 10)
@@ -76,7 +75,7 @@ if (document.getElementById("ORDERPROCESS")) {
 
 // Das ist für die FAQ-Seite, damit die Querverlinkungen funktionieren und Parameter aus
 // der URL gelesen werden
-if (document.getElementById("FAQ")) {
+if (window.location.pathname == "/faq") {
     var query = window.location.search.substring(1)
     questionID = query.split("q=")[1]
     

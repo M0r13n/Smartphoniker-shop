@@ -9,91 +9,6 @@ body {
   background-repeat: no-repeat;
 }
 
-body.home {
-  background-image: url("../images/heroimage.jpg");
-  background-size: 800px;
-  background-position: top;
-  background-position-y: -3%;
-}
-
-@media screen and (min-width: 650px) {
-  body.home {
-    background-position-y: inherit;
-  }
-}
-
-@media screen and (min-width: 800px) {
-  body.home {
-    background-size: 900px;
-    background-position-y: -3%;
-  }
-}
-
-@media screen and (min-width: 900px) {
-  body.home {
-    background-image: url("../images/heroimage-wide.jpg");
-    background-size: 1920px;
-    background-position-y: inherit;
-    background-position-x: 62%;
-    max-height: none;
-  }
-}
-
-@media screen and (min-width: 1250px) {
-  body.home {
-    background-position-y: -2%;
-  }
-}
-
-@media screen and (min-width: 1920px) {
-  body.home {
-    background-size: 2560px;
-    background-position-y: -3vw;
-  }
-}
-
-@media screen and (min-width: 2560px) {
-  body.home {
-    background-size: 3440px;
-    background-position-y: -6vw;
-  }
-}
-
-body.faq-site {
-  background-image: url("../images/lightgrey.png");
-  background-size: auto 270px;
-}
-
-@media screen and (min-width: 538px) {
-  body.faq-site {
-    background-size: auto 295px;
-  }
-}
-
-@media screen and (min-width: 650px) {
-  body.faq-site {
-    background-size: auto 345px;
-  }
-}
-
-@media screen and (min-width: 800px) {
-  body.faq-site {
-    background-size: auto 360px;
-  }
-}
-
-@media screen and (min-width: 900px) {
-  body.faq-site {
-    background-size: 100% 355px;
-  }
-}
-
-@media screen and (min-width: 1250px) {
-  body.faq-site {
-    background-size: 100% 440px;
-  }
-}
-
 @media screen and (min-height: 900px) and (max-width: 900px) {
   body.imp--site footer {
     position: absolute;
@@ -943,6 +858,10 @@ ul {
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
           box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
   height: 140px;
+  -webkit-transition: color .2s ease, -webkit-transform .3s ease;
+  transition: color .2s ease, -webkit-transform .3s ease;
+  transition: transform .3s ease, color .2s ease;
+  transition: transform .3s ease, color .2s ease, -webkit-transform .3s ease;
 }
 
 @media screen and (min-width: 650px) {
@@ -955,6 +874,12 @@ ul {
   .grid__item {
     height: 200px;
   }
+}
+
+.grid__item:hover {
+  color: #FF6C00;
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
 }
 
 .grid__link {
@@ -1101,8 +1026,8 @@ ul {
 .faq__item--search {
   overflow: hidden;
   max-height: 20px;
-  -webkit-transition: max-height .7s ease;
-  transition: max-height .7s ease;
+  -webkit-transition: max-height .7s ease-in-out;
+  transition: max-height .7s ease-in-out;
 }
 
 .faq__link {
