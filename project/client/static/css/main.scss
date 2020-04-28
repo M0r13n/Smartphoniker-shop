@@ -121,46 +121,46 @@ body {
 //     }
 // }
 
-body.imp--site {
-    @media screen and (min-height: 900px) and (max-width: $large) { 
-        & footer {
-            position: absolute;
-            bottom: 0;
-            width: calc(100% - 36px);
-            @media screen and (min-width: $small) {
-                width: calc(100% - 72px);
-            }
-        }
-    }
-    @media screen and (min-height: 980px) and (min-width: $large) {
-        & footer {
-            position: absolute;
-            bottom: 0;
-            width: calc(100% - 36px);
-            @media screen and (min-width: $small) {
-                width: calc(100% - 72px);
-            }
-        }
-    }
+// body.imp--site {
+//     @media screen and (min-height: 900px) and (max-width: $large) { 
+//         & footer {
+//             position: absolute;
+//             bottom: 0;
+//             width: calc(100% - 36px);
+//             @media screen and (min-width: $small) {
+//                 width: calc(100% - 72px);
+//             }
+//         }
+//     }
+//     @media screen and (min-height: 980px) and (min-width: $large) {
+//         & footer {
+//             position: absolute;
+//             bottom: 0;
+//             width: calc(100% - 36px);
+//             @media screen and (min-width: $small) {
+//                 width: calc(100% - 72px);
+//             }
+//         }
+//     }
 
-    @media screen and (min-width: $xxxlarge) {
-        & footer {
-            position: inherit;
-            width: inherit;
-        }
+//     @media screen and (min-width: $xxxlarge) {
+//         & footer {
+//             position: inherit;
+//             width: inherit;
+//         }
 
-        @media screen and (min-height: 1180px) {
-            & footer {
-                position: absolute;
-                bottom: 0;
-                width: calc(100% - 36px);
-                @media screen and (min-width: $small) {
-                    width: calc(100% - 72px);
-                }
-            }
-        }
-    }
-}
+//         @media screen and (min-height: 1180px) {
+//             & footer {
+//                 position: absolute;
+//                 bottom: 0;
+//                 width: calc(100% - 36px);
+//                 @media screen and (min-width: $small) {
+//                     width: calc(100% - 72px);
+//                 }
+//             }
+//         }
+//     }
+// }
 
 main {
     margin: 0;
@@ -289,6 +289,7 @@ ul {
         height: 42px;
 
         @media screen and (min-width: $large) {
+            height: 60px;
             width: 140px;
         }
     }
@@ -492,7 +493,7 @@ ul {
     }
 
     &--datenschutz {
-        margin: 1em auto 5em;
+        margin: 0 auto 5em;
     }
 
     &__heading {
@@ -512,11 +513,19 @@ ul {
             &--search {
                 margin: .6em auto .5em;
             }
+
+            &--noheroimage {
+                margin: 1.2em auto 0;
+            }
         }
 
         @media screen and (min-width: $xlarge) {
             margin: 3em auto 0;
             font-size: 2.5em;
+
+            &--noheroimage {
+                margin: 2em auto 0;
+            }
         }
 
         @media screen and (min-width: $xxxlarge) {
@@ -525,6 +534,10 @@ ul {
 
             &--search {
                 margin: 1.3em auto .5em;
+            }
+
+            &--noheroimage {
+                margin: 2em auto 0;
             }
         }
 
