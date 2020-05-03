@@ -2,11 +2,10 @@
 {% block content %}
  <style>
     body {
-        
+        background-repeat: no-repeat;
         background-image: url("{{ url_for('static', filename='images/heroimage.jpg') }}");
         background-size: 800px;
         background-position: top;
-        background-position-y: -3%;
     }
 
     @media screen and (min-width: 650px) {
@@ -41,20 +40,20 @@
     @media screen and (min-width: 1920px) {
         body {
             background-size: 2560px;
-            background-position-y: -3vw;
+            background-position-y: -5%;
         }
     }
 
     @media screen and (min-width: 2560px) {
         body {
             background-size: 3440px;
-            background-position-y: -6vw;
+            background-position-y: -15%;
         }
     }
  </style>
-    <div class="container container--small">
-        <section class="hero hero--home">
-            <h1 class="hero__heading">Professionelle&thinsp;Handy-Reparatur</h1>
+    <div class="container container--small container--heroimage">
+        <section class="hero">
+            <h1 class="hero__heading hero__heading--home">Professionelle&thinsp;Handy-Reparatur</h1>
             <p class="hero__subheading">
                 Bildschirm kaputt? Akku schwach? <br class="hide-desktop">
                 Niemand versteht dich mehr? <br class="hide-desktop">
@@ -68,52 +67,62 @@
         </section>
     </div>
 
-    <div class="container container--small bestseller">
-        <h2 class="bestseller__heading">Bestseller</h2>
-        <ul class="bestseller__list">
-            {% for seller in bestseller %}
-                <li class="bestseller__item">
-                    <a class="bestseller__link" href="TODO">
-                        <img class="bestseller__img" src="{{ seller.get_image_path() }}" alt="{{ seller.device.name }} {{ seller.name }}">
-                        <h3 class="bestseller__devicename">{{ seller.device.name }}</h3>
-                        <p class="bestseller__repair">{{ seller.name }}</p>
-                        <p class="bestseller__price">{{ seller.price }}€</p>
-                    </a>
-                </li>
-            {% endfor %}
-            <li class="bestseller__item">
-                <p class="bestseller__text">Dein Gerät ist <br> nicht dabei?</p>
-                <a class="bestseller__cta" href="{{ url_for('.manufacturers') }}">Alle ansehen</a>
-            </li>
-        </ul>
+    <div class="container container--small ">
+        <section class="bestseller">
+            <h2 class="bestseller__heading">Bestseller</h2>
+            <div class="bestseller__content">
+                <ul class="bestseller__list">
+                    {% for seller in bestseller %}
+                        <li class="bestseller__item">
+                            <img class="bestseller__img" src="{{ seller.get_image_path() }}" alt="{{ seller.device.name }} {{ seller.name }}">
+                            <a class="bestseller__link" href="TODO">
+                                <h3 class="bestseller__devicename">{{ seller.device.name }}</h3>
+                            </a>
+                            <p class="bestseller__repair">{{ seller.name }}</p>
+                            <p class="bestseller__price">{{ seller.price }}€</p>
+                        </li>
+                    {% endfor %}
+                    <li class="bestseller__item">
+                        <p class="bestseller__text">Dein Gerät ist <br> nicht dabei?</p>
+                        <a class="bestseller__cta" href="{{ url_for('.manufacturers') }}">Alle ansehen</a>
+                    </li>
+                </ul>
+            </div>
+        </section> 
     </div>
 
-    <div class="container container--wide brands-container">
-        <div class="brands">
+    <div class="container container--wide container--brands">
+        <section class="brands">
             <h2 class="brands__heading">Spezialist für:</h2>
-            <ul class="brands__list">
-                <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Apple.svg") }}" alt="show apple devices"></a></li>
-                <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Huawei.svg") }}" alt="show huawei devices"></a></li>
-                <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Samsung_Galaxy.svg") }}" alt="show samsung devices"></a></li>
-                <li class="brands__item"><a class="brands__link" href="{{ url_for('main.manufacturers') }}">Viele<br>mehr</a></li>
-            </ul>
-        </div>
+            <div class="brands__content">
+                <ul class="brands__list">
+                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Apple.svg") }}" alt="show apple devices"></a></li>
+                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Huawei.svg") }}" alt="show huawei devices"></a></li>
+                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Samsung_Galaxy.svg") }}" alt="show samsung devices"></a></li>
+                    <li class="brands__item"><a class="brands__link" href="{{ url_for('main.manufacturers') }}">Viele<br>mehr</a></li>
+                </ul>
+            </div>
+        </section>
     </div>
 
-    <div class="container container--small last-section">
+    <div class="container container--small container--dual">
         <section class="testimonial">
             <h2 class="testimonial__heading">Das sagen Kunden</h2>
-            <img class="testimonial__img" src="{{ url_for('static', filename="images/googleratingplaceholder.png") }}" alt="Google Bewertungen">
+            <div class="testimonial__content">
+                <img class="testimonial__img" src="{{ url_for('static', filename="images/googleratingplaceholder.png") }}" alt="Google Bewertungen">
+            </div>
         </section>
-        <section class="faq">
-            <h2 class="faq__heading">FAQ</h2>
-            <ul class="faq__list">
-                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=15) }}">Wie lange dauert die Reparatur?</a></li>
-                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=13) }}">Benutzt ihr Originale Ersatzteile?</a></li>
-                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=26) }}">Gibt es eine Garantie auf die Reparatur?</a></li>
-                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=7) }}">Welche Bezahlungsmethoden gibt es?</a></li>
-                <li class="faq__item"><a class="faq__link" href="{{ url_for('.faq', q=27) }}">Was ist, wenn ich nach der Reparatur Probleme habe?</a></li>
-            </ul>
+        <section class="faq-section">
+            <h2 class="faq-section__heading">FAQ</h2>
+            <div class="faq-section__content">
+                <ul class="faq-section__list">
+                    <li class="faq-section__item"><a class="faq-section__link" href="{{ url_for('.faq', q=15) }}">Wie lange dauert die Reparatur?</a></li>
+                    <li class="faq-section__item"><a class="faq-section__link" href="{{ url_for('.faq', q=13) }}">Benutzt ihr Originale Ersatzteile?</a></li>
+                    <li class="faq-section__item"><a class="faq-section__link" href="{{ url_for('.faq', q=26) }}">Gibt es eine Garantie auf die Reparatur?</a></li>
+                    <li class="faq-section__item"><a class="faq-section__link" href="{{ url_for('.faq', q=7) }}">Welche Bezahlungsmethoden gibt es?</a></li>
+                    <li class="faq-section__item"><a class="faq-section__link" href="{{ url_for('.faq', q=27) }}">Was ist, wenn ich nach der Reparatur Probleme habe?</a></li>
+                </ul>
+            </div>
         </section>
     </div>
 {% endblock %}

@@ -79,7 +79,7 @@ if (window.location.pathname == "/faq") {
     var query = window.location.search.substring(1)
     questionID = query.split("q=")[1]
     
-    e = document.getElementById("FAQ__LIST").getElementsByClassName("faq__item--search")
+    e = document.getElementById("FAQ__LIST").getElementsByClassName("faq__item")
     for (let i = 0; i < e.length; i++) {
         e[i].addEventListener("click", function() {
             e[i].classList.toggle("collapsed")
