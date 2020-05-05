@@ -19,6 +19,7 @@ $fonts: (
     bold: 700
 );
 
+$xxsmall: 415px;
 $xsmall: 538px;
 $small: 650px;
 $small-medium: 750px;
@@ -55,7 +56,7 @@ $xxxlarge: 2560px;
 // -----------------------------------------------
 
 * {
-   outline: .5px dashed red;
+//    outline: .5px dashed red;
 }
 
 body {
@@ -77,7 +78,7 @@ ul {
 
 h1, h2, h3, p {
     margin: 0;
-}
+} // done
 
 .heading {
     @include font(bold);
@@ -96,7 +97,7 @@ h1, h2, h3, p {
     @media screen and (min-width: $xxxlarge) {
         font-size: 3.5em;
     }
-}
+} // done
 
 .subheading {
     @include font(regular);
@@ -114,7 +115,12 @@ h1, h2, h3, p {
     @media screen and (min-width: $xxxlarge) {
         font-size: calc(3.5em * .7);
     }
-}
+} // done
+
+.subsubheading {
+    @include font(regular);
+    font-size: 1.2em;
+} // done
 
 .cta {
     @include font(regular);
@@ -130,16 +136,17 @@ h1, h2, h3, p {
     &:hover {
         transform: scale(0.95);
     }
-}
+} // done
 
 .section {
     padding: 3em 0;
-}
+    text-align: left;
+} // done
 
 .content {
     margin: 0 auto;
     width: calc(100% - 20px);
-}
+} // done
 
 
 // -----------------------------------------------
@@ -396,7 +403,7 @@ footer {
             }
         }
     }
-}
+} // done
 
 .container {
     padding-left: 18px;
@@ -465,24 +472,10 @@ footer {
     @extend .section;
     min-height: inherit;
     padding-top: 2em;
+    text-align: center;
 
-    &--faq {
-        label {
-            display: inline-block;
-            width: 80%;
-            margin: 0 auto;
-        }
-    }
-
-    &--searchdevice {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        margin-bottom: 3em;
-
-        label {
-            width: 100%;
-        }
+    &--nocontent {
+        padding-bottom: 1em;
     }
 
     &__heading {
@@ -547,33 +540,6 @@ footer {
         }
     }
 
-    &__search {
-        @include font(light);
-        margin: 1em auto 2.1em;
-        padding: .8em 1.6em;
-        width: 80%;
-        font-family: Roboto, sans-serif;
-        font-size: 1em;
-        border: 1px solid map-get($map: $colors, $key: primary);
-
-        &:focus {
-            outline: none;
-        }
-
-        @media screen and (min-width: $small) {
-            width: calc(80% - 3.2em - 2px);
-        }
-
-        &--searchdevice {
-            margin: 1.2em auto 1.5em;
-            width: 80%;
-
-            @media screen and (min-width: $small-medium) {
-                width: 100%;
-            }
-        }
-    }
-
     &__cta {
         @extend .cta;
         display: block;
@@ -614,7 +580,13 @@ footer {
             text-decoration: underline map-get($map: $colors, $key: medium);
         }
     }
-}
+} // done
+
+.divider {
+    @include color(light, true);
+    border: none;
+    height: 1px;
+} // done
 
 
 // -----------------------------------------------
@@ -627,7 +599,6 @@ footer {
 
     &__heading {
         @extend .subheading;
-        text-align: left;
     }
 
     &__content {
@@ -739,7 +710,7 @@ footer {
         width: 60%;
         padding: .5em 1em;
     }
-}
+} // done
 
 // Brands Section
 .brands {
@@ -750,7 +721,6 @@ footer {
     &__heading {
         @extend .subheading;
         @include color(primary);
-        text-align: left;
     }
 
     &__content {
@@ -810,12 +780,11 @@ footer {
     &__img {
         height: 4em;
     }
-}
+} // done
 
 // Testimonials + FAQ Section
 .testimonial {
     @extend .section;
-    text-align: left;
     width: 100%;
 
     @media screen and (min-width: $medium) {
@@ -829,13 +798,13 @@ footer {
     &__content {
         @extend .content;
     }
-}
+} // done
 
 // FAQ Section
 .faq-section {
     @extend .section;
-    text-align: left;
     padding-top: 0;
+    width: 100%;
 
     @media screen and (min-width: $medium) {
         width: 48%;
@@ -853,6 +822,7 @@ footer {
     &__list {
         margin: 0;
         padding: 0;
+        text-align: left;
     }
 
     &__item {
@@ -872,7 +842,7 @@ footer {
             text-decoration: underline;
         }
     }
-}
+} // done
 
 
 // -----------------------------------------------
@@ -911,8 +881,6 @@ footer {
         margin-bottom: 0;
     }
 
-    // To-Do
-
     &__subheading {
         @include font(regular);
         font-size: 1.2em;
@@ -942,34 +910,83 @@ footer {
 
 
 // -----------------------------------------------
-// -------------------  FAQ  --------------------
+// ------------------ Search ---------------------
 // -----------------------------------------------
 
-.faq {
-    margin: 3em 0;
-    text-align: left;
-    width: inherit;
-    margin: 3em auto;
+.search {
+    @extend .section;
 
-    &__list {
-        padding-left: 0;
-        margin: 5em auto 0;
-        min-height: 300px;
-        width: 100%;
+    &__heading {
+        @extend .subheading;
+    }
 
-        @media screen and (min-width: $small) {
+    &__content {
+        @extend .content;
+    }
+
+    &__input {
+        @include font(light);
+        display: block;
+        padding: .8em 1.6em;
+        width: calc(100% - 3.2em);
+        font-family: Roboto, sans-serif;
+        font-size: 1em;
+        border: 1px solid map-get($map: $colors, $key: primary);
+    
+        &:focus {
+            outline: none;
+        }
+    
+        &--searchdevice {
+            margin: 1.2em auto 1.5em;
             width: 80%;
+    
+            @media screen and (min-width: $small-medium) {
+                width: 100%;
+            }
         }
     }
 
-    &__category {
-        @include color(primary);
-        font-size: 1.2em;
-        margin-top: 2em;        
+    &__button {
+        @extend .cta;
+        width: 100%;
+        height: 40px;
+        margin: 1em auto 0;
+
+        @media screen and (min-width: $xxsmall) {
+            margin: 1em auto 0;
+            max-width: 300px;
+        }
+    }
+} // done
+
+
+// -----------------------------------------------
+// -------------------  FAQ  ---------------------
+// -----------------------------------------------
+
+.faq {
+    @extend .section;
+
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__subheading {
+        @extend .subsubheading;
+    }
+
+    &__content {
+        @extend .content;
+    }
+
+    &__list {
+        padding: 0;
+        margin: 0;
     }
 
     &__item {
-        margin: 0 0 1em;
+        margin: 1em 0 1em;
         cursor: pointer;
         overflow: hidden;
         max-height: 20px;
@@ -1001,28 +1018,57 @@ footer {
             @include color(primary);
             text-decoration: underline;
         }
+
+        ul {
+            list-style-type: disc;
+        }
     }
-}
+} // done
 
 .collapsed {
     max-height: 450px !important;
-}
+} // done
 
 
 // -----------------------------------------------
 // -------------------  Shop  --------------------
 // -----------------------------------------------
 
-
-// Grid für Shop
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    grid-gap: 2em 1em;
-    margin: -3em auto 3em;
+    @extend .section;
 
-    @media screen and (min-width: $medium) {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__content {
+        @extend .content;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        grid-gap: 2em 1em;
+
+        @media screen and (min-width: 494px) {
+            grid-template-columns: repeat(1, minmax(130px, 1fr) minmax(130px, 1fr) minmax(130px, 1fr));
+        }
+
+        @media screen and (min-width: 1024px) {
+            grid-template-columns: repeat(2, minmax(120px, 1fr) minmax(120px, 1fr) minmax(120px, 1fr));
+        }
+
+        // We need this because using 3 minmax in one repeat is not supported in firefox
+        @-moz-document url-prefix() {
+            // max-width / columns - grid-gap / columns
+            // this is necessary, because there is one less grids than columns
+            grid-template-columns: repeat(auto-fit, calc(100% / 3 - 2em / 3));
+
+            @media screen and (min-width: $large) {
+                grid-template-columns: repeat(auto-fit, calc(100% / 6 - 5em / 6)); 
+            }
+        }
+
+        &--longlist {
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        }
     }
 
     &__item {
@@ -1045,6 +1091,8 @@ footer {
     }
 
     &__link {
+        @include color(dark);
+        @include font(regular);
         display: flex;
         height: 100%;
         justify-content: center;
@@ -1055,6 +1103,7 @@ footer {
     &__image {
         display: block;
         width: 60%;
+        max-height: 60%;
         padding: 0;
     }
 
@@ -1069,13 +1118,13 @@ footer {
         @include font(light);
         font-size: .9em;
     }
-}
-// Progressbar
+} // done
+
 .progressbar {
     display: flex;
     justify-content: space-between;
     max-width: 90%;
-    margin: 2em auto 7em;
+    margin: 2em auto 0;
 
     &__step {
         max-width: 100px;
@@ -1089,8 +1138,9 @@ footer {
         max-height: 48px;
         max-width: 48px;
         border-radius: 50%;
-        display: grid;
-        align-content: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-size: 1.4em;
         border: 2px solid map-get($map: $colors, $key: primary);
 
@@ -1117,25 +1167,4 @@ footer {
         margin-top: 1.5em;
         border-radius: 3px;
     }
-}
-
-// Divider
-.divider {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: space-around;
-    margin: 3em 0 1em;
-
-    &__line {
-        @include color(medium, true);
-        width: 30%;
-        height: 1px;
-    }
-
-    &__text {
-        @include font(light);
-        @include color(medium);
-        font-size: .8em;
-    }
-}
+} // done

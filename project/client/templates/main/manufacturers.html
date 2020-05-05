@@ -1,8 +1,8 @@
 {% extends "_base.html" %}
 {% block content %}
     <div class="container container--small">
-        <section class="hero hero--datenschutz">
-            <h1 class="hero__heading hero__heading--noheroimage">Hersteller auswählen</h1>
+        <section class="hero hero--nocontent">
+            <h1 class="hero__heading">Smartphoniker Shop</h1>
             <p class="hero__chronic hide-mobile">
                 <a class="hero__chroniclink" href="{{ url_for('main.manufacturers') }}">Shop</a> > 
             </p>
@@ -11,40 +11,39 @@
 
     <div class="container container--small">
         <section class="grid">
-            {% for manu in manufacturers %}
+            <h2 class="grid__heading">Hersteller auswählen</h2>
+            <div class="grid__content">
+                {% for manu in manufacturers %}
+                    <div class="grid__item">
+                        <a class="grid__link" href="#">
+                            {% if manu.image %}
+                                <img class="grid__image" src="{{ manu.get_image_path() }}" alt="{{ manu.name }} auswählen">
+                            {% else %}
+                                <div>{{ manu.name }}</div>
+                            {% endif %}
+                        </a>
+                    </div>
+                {% endfor %}
                 <div class="grid__item">
-                    <a class="grid__link" href="#">
-                        {% if manu.image %}
-                            <img class="grid__image" src="{{ manu.get_image_path() }}" alt="{{ manu.name }} auswählen">
-                        {% else %}
-                            <div>{{ manu.name }}</div>
-                        {% endif %}
+                    <a class="grid__link" href="{{ url_for('main.select_manufacturer') }}">
+                        <div class="grid__more">Alle<br>Hersteller</div>
                     </a>
                 </div>
-            {% endfor %}
-            <div class="grid__item">
-                <a class="grid__link" href="{{ url_for('main.select_manufacturer') }}">
-                    <div class="grid__more">Alle<br>Hersteller</div>
-                </a>
             </div>
         </section>
     </div>
 
     <div class="container container--small">
-        <section class="divider">
-            <span class="divider__line"></span>
-            <span class="divider__text">oder</span>
-            <span class="divider__line"></span>
-        </section>
+        <hr class="divider">
     </div>
 
     <div class="container container--small">
-        <section class="hero hero--searchdevice">
-            <label for="hero__search">
-                <h1 class="hero__heading hero__heading--searchdevice">Schnellsuche</h1>
-            </label>
-            <input id="HERO__SEARCH--SEARCHDEVICE" class="hero__search hero__search--searchdevice" type="text" placeholder="Modellbezeichnung eingeben">
-            <a class="hero__cta hero__cta--searchdevice">Suchen</a>
+        <section class="search">
+            <h2 class="search__heading"><label for="Search">Gerätebezeichnung eingeben</label></h2>
+            <div class="search__content">
+                <input id="Search" class="search__input" type="text" placeholder="Suchbegriff eingeben">
+                <a class="search__button">Suchen</a>
+            </div>
         </section>
     </div>
 {% endblock %}
