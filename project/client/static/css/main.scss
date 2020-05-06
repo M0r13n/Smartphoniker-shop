@@ -148,6 +148,11 @@ h1, h2, h3, p {
     width: calc(100% - 20px);
 } // done
 
+.checkboxhack {
+    position: absolute;
+    left: -9999px;
+} // done
+
 
 // -----------------------------------------------
 // -------------  Switcher Classes ---------------
@@ -465,6 +470,18 @@ footer {
     &--dual {
         @include flex(space-between);
         flex-wrap: wrap;
+    }
+
+    &--fixed {
+        @include color(medium, true);
+        @include shadow(0.26);
+        position: fixed;
+        width: calc(100% - 36px);
+        bottom: 0;
+
+        @media screen and (min-width: $small) {
+            width: calc(100% - 72px);
+        }
     }
 } // done
 
@@ -1045,7 +1062,7 @@ footer {
     &__content {
         @extend .content;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
         grid-gap: 2em 1em;
 
         @media screen and (min-width: 494px) {
@@ -1067,13 +1084,18 @@ footer {
             }
         }
 
-        &--longlist {
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        &--short {
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        }
+
+        &--repair {
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
     }
 
     &__item {
         @include shadow(.16);
+        
         height: 140px;
         transition: transform .3s ease, color .2s ease;
 
@@ -1087,7 +1109,12 @@ footer {
 
         &:hover {
             @include color(primary);
-            transform: scale(.95);
+            transform: scale(.99);
+        }
+
+        &--repair {
+            height: 350px;
+            max-width: 200px;
         }
     }
 
@@ -1099,6 +1126,8 @@ footer {
         justify-content: center;
         align-items: center;
         flex-wrap: wrap;
+        outline: 2px solid transparent;
+        transition: outline .3s ease;
     }
 
     &__image {
@@ -1106,6 +1135,10 @@ footer {
         width: 60%;
         max-height: 60%;
         padding: 0;
+
+        &--repair {
+            width: 70%;
+        }
     }
 
     &__phoneframe {
@@ -1118,6 +1151,53 @@ footer {
         @include color(primary);
         @include font(light);
         font-size: .9em;
+    }
+
+    &__input {
+        @extend .checkboxhack;
+
+        &:checked ~ label.grid__link {
+            outline: 2px solid map-get($map: $colors, $key: primary);
+
+            & > div.grid__button {
+                @include color(medium, true);
+    
+                &::after {
+                    content: "abwählen"
+                }
+            }
+        } 
+    }
+
+    &__button {
+        @extend .cta;
+        border: none;
+        width: 80%;
+        height: 35px;
+        margin-bottom: 1em;
+        transition: background-color .3s ease;
+
+        &:hover {
+            transform: unset;
+        }
+        
+        &:after {
+            content: "auswählen";
+        }
+    }
+
+    &__title {
+        @include font(bold);
+        @include color(b);
+        margin-top: 1em;
+        font-size: 1.2em;
+    }
+    &__price {
+        @include font(light);
+        font-size: 1.1em;
+        width: 100%;
+        text-align: center;
+        margin-bottom: .4em;
     }
 } // done
 
@@ -1167,5 +1247,111 @@ footer {
         width: 100%;
         margin-top: 1.5em;
         border-radius: 3px;
+    }
+} // done
+
+
+// -----------------------------------------------
+// ------------------  Modell  -------------------
+// -----------------------------------------------
+
+.color {
+    @extend .section;
+
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__content {
+        @extend .content;
+        @include flex(flex-start);
+
+    }
+
+    &__item {
+        margin-right: 1.5em;
+        transition: transform .3s ease;
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+
+    &__label {
+        border: 2px solid white;
+        height: 40px;
+        width: 40px;
+        display: block;
+        border-radius: 50%;
+        transition: border .2s ease;
+    }
+
+    &__circle {
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+        border-radius: 50%;
+        border: 1px solid white;
+    }
+
+    &__input {
+        @extend .checkboxhack;
+
+        &:checked ~ label.color__label {
+            border-color: map-get($map: $colors, $key: b);
+        }
+    }
+} // done
+
+.form {
+    @extend .section;
+
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__content {
+        @extend .content;
+    }
+
+    &__textarea {
+        width: calc(100% - 20px - 1.6em - 2px);
+        height: 100px;
+        resize: none;
+        padding: .8em 1.6em;
+        font-family: Roboto, sans-serif;
+        font-size: 1em;
+    }
+} // done
+
+.price {
+
+    &__content {
+        margin: 0 auto;
+        height: 3em;
+        max-width: 1200px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    &__text {
+        @include color(w);
+        @include font(regular);
+        font-size: 1.5em;
+    }
+
+    &__sub {
+        @include font(light);
+        font-size: .5em;
+    }
+
+    &__button {
+        @extend .cta;
+        border: none;
+        padding: .4em 3em;
     }
 } // done
