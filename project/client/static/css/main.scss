@@ -635,6 +635,7 @@ footer {
         transition: transform .2s ease;
         cursor: pointer;
         position: relative;
+        text-align: center;
 
         &:hover {
             transform: scale(0.99);

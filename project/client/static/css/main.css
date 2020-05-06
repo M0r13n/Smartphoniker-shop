@@ -689,6 +689,7 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   transition: transform .2s ease, -webkit-transform .2s ease;
   cursor: pointer;
   position: relative;
+  text-align: center;
 }
 
 .bestseller__item:hover {
