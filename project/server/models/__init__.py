@@ -5,6 +5,7 @@ from .mail_log import MailLog
 from .manufacturer import Manufacturer
 from .order import Order
 from .repair import Repair
+from .series import DeviceSeries
 from .shop import Shop
 from .user import User
 
@@ -17,6 +18,7 @@ __all__ = [
     'Manufacturer',
     'Order',
     'Repair',
+    'DeviceSeries',
     'Shop',
     'User',
 ]

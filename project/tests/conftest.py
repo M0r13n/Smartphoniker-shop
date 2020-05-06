@@ -8,7 +8,7 @@ from webtest import TestApp
 
 from project.server import create_app
 from project.server import db as _db
-from project.server.models import User, Manufacturer, Color, Device, Customer, Shop, Repair, Image
+from project.server.models import User, Manufacturer, Color, Device, Customer, Shop, Repair, Image, DeviceSeries
 
 
 @pytest.fixture
@@ -85,9 +85,15 @@ def sample_color():
 
 
 @pytest.fixture
-def sample_device(sample_manufacturer, sample_color):
+def sample_device(sample_series, sample_color):
     """ Create a sample device """
-    return Device.create(name="iPhone 6S", colors=[sample_color], manufacturer=sample_manufacturer)
+    return Device.create(name="iPhone 6S", colors=[sample_color], series=sample_series)
+
+
+@pytest.fixture
+def sample_series(sample_manufacturer):
+    """ Sample Series """
+    return DeviceSeries.create(name="iPhone", manufacturer=sample_manufacturer)
 
 
 @pytest.fixture

@@ -9,7 +9,7 @@ import coverage
 from flask.cli import FlaskGroup
 
 from project.server.app import create_app, db
-from project.server.models import User, Shop, Customer, Manufacturer, Repair, Image
+from project.server.models import User, Shop, Customer, Manufacturer, Repair, Image, DeviceSeries
 from project.server.models.device import Color, Device
 
 app = create_app()
@@ -43,8 +43,9 @@ def create_sample_data():
     b = Color.create(name="Black", color_code="#000000")
     w = Color.create(name="White", color_code="#FFFFFF")
     a = Manufacturer.create(name="Apple", activated=True)
-    a1 = Device.create(name="iPhone 6S", colors=[b, w], manufacturer=a)
-    a2 = Device.create(name="iPhone 7", colors=[b, w], manufacturer=a)
+    s = DeviceSeries.create(name="iPhone", manufacturer=a)
+    a1 = Device.create(name="iPhone 6S", colors=[b, w], series=s)
+    a2 = Device.create(name="iPhone 7", colors=[b, w], series=s)
     Repair.create(name="Display Reparatur", device=a1, price=69, bestseller=True)
     Repair.create(name="Akku Reparatur", device=a1, price=69, bestseller=True)
     Repair.create(name="Kleinteilreparatur", device=a1, price=69)

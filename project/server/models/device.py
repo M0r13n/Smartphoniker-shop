@@ -29,8 +29,8 @@ class Device(db.Model, CRUDMixin):
     name = db.Column(db.String(64), unique=True, index=True)
 
     # Relations
-    manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable=False)
-    manufacturer = db.relationship("Manufacturer")
+    series_id = db.Column(db.Integer, db.ForeignKey('device_series.id'), nullable=False)
+    series = db.relationship("DeviceSeries")
 
     colors = db.relationship(
         "Color",

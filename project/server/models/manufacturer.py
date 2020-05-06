@@ -11,7 +11,11 @@ class Manufacturer(db.Model, CRUDMixin, ImageMixin):
     activated = db.Column(db.Boolean(), default=False)
 
     # Relations
-    devices = db.relationship("Device", back_populates="manufacturer")
+    series = db.relationship("DeviceSeries", back_populates="manufacturer")
 
     def __repr__(self):
         return f"<Manufacturer: {self.name}>"
+
+    @property
+    def devices(self):
+        return [devices for devices in self.series.devices]

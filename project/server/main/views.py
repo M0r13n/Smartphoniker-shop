@@ -1,8 +1,8 @@
 # project/server/main/views.py
-from flask import render_template, Blueprint, jsonify, request
+from flask import render_template, Blueprint, jsonify, abort
 
 from project.common.email.message import make_html_mail
-from project.server.models import Repair, Manufacturer, Device
+from project.server.models import Repair, Manufacturer, DeviceSeries
 from project.server.utils import send_email
 
 main_blueprint = Blueprint("main", __name__)
@@ -29,12 +29,36 @@ def manufacturer():
     return render_template("main/manufacturer.html", manufacturers=all_manufacturers)
 
 
-@main_blueprint.route("/manufacturer/series/devices")
-def devices():
+@main_blueprint.route("/<string:manufacturer_name>/devices")
+def devices(manufacturer_name):
     """ Render a list of all manufacturers as a starting point """
-    manu_id = request.args.get('manufacturer')
-    chosen_devices = Device.query.filter(Device.manufacturer_id == manu_id).all()  # noqa
-    return render_template("main/devices.html", devices=chosen_devices)
+    m = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
+    if not m:
+        abort(404)
+    # TODO @ Tobi render right page
+    return render_template("main/devices.html", devices=m.devices)
+
+
+@main_blueprint.route("/<string:manufacturer_name>/series")
+def series(manufacturer_name):
+    """ Return all series of the manufacturer, e.g. iPhone, iPad, etc """
+    m = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
+    if not m:
+        abort(404)
+    # TODO @ Tobi render right page
+    return render_template("main/devices.html", series=m.series)
+
+
+@main_blueprint.route("/<string:manufacturer_name>/<string:series_name>")
+def all_devices_of_series(manufacturer_name, series_name):
+    """ Return all devices of a series, e.g. all iPhones """
+    m = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
+    s = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
+    if not m or not s:
+        abort(404)
+
+    # TODO @ Tobi render right page
+    return render_template("main/devices.html", devices=s.devices)
 
 
 @main_blueprint.route("/agb")
