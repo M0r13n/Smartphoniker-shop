@@ -36,7 +36,7 @@ def devices():
     chosen_devices = Device.query.filter(Device.manufacturer_id == manu_id).all()  # noqa
     return render_template("main/devices.html", devices=chosen_devices)
 
-    
+
 @main_blueprint.route("/agb")
 def agb():
     """ Render Terms and Services """
