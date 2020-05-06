@@ -39,3 +39,4 @@ tests/test-reports-*/*
 /node_modules
 .mypy_cache/
 profiling_results
+.DS_Store/
