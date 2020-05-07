@@ -1,4 +1,5 @@
 # project/server/tests/test_main.py
+from flask import url_for
 
 
 class TestAdmin:
@@ -43,3 +44,7 @@ class TestAdmin:
         assert "Willkommen" in res
         assert "Log out" in res
         assert res.status_code == 200
+
+    def test_admin_change_pw_protected(self, testapp):
+        res = testapp.get(url_for('admin.change_password_view'), expect_errors=True)
+        assert res.status_code == 403

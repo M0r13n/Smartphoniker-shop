@@ -1,9 +1,21 @@
 {% extends 'admin/base.html' %}
+{% block brand %}
+{% endblock %}
 
 {% block access_control %}
     {% if current_user.is_authenticated %}
-        <div class="btn-group pull-right" style="margin-top: 5px;">
-            <a class="btn btn-danger" href="{{ url_for('admin.logout_view') }}">Log out</a>
-        </div>
+        {# Settings Drop Down #}
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-cog"></span> Settings <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    {# <li><a href="#">Action</a></li>  #}
+                    <li role="separator" class="divider"></li>
+                    <li class="dropdown-header">Account</li>
+                    <li><a href="{{ url_for('admin.change_password_view') }}">Change Admin Password</a></li>
+                    <li><a class="btn btn-danger" href="{{ url_for('admin.logout_view') }}">Log out</a></li>
+                </ul>
+            </li>
+        </ul>
     {% endif %}
 {% endblock %}
