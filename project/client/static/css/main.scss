@@ -1265,7 +1265,7 @@ footer {
     &__content {
         @extend .content;
         @include flex(flex-start);
-
+        flex-wrap: wrap;
     }
 
     &__item {
@@ -1294,7 +1294,7 @@ footer {
         width: calc(100% - 2px);
         height: calc(100% - 2px);
         border-radius: 50%;
-        border: 1px solid white;
+        border: 1px solid #EDEDED;
     }
 
     &__input {
@@ -1303,6 +1303,13 @@ footer {
         &:checked ~ label.color__label {
             border-color: map-get($map: $colors, $key: b);
         }
+    }
+
+    &__name {
+        @include font(light);
+        margin-top: .8em;
+        width: 100%;
+        font-size: .9em;
     }
 } // done
 
@@ -1324,6 +1331,15 @@ footer {
         padding: .8em 1.6em;
         font-family: Roboto, sans-serif;
         font-size: 1em;
+        border-radius: 3px;
+        border: 1px solid map-get($map: $colors, $key: light);
+        transition: border .3s ease, padding .3s ease;
+
+        &:focus {
+            border: 3px solid map-get($map: $colors, $key: primary);
+            outline: none;
+            padding: calc(.8em - 2px) calc(1.6em - 2px);
+        }
     }
 } // done
 

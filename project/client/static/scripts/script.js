@@ -72,36 +72,34 @@ if (window.location.pathname == "/faq") {
 
 
 // Das ist die Suche für Geräte aus dem Shop-Bereich
-if (window.location.pathname == "/manufacturers") {
-    document.getElementById("SEARCHBUTTON").addEventListener("click", function(){
+if (window.location.pathname == "/manufacturers" || window.location.pathname.substring(0, 7) == "/search") {
+    console.log('mau')
+    document.getElementById("Submit").addEventListener("click", function(){
         appendURL()
     }, false)
-    document.getElementById("HERO__SEARCH--SEARCHDEVICE").addEventListener("keypress", function(e) {
+    document.getElementById("Search").addEventListener("keypress", function(e) {
         if (e.key == "Enter") {
             appendURL()
         }
     } ,false)
     function appendURL() {
-        input = document.getElementById("HERO__SEARCH--SEARCHDEVICE")
+        input = document.getElementById("Search")
         if (input.value.length == 0) return
-        input = input.value.split(" ").join("+")
-        alert(input)
-        // window.location.href("?input=" + input)
-        // redirect
+        input = input.value.split(" ").join("$")
+        window.location.href= "/search/" + input + "/"
     }
 }
 
-// To-Do: ich muss wissen, wie die Verlinkungen funktionieren
-// Das ist um die Kreise in der Progressbar entsprechend zu füllen
-if (window.location.pathname == "/manufacturer_grid" || window.location.pathname == "/series_grid" || window.location.pathname == "/device__grid") {
-    query = window.location.search.substring(1).split("step=")[1];
-    if (query.length == 1) {
-        query = parseInt(query, 10)
-        if (query > 1) {
-            document.getElementById("STEP2").classList.toggle("progressbar__number--active")
-        }
-        if (query > 2) {
-            document.getElementById("STEP3").classList.toggle("progressbar__number--active")
-        }
+
+
+var radios = document.getElementsByName('color')
+for (var i = 0, length = radios.length; i < length; i++) {
+    if (radios[i].checked) {
+        document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radios[i].value.replace("_", " ")
     }
+    radios[i].addEventListener("change", function() {
+        if (this.checked) {
+            document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + this.value.replace("_", " ")
+        }
+    }, false)
 }
