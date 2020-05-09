@@ -46,7 +46,7 @@ jobs:
         run: pip install -r requirements.txt
       
       - name: Activate PG_TRIM
-        run: PGPASSWORD=# psql -h 127.0.0.1 -U postgres pricepicker -c "CREATE EXTENSION pg_trgm;"
+        run: PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres pricepicker -c "CREATE EXTENSION pg_trgm;"
 
       - name: Run tests with coverage and create report as xml file
         run: python manage.py cov
