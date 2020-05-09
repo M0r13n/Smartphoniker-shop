@@ -115,6 +115,20 @@ def sample_repair(sample_device):
 
 
 @pytest.fixture
+def some_devices(sample_series, sample_color):
+    return [
+        Device.create(name="iPhone 6S Plus", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone 6S +", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone 9", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone 7", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone SE", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone XS Max", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone XS", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone X", colors=[sample_color], series=sample_series)
+    ]
+
+
+@pytest.fixture
 def sample_image():
     """ Return a sample image """
     return Image.create(name="iPhone Picture", path="phone-frames/Apple/iphone678.svg")

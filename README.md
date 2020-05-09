@@ -31,6 +31,12 @@ create user "some user" with encrypted password 'some password';
 grant all privileges on database "pricepicker-v2" to "some user";
 ```
 
+Also you need to enable the `pg_trim` extension for fuzzy searching:
+
+````postgresql
+CREATE EXTENSION pg_trgm;
+````
+
 Then you just need to update the `DATABASE_URL`:
 ```sh
 $ export DATABASE_URL=postgresql://picker:#@127.0.0.1/pricepicker-v2

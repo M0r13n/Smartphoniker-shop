@@ -86,16 +86,15 @@ def impressum():
 @main_blueprint.route("/search/<string:device_name>/")
 def search(device_name):
     """ Render Search Results """
-    tag = device_name.replace("$", "%")
-    search = "%{}%".format(tag)
-    if device_name == 'all':
-        s = Device.query.all()
-        tag = ''
-    else:
-        s = Device.query.filter(Device.name.ilike(search)).all()
-        tag = tag.replace("%", " ")
-    # TODO @ Leon man macht doch kein Like....
-    return render_template('main/search.html', devices=s, search=tag)
+    found_devices = Device.query.all()
+
+    return render_template('main/search.html', devices=found_devices)
+
+
+@main_blueprint.route("/api/search/<string:device_name>/")
+def search_api(device_name):
+    found_devices = Device.search(device_name).all()
+    return jsonify(results=[device.name for device in found_devices])
 
 
 @main_blueprint.route("/mail")
