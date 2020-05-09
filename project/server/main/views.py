@@ -32,32 +32,31 @@ def manufacturer():
 @main_blueprint.route("/<string:manufacturer_name>/series")
 def series(manufacturer_name):
     """ Return all series of the manufacturer, e.g. iPhone, iPad, etc """
-    m = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
-    if not m:
+    _manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
+    if not _manufacturer:
         abort(404)
-    return render_template("main/series.html", series=m.series, manufacturer=manufacturer_name)
+    return render_template("main/series.html", series=_manufacturer.series, manufacturer=manufacturer_name)
 
 
 @main_blueprint.route("/<string:manufacturer_name>/<string:series_name>")
 def all_devices_of_series(manufacturer_name, series_name):
     """ Return all devices of a series, e.g. all iPhones """
-    m = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
-    s = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
-    if not m or not s:
+    _manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
+    _series = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
+    if not _manufacturer or not _series:
         abort(404)
-    return render_template("main/devices.html", devices=s.devices, manufacturer=manufacturer_name, series=series_name)
+    return render_template("main/devices.html", devices=_series.devices, manufacturer=manufacturer_name, series=series_name)
 
 
 @main_blueprint.route("/<string:manufacturer_name>/<string:series_name>/<string:device_name>/")
-def modell(manufacturer_name, series_name, device_name):
+def model(manufacturer_name, series_name, device_name):
     """ Returns the chosen device """
-    device_name = device_name.replace("%", " ")
-    m = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
-    s = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
-    d = Device.query.filter(Device.name == device_name).first()
-    if not m or not s or not d:
+    _manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
+    _series = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
+    _device = Device.query.filter(Device.name == device_name).first()
+    if not _manufacturer or not _series or not _device:
         abort(404)
-    return render_template("main/modell.html", device=d, colors=d.colors, repairs=d.repairs)
+    return render_template("main/modell.html", device=_device, colors=_device.colors, repairs=_device.repairs)
 
 
 @main_blueprint.route("/agb")
