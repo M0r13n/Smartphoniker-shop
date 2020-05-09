@@ -1,14 +1,8 @@
-/*
-* Constants
-* */
-
+/* Constants */
 const radios = document.getElementsByName('color');
 
 
-/*
-* Global Function
-* */
-
+/* Global Functions */
 /**
  * Return URLSearchParams object for the current URL.
  * @returns {URLSearchParams}
@@ -17,6 +11,7 @@ function getURLSearchParams() {
     const paramsString = window.location.search;
     return new URLSearchParams(paramsString);
 }
+
 
 /**
  * Search Funtion.
@@ -30,18 +25,48 @@ function appendURL() {
     window.location.href = "/search/" + input + "/"
 }
 
-/*
- * Radio
- * */
-document.getElementById("menu").addEventListener("click", () => {
-    document.getElementById("nav").classList.toggle("header__list--in")
-}, false);
+/**
+ * TODO: This method is way to complex and unreadable. Rewrite it.
+ */
+function filterFunction() {
+    const input = document.getElementById("Search"),
+        filter = input.value.toUpperCase(),
+        questionList = document.getElementById("FaqList"),
+        questionHeadings = questionList.getElementsByClassName("faq__subheading");
 
+    let li, a, txtValue, div, txtValuediv;
 
-/*
-* FAQ
-* */
-if (window.location.pathname === "/faq") {
+    for (const heading of questionHeadings) {
+        heading.style.display = "none";
+        if (input.value === "") {
+            heading.style.display = "";
+        }
+    }
+
+    li = questionList.querySelectorAll("li.faq__item");
+    li.forEach((l) => {
+
+        a = l.getElementsByTagName("span")[0];
+        div = l.getElementsByTagName("div")[0];
+        txtValue = a.textContent || a.innerText;
+        txtValuediv = div.innerHTML;
+        if ((txtValue.toUpperCase().indexOf(filter) > -1) ||
+            (txtValuediv.toUpperCase().indexOf(filter) > -1)) {
+            l.style.display = "";
+        } else {
+            l.style.display = "none";
+        }
+    });
+}
+
+/* JS for each page */
+const radioJS = () => {
+    document.getElementById("menu").addEventListener("click", () => {
+        document.getElementById("nav").classList.toggle("header__list--in")
+    }, false);
+};
+
+const faqJS = () => {
     // Suchleiste
     document.getElementById("Search").addEventListener("keyup", () => {
         filterFunction()
@@ -52,7 +77,7 @@ if (window.location.pathname === "/faq") {
         questionID = params.get('q');
 
     // Eventlistener an FAQ Fragen appenden und ausführen, wenn entsprechende Queries in URL sind
-    questions = document.getElementById("FaqList").getElementsByClassName("faq__item");
+    const questions = document.getElementById("FaqList").getElementsByClassName("faq__item");
     let i = 0;
     for (const question of questions) {
         i++;
@@ -72,62 +97,38 @@ if (window.location.pathname === "/faq") {
             }
         }
     }
-}
+};
 
-// Funktion die Texte und Überschriften nach den eingegebenen Wörtern untersucht
-function filterFunction() {
-    const input = document.getElementById("Search"),
-        filter = input.value.toUpperCase(),
-        questionList = document.getElementById("FaqList"),
-        questionHeadings = questionList.getElementsByClassName("faq__subheading");
-
-    let li, a, txtValue, div, txtValuediv;
-
-    for (const heading of questionHeadings) {
-        heading.style.display = "none";
-        if (input.value === "") {
-            heading.style.display = "";
-        }
-    }
-
-
-    li = questionList.querySelectorAll("li.faq__item");
-    li.forEach((l, i) => {
-
-        a = l.getElementsByTagName("span")[0];
-        div = l.getElementsByTagName("div")[0];
-        txtValue = a.textContent || a.innerText;
-        txtValuediv = div.innerHTML;
-        if ((txtValue.toUpperCase().indexOf(filter) > -1) ||
-            (txtValuediv.toUpperCase().indexOf(filter) > -1)) {
-            l.style.display = "";
-        } else {
-            l.style.display = "none";
-        }
-    });
-}
-
-
-// Das ist die Suche für Geräte aus dem Shop-Bereich
-if (window.location.pathname === "/manufacturers" || window.location.pathname.substring(0, 7) === "/search") {
-    document.getElementById("Submit").addEventListener("click", () => {
-        appendURL()
-    }, false);
-    document.getElementById("Search").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
+const searchJS = () => {
+    if (window.location.pathname === "/manufacturers" || window.location.pathname.substring(0, 7) === "/search") {
+        document.getElementById("Submit").addEventListener("click", () => {
             appendURL()
-        }
-    }, false);
-}
-
-for (let radio of radios) {
-    if (radio.checked) {
-        document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radio.value.replace("_", " ")
+        }, false);
+        document.getElementById("Search").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") {
+                appendURL()
+            }
+        }, false);
     }
-    radio.addEventListener("change", () => {
-        if (this.checked) {
-            document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + this.value.replace("_", " ")
+    for (let radio of radios) {
+        if (radio.checked) {
+            document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radio.value.replace("_", " ")
         }
-    }, false)
+        radio.addEventListener("change", () => {
+            if (this.checked) {
+                document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + this.value.replace("_", " ")
+            }
+        }, false)
+    }
+};
 
+/* Register event listeners */
+radioJS();
+
+if (window.location.pathname === "/faq") {
+    faqJS();
+} else if (window.location.pathname === "/manufacturers" || window.location.pathname.substring(0, 7) === "/search") {
+    searchJS();
 }
+
+
