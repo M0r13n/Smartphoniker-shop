@@ -28,6 +28,12 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: harmon758/postgresql-action@v1
+        with:
+          postgresql version: '11'
+          postgresql db: pricepicker
+          postgresql user: postgres
+          postgresql password: postgres
 
       # Runs the tests
       - name: Setup python
@@ -38,9 +44,14 @@ jobs:
 
       - name: Install requirements
         run: pip install -r requirements.txt
+      
+      - name: Activate PG_TRIM
+        run: PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres -c "CREATE EXTENSION pg_trgm;"
 
       - name: Run tests with coverage and create report as xml file
         run: python manage.py cov
+        env:
+          DATABASE_TEST_URL: postgresql://postgresql:postgresql@127.0.0.1/pricepicker
 
       - name: Run Flake8
         run: flake8 project
