@@ -62,7 +62,7 @@ class TestingConfig(BaseConfig):
     WTF_CSRF_ENABLED = False
 
     PRESERVE_CONTEXT_ON_EXCEPTION = False
-    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL", " postgresql://postgresql:postgresql@127.0.0.1/pricepicker")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_TEST_URL", "postgresql://postgresql:postgresql@127.0.0.1/pricepicker")
     TESTING = True
 
 
