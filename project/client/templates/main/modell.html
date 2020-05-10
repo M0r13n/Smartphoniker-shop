@@ -14,9 +14,10 @@
         <section class="color" id="Color">
             <h2 class="color__heading">Farbe wählen</h2>
             <div class="color__content">
-                {% for color in colors %}
+                {# TODO: Das lösen wir besser mit einem Select und nicht mit so komischen custom Quatsch #}
+                {% for color_id, color in repair_form.color.choices %}
                 <span class="color__item">
-                    <input class="color__input" id="{{ color.name.replace(' ', '_') }}" name="color" value="{{ color.name.replace(' ', '_') }}" type="radio" checked>
+                    <input class="color__input" id="{{ color.name.replace(' ', '_') }}" name="color" value="{{ color_id }}" type="radio" checked>
                     <label class="color__label color__label--active" for="{{ color.name.replace(' ', '_') }}">
                         <div style="background-color: {{ color.color_code }};" class="color__circle"></div>
                     </label>
@@ -35,8 +36,9 @@
     <div class="container container--small">
         <section class="grid">
             <h2 class="grid__heading">Defekt wählen</h2>
+            {# TODO: Das lösen wir besser mit einem SelectMultiple anstatt so einem Custom Quark #}
             <div class="grid__content grid__content--repair">
-                {% for repair in repairs %}
+                {% for repair_id, repair in repair_form.repairs.choices %}
                     <div class="grid__item grid__item--repair">
                         <input id="{{ repair.name.replace(' ', '_') }}" class="grid__input" type="checkbox" name="repair">
                         <label class="grid__link" for="{{ repair.name.replace(' ', '_') }}">
@@ -60,6 +62,7 @@
     <div class="container container--small">
         <section class="form">
             <h2 class="form__heading">Problembeschreibung</h2>
+            {#  TODO: Hier fehlt 1 Label und eine ID #}
             <div class="form__content">
                 <textarea class="form__textarea" name="problembeschreibung" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich"></textarea>
             </div>

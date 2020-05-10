@@ -2,6 +2,7 @@
 from flask import render_template, Blueprint, jsonify, abort
 
 from project.common.email.message import make_html_mail
+from project.server.main.forms import SelectRepairForm
 from project.server.models import Repair, Manufacturer, DeviceSeries, Device
 from project.server.utils import send_email
 
@@ -56,7 +57,9 @@ def model(manufacturer_name, series_name, device_name):
     _device = Device.query.filter(Device.name == device_name).first()
     if not _manufacturer or not _series or not _device:
         abort(404)
-    return render_template("main/modell.html", device=_device, colors=_device.colors, repairs=_device.repairs)
+
+    repair_form = SelectRepairForm(_device)
+    return render_template("main/modell.html", device=_device, repair_form=repair_form)
 
 
 @main_blueprint.route("/agb")
