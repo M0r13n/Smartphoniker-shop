@@ -1,4 +1,4 @@
-from sqlalchemy import Index, desc, func, any_, bindparam
+from sqlalchemy import Index, desc, func, any_, bindparam, asc
 
 from project.server import db
 from project.server.models.crud import CRUDMixin
@@ -54,7 +54,7 @@ class Device(db.Model, CRUDMixin):
         """
         This method fuzzy searches the Device.name column.
         ----------
-        SELECT * FROM artists WHERE name % 'SEARCH_KW';
+        SELECT * FROM devices WHERE name % 'SEARCH_KW';
         ----------
         """
         query = cls.query.filter(Device.name.op('%%')(q))
@@ -63,7 +63,7 @@ class Device(db.Model, CRUDMixin):
     @classmethod
     def search_order_by_similarity(cls, q: str):
         """
-        SELECT * FROM artists WHERE name % 'SEARCH_KW' ORDER BY SIMILARITY(name, 'IPHONE 11') DESC;
+        SELECT * FROM devices WHERE name % 'SEARCH_KW' ORDER BY SIMILARITY(name, 'IPHONE 11') DESC;
         """
         query = cls.search(q)
         query = query.order_by(desc(func.similarity(cls.name, q)))
@@ -72,11 +72,19 @@ class Device(db.Model, CRUDMixin):
     @classmethod
     def search_by_array(cls, q: str):
         """
-        SELECT * FROM artists WHERE 'X' % ANY(STRING_TO_ARRAY(name, ' '));
+        SELECT * FROM devices WHERE 'X' % ANY(STRING_TO_ARRAY(name, ' '));
         """
         query = cls.query.filter(
             bindparam('string', q).op('%%')(any_(func.string_to_array(Device.name, ' ')))
         )
+        return query
+
+    @classmethod
+    def search_levenshtein(cls, q: str, limit: int = 15):
+        """
+        SELECT * from devices order by LEVENSHTEIN(name, '11') ASC;
+        """
+        query = cls.query.order_by(asc(func.levenshtein(Device.name, q))).limit(limit)
         return query
 
     def __repr__(self):

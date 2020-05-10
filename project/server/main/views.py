@@ -93,13 +93,18 @@ def search(device_name):
 
 @main_blueprint.route("/api/search/<string:device_name>/")
 def search_api(device_name):
+    """
+    Test endpoint for development
+    """
     found_devices_normal = Device.search(device_name).all()
     found_devices_similar = Device.search_order_by_similarity(device_name).all()
     found_devices_array = Device.search_by_array(device_name).all()
+    found_devices_levenshtein = Device.search_levenshtein(device_name).all()
     return jsonify(results={
         'normal': [device.name for device in found_devices_normal],
         'similar': [device.name for device in found_devices_similar],
         'array': [device.name for device in found_devices_array],
+        'levenshtein': [device.name for device in found_devices_levenshtein],
     })
 
 

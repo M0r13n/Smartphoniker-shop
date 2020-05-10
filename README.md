@@ -31,10 +31,11 @@ create user "some user" with encrypted password 'some password';
 grant all privileges on database "pricepicker-v2" to "some user";
 ```
 
-Also you need to enable the `pg_trim` extension for fuzzy searching:
+Also you need to enable the `pg_trim` and `fuzzystrmatch` extension for fuzzy searching:
 
 ````postgresql
 CREATE EXTENSION pg_trgm;
+CREATE EXTENSION fuzzystrmatch;
 ````
 
 Then you just need to update the `DATABASE_URL`:
