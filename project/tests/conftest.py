@@ -124,7 +124,9 @@ def some_devices(sample_series, sample_color):
         Device.create(name="iPhone SE", colors=[sample_color], series=sample_series),
         Device.create(name="iPhone XS Max", colors=[sample_color], series=sample_series),
         Device.create(name="iPhone XS", colors=[sample_color], series=sample_series),
-        Device.create(name="iPhone X", colors=[sample_color], series=sample_series)
+        Device.create(name="iPhone X", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone 11", colors=[sample_color], series=sample_series),
+        Device.create(name="iPhone Pro", colors=[sample_color], series=sample_series),
     ]
 
 

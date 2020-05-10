@@ -46,6 +46,16 @@ def create_sample_data():
     s = DeviceSeries.create(name="iPhone", manufacturer=a)
     a1 = Device.create(name="iPhone 6S", colors=[b, w], series=s)
     a2 = Device.create(name="iPhone 7", colors=[b, w], series=s)
+    Device.create(name="iPhone 6S Plus", colors=[b, w], series=s),
+    Device.create(name="iPhone 6S +", colors=[b, w], series=s),
+    Device.create(name="iPhone 9", colors=[b, w], series=s),
+    Device.create(name="iPhone SE", colors=[b, w], series=s),
+    Device.create(name="iPhone XS Max", colors=[b, w], series=s),
+    Device.create(name="iPhone XS", colors=[b, w], series=s),
+    Device.create(name="iPhone X", colors=[b, w], series=s),
+    Device.create(name="iPhone 11", colors=[b, w], series=s),
+    Device.create(name="iPhone Pro", colors=[b, w], series=s),
+
     Repair.create(name="Display Reparatur", device=a1, price=69, bestseller=True)
     Repair.create(name="Akku Reparatur", device=a1, price=69, bestseller=True)
     Repair.create(name="Kleinteilreparatur", device=a1, price=69)

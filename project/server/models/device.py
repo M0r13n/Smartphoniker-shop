@@ -1,4 +1,4 @@
-from sqlalchemy import Index
+from sqlalchemy import Index, desc, func, any_, bindparam
 
 from project.server import db
 from project.server.models.crud import CRUDMixin
@@ -51,7 +51,33 @@ class Device(db.Model, CRUDMixin):
 
     @classmethod
     def search(cls, q: str):
-        return cls.query.filter(Device.name.op('%%')(q))
+        """
+        This method fuzzy searches the Device.name column.
+        ----------
+        SELECT * FROM artists WHERE name % 'SEARCH_KW';
+        ----------
+        """
+        query = cls.query.filter(Device.name.op('%%')(q))
+        return query
+
+    @classmethod
+    def search_order_by_similarity(cls, q: str):
+        """
+        SELECT * FROM artists WHERE name % 'SEARCH_KW' ORDER BY SIMILARITY(name, 'IPHONE 11') DESC;
+        """
+        query = cls.search(q)
+        query = query.order_by(desc(func.similarity(cls.name, q)))
+        return query
+
+    @classmethod
+    def search_by_array(cls, q: str):
+        """
+        SELECT * FROM artists WHERE 'X' % ANY(STRING_TO_ARRAY(name, ' '));
+        """
+        query = cls.query.filter(
+            bindparam('string', q).op('%%')(any_(func.string_to_array(Device.name, ' ')))
+        )
+        return query
 
     def __repr__(self):
         return f"<Device: {self.name}>"
