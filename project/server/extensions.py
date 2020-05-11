@@ -1,5 +1,6 @@
 from celery import Celery
 from flask_admin import Admin
+from flask_alchemydumps import AlchemyDumps
 from flask_bcrypt import Bcrypt
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
@@ -12,6 +13,7 @@ from project.common.tricoma_client import TricomaClient
 # instantiate the extensions
 login_manager = LoginManager()
 bcrypt = Bcrypt()
+alchemydumps = AlchemyDumps()
 toolbar = DebugToolbarExtension()
 db = SQLAlchemy()
 celery = Celery()

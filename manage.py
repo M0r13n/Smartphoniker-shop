@@ -7,6 +7,7 @@ from pathlib import Path
 import click
 import coverage
 from flask.cli import FlaskGroup
+from flask_alchemydumps.cli import alchemydumps
 
 from project.server.app import create_app, db
 from project.server.models import User, Shop, Customer, Manufacturer, Repair, Image, DeviceSeries
@@ -14,6 +15,9 @@ from project.server.models.device import Color, Device
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
+
+# Sub groups
+cli.add_command(alchemydumps)
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, "project")
@@ -173,7 +177,6 @@ def start_worker(loglevel):
 def test():
     """Runs the unit tests without test coverage."""
     import pytest
-    print(TEST_PATH)
     rv = pytest.main([TEST_PATH, "--verbose"])
     sys.exit(rv)
 

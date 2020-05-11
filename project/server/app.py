@@ -5,7 +5,7 @@ import os
 
 from flask import Flask, render_template
 
-from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api
+from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api, alchemydumps
 
 
 def create_app(script_info=None):
@@ -64,6 +64,7 @@ def init_extensions(app):
     init_admin(app)
     init_login(app)
     init_celery(app)
+    alchemydumps.init_app(app, db)
 
 
 def init_login(app):
