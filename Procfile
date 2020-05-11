@@ -1,3 +1,3 @@
 web: python wsgi.py
 #worker: celery worker -A price_picker.celery_app:app
-postdeploy: python manage.py dev-db && python manage.py load-svg
+#postdeploy: python manage.py dev-db && python manage.py load-svg
