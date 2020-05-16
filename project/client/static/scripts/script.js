@@ -22,15 +22,27 @@ const toInt = (str) => {
 };
 
 /**
+ * Shorthand for document.getElementById()
+ * 
+ * @param str
+ * @returns {object}
+ */
+function $(id) {
+    return document.getElementById(id);
+};
+
+/**
  * Search Funtion.
  *
  * TODO: For stuff like this it is nicer to use a URL query string instead of an url.
  */
 function appendURL() {
-    let input = document.getElementById("Search");
+    const origin = window.location.origin;
+    let url = new URLSearchParams(origin + "/search/");
+    let input = $("Search");
     if (input.value.length === 0) return;
-    input = input.value.split(" ").join("$");
-    window.location.href = "/search/" + input + "/"
+    url.searchParams.append("search", input);
+    window.location.href = url;
 }
 
 /**
@@ -48,49 +60,59 @@ function show(elem) {
 }
 
 /**
- * WTF is this mess?
- * TODO: This method is way to complex and unreadable. Rewrite it.
+ * Returns plain text in html object
+ * 
+ * @param object
+ * @param string
+ * 
+ * @returns {string}
+ */
+const extractPlainText = (htmlObject, query = false) => {
+    let toBeSearched = query ? htmlObject.querySelectorAll(query)[0] : htmlObject;
+    return toBeSearched.textContent.toLowerCase() || toBeSearched.innerText.toLowerCase() || "";
+}
+
+/**
+ * WTF is this mess? I don't know either...
+ * 
  */
 function filterFunction() {
-    const input = document.getElementById("Search"),
-        filter = input.value.toUpperCase(),
-        questionList = document.getElementById("FaqList"),
-        questionHeadings = questionList.getElementsByClassName("faq__subheading");
+    const input = $("Search").value.toLowerCase();
+    const questionHeadings = $("FaqList").getElementsByClassName("faq__subheading");
 
-    let li, a, txtValue, div, txtValuediv;
+    let question;
+    let answer;
 
     for (const heading of questionHeadings) {
-        input.value.length > 0 ? hide(heading) : show(heading);
-    }
+        input.length > 0 ? hide(heading) : show(heading);
+    }  
 
-    li = questionList.querySelectorAll("li.faq__item");
-    li.forEach((l) => {
-        a = l.getElementsByTagName("span")[0];
-        div = l.getElementsByTagName("div")[0];
-        txtValue = a.textContent || a.innerText;
-        txtValuediv = div.innerHTML;
-        if ((txtValue.toUpperCase().indexOf(filter) > -1) ||
-            (txtValuediv.toUpperCase().indexOf(filter) > -1)) {
-            show(l);
+    let list = $("FaqList").querySelectorAll("li.faq__item");
+    for (const item of list) {
+        question = extractPlainText(item, "span.faq__question");
+        answer = extractPlainText(item, "div.faq__answer");
+
+        if ((question.indexOf(input) > -1) || (answer.indexOf(input) > -1)) {
+            show(item);
         } else {
-            hide(l);
+            hide(item);
         }
-    });
+    }
 }
 
 const radioJS = () => {
     const radios = document.getElementsByName('color');
-    document.getElementById("menu").addEventListener("click", () => {
-        document.getElementById("nav").classList.toggle("header__list--in")
+    $("menu").addEventListener("click", () => {
+        $("nav").classList.toggle("header__list--in")
     }, false);
 
     for (const radio of radios) {
         if (radio.checked) {
-            document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radio.value.replace("_", " ")
+            $("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radio.value.replace("_", " ")
         }
         radio.addEventListener("change", () => {
             if (this.checked) {
-                document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + this.value.replace("_", " ")
+                $("ColorName").innerHTML = "Aktuelle Farbauswahl: " + this.value.replace("_", " ")
             }
         }, false)
 
@@ -98,14 +120,14 @@ const radioJS = () => {
 };
 
 const faqJS = () => {
-    document.getElementById("Search").addEventListener("keyup", () => {
+    $("Search").addEventListener("keyup", () => {
         filterFunction()
     }, false);
 
     const params = getURLSearchParams(),
         questionID = toInt(params.get('q')),
-        questions = document.getElementById("FaqList").getElementsByClassName("faq__item"),
-        questionTitles = document.getElementById("FaqList").getElementsByTagName("h3");
+        questions = $("FaqList").getElementsByClassName("faq__item"),
+        questionTitles = $("FaqList").getElementsByTagName("h3");
 
     let i = 0;
     for (const question of questions) {
@@ -128,10 +150,10 @@ const faqJS = () => {
 };
 
 const searchJS = () => {
-    document.getElementById("Submit").addEventListener("click", () => {
+    $("Submit").addEventListener("click", () => {
         appendURL()
     }, false);
-    document.getElementById("Search").addEventListener("keypress", (e) => {
+    $("Search").addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
             appendURL()
         }

@@ -1011,7 +1011,7 @@ footer {
         transition: max-height .7s ease-in-out;
     }
 
-    &__link {
+    &__question {
         @include font(light);
         @include color(dark);
         display: block;

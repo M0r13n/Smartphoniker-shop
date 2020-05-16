@@ -1024,7 +1024,7 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   transition: max-height .7s ease-in-out;
 }
 
-.faq__link {
+.faq__question {
   font-weight: 300;
   color: #424242;
   display: block;
@@ -1035,12 +1035,12 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 }
 
 @media screen and (min-width: 650px) {
-  .faq__link {
+  .faq__question {
     max-width: 95%;
   }
 }
 
-.faq__link:hover {
+.faq__question:hover {
   color: black;
 }
 
