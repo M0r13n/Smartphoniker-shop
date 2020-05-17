@@ -38,13 +38,13 @@
             <div class="grid__content grid__content--repair">
                 {% for repair_id, repair in repair_form.repairs.choices %}
                     <div class="grid__item grid__item--repair">
-                        <input id="{{ repair.name.replace(' ', '_') }}" class="grid__input" type="checkbox" name="repair">
+                        <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair.price }}" class="grid__input" type="checkbox" name="repair">
                         <label class="grid__link" for="{{ repair.name.replace(' ', '_') }}">
                             <div class="grid__title">{{ repair.name }}</div>
                             {% if repair.image %}
                                 <img class="grid__image grid__image--repair" src="{{ repair.get_image_path() }}" alt=" auswählen">
                             {% endif %}
-                            <div class="grid__price">{{ repair.price }} EUR</div>
+                            <div class="grid__price"><span class="repairPrice">{{ repair.price }}</span> EUR</div>
                             <div class="grid__button" type="button"></div>
                         </label>
                     </div>
@@ -69,7 +69,7 @@
     <div class="container container--fixed">
         <div class="price">
             <div class="price__content">
-                <span class="price__text">320 EUR <sub class="price__sub">inkl. MwSt.</sub></span>
+                <span class="price__text"><span id="Total">0</span> EUR <sub class="price__sub">inkl. MwSt.</sub></span>
                 <button class="price__button" type="submit">Weiter</button>
             </div>
         </div>
