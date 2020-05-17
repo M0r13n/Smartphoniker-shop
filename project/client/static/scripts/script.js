@@ -23,7 +23,6 @@ const toInt = (str) => {
 
 /**
  * Shorthand for document.getElementById()
- * 
  * @param str
  * @returns {object}
  */
@@ -34,7 +33,6 @@ function $(id) {
 /**
  * Search Funtion.
  *
- * TODO: For stuff like this it is nicer to use a URL query string instead of an url.
  */
 function appendURL() {
     const origin = window.location.origin;
@@ -61,10 +59,8 @@ function show(elem) {
 
 /**
  * Returns plain text in html object
- * 
  * @param object
  * @param string
- * 
  * @returns {string}
  */
 const extractPlainText = (htmlObject, query = false) => {
@@ -73,8 +69,7 @@ const extractPlainText = (htmlObject, query = false) => {
 }
 
 /**
- * WTF is this mess? I don't know either...
- * 
+ * filters Questions and Answers on the FAQ Page
  */
 function filterFunction() {
     const input = $("Search").value.toLowerCase();
