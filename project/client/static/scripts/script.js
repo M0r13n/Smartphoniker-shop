@@ -22,96 +22,97 @@ const toInt = (str) => {
 };
 
 /**
- * Search Funtion.
- *
- * TODO: For stuff like this it is nicer to use a URL query string instead of an url.
+ * Shorthand for document.getElementById()
+ * @param str
+ * @returns {object}
  */
-function appendURL() {
-    let input = document.getElementById("Search");
+function $(id) {
+    return document.getElementById(id);
+};
+
+/**
+ * Search Funtion.
+ * @param {string}
+ */
+function appendURL(path = '/search/') {
+    const origin = window.location.origin;
+    let url = new URLSearchParams(origin + path);
+    let input = $('Search');
     if (input.value.length === 0) return;
-    input = input.value.split(" ").join("$");
-    window.location.href = "/search/" + input + "/"
+    url.searchParams.append('search', input);
+    window.location.href = url;
 }
 
 /**
  * Hide a given element by setting it's display attr to none.
  */
 function hide(elem) {
-    elem.style.display = "none"
+    elem.style.display = 'none'
 }
 
 /**
  * Show a given element by setting it's display attr.
  */
 function show(elem) {
-    elem.style.display = "";
+    elem.style.display = '';
 }
 
 /**
- * WTF is this mess?
- * TODO: This method is way to complex and unreadable. Rewrite it.
+ * Returns plain text in html object
+ * @param object
+ * @param string
+ * @returns {string}
  */
-function filterFunction() {
-    const input = document.getElementById("Search"),
-        filter = input.value.toUpperCase(),
-        questionList = document.getElementById("FaqList"),
-        questionHeadings = questionList.getElementsByClassName("faq__subheading");
-
-    let li, a, txtValue, div, txtValuediv;
-
-    for (const heading of questionHeadings) {
-        input.value.length > 0 ? hide(heading) : show(heading);
-    }
-
-    li = questionList.querySelectorAll("li.faq__item");
-    li.forEach((l) => {
-        a = l.getElementsByTagName("span")[0];
-        div = l.getElementsByTagName("div")[0];
-        txtValue = a.textContent || a.innerText;
-        txtValuediv = div.innerHTML;
-        if ((txtValue.toUpperCase().indexOf(filter) > -1) ||
-            (txtValuediv.toUpperCase().indexOf(filter) > -1)) {
-            show(l);
-        } else {
-            hide(l);
-        }
-    });
+const extractPlainText = (htmlObject, query = false) => {
+    let toBeSearched = query ? htmlObject.querySelectorAll(query)[0] : htmlObject;
+    return toBeSearched.textContent.toLowerCase() || toBeSearched.innerText.toLowerCase() || '';
 }
 
-const radioJS = () => {
-    const radios = document.getElementsByName('color');
-    document.getElementById("menu").addEventListener("click", () => {
-        document.getElementById("nav").classList.toggle("header__list--in")
-    }, false);
+/**
+ * filters Questions and Answers on the FAQ Page
+ */
+function filterFunction() {
+    const input = $('Search').value.toLowerCase();
+    const questionHeadings = $('FaqList').getElementsByClassName('faq__subheading');
 
-    for (const radio of radios) {
-        if (radio.checked) {
-            document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radio.value.replace("_", " ")
+    let question;
+    let answer;
+
+    for (const heading of questionHeadings) {
+        input.length > 0 ? hide(heading) : show(heading);
+    }  
+
+    let list = $('FaqList').querySelectorAll('li.faq__item');
+    for (const item of list) {
+        question = extractPlainText(item, 'span.faq__question');
+        answer = extractPlainText(item, 'div.faq__answer');
+
+        if ((question.indexOf(input) > -1) || (answer.indexOf(input) > -1)) {
+            show(item);
+        } else {
+            hide(item);
         }
-        radio.addEventListener("change", () => {
-            if (this.checked) {
-                document.getElementById("ColorName").innerHTML = "Aktuelle Farbauswahl: " + this.value.replace("_", " ")
-            }
-        }, false)
-
     }
-};
+}
 
+/**
+ * filters questions with user-input 
+ */
 const faqJS = () => {
-    document.getElementById("Search").addEventListener("keyup", () => {
+    $('Search').addEventListener('keyup', () => {
         filterFunction()
     }, false);
 
     const params = getURLSearchParams(),
         questionID = toInt(params.get('q')),
-        questions = document.getElementById("FaqList").getElementsByClassName("faq__item"),
-        questionTitles = document.getElementById("FaqList").getElementsByTagName("h3");
+        questions = $('FaqList').getElementsByClassName('faq__item'),
+        questionTitles = $('FaqList').getElementsByTagName('h3');
 
     let i = 0;
     for (const question of questions) {
         i++;
-        question.addEventListener("click", () => {
-            question.classList.toggle("collapsed")
+        question.addEventListener('click', () => {
+            question.classList.toggle('collapsed')
         }, false);
 
         if (questionID > 0) {
@@ -122,29 +123,105 @@ const faqJS = () => {
                 hide(title);
             }
             show(question);
-            question.classList.toggle("collapsed");
+            question.classList.toggle('collapsed');
         }
     }
 };
 
+/**
+ * eventlisteners for device-search 
+ */
 const searchJS = () => {
-    document.getElementById("Submit").addEventListener("click", () => {
+    $('Submit').addEventListener('click', () => {
         appendURL()
     }, false);
-    document.getElementById("Search").addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
+    $('Search').addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
             appendURL()
         }
     }, false);
 };
 
-/* Register event listeners */
-radioJS();
-
-if (window.location.pathname === "/faq") {
-    faqJS();
-} else if (window.location.pathname === "/manufacturers") {
-    searchJS();
+/**
+ * returns array of values of elements selected by a css query
+ * @param {string}
+ * @returns {Array}
+ */
+const getValues = (selector) => {
+    var elements = document.querySelectorAll(selector);
+    return [].map.call(elements, el => toInt(el.value));
 }
 
+/**
+ * calculate total on modell.html 
+ */
+const totalJS = () => {
+    const repairs = document.getElementsByName('repair');
 
+    const calculateSum = () => {
+        let checkedRepairPrices = getValues('input[name="repair"]:checked');
+
+        if (checkedRepairPrices.length > 1) {
+            let cheapest = Math.min(...checkedRepairPrices);
+            let preDiscount = checkedRepairPrices.reduce((sum, x) => sum + x);
+            let total = preDiscount - cheapest + (cheapest * 0.8);
+            $('Total').innerHTML = '<s>' + toInt(preDiscount) + '</s> ' + toInt(total);
+        } else {
+            $('Total').innerHTML = checkedRepairPrices[0] ?? 0;
+        }
+    }
+    
+    for (const repair of repairs) {
+        repair.addEventListener('change', () => {
+            calculateSum()
+        }, false);
+    }
+}
+
+/**
+ * register EventListeners for Colors on modell.html 
+ */
+const colorJS = () => {
+    const radios = document.getElementsByName('color');
+
+    for (const radio of radios) {
+        if (radio.checked) {
+            $('ColorName').innerHTML = 'Aktuelle Farbauswahl: ' + radio.id.replace('_', ' ')
+        }
+        radio.addEventListener('change', () => {
+            if (radio.checked) {
+                $('ColorName').innerHTML = 'Aktuelle Farbauswahl: ' + radio.id.replace('_', ' ')
+            }
+        }, false);
+    }
+}
+
+const main = () => {
+    /* mobile Navigation */
+    $('menu').addEventListener('click', () => {
+        $('nav').classList.toggle('header__list--in')
+    }, false);
+
+    /* I know that switch statements have bad stigma, 
+     * but I think they have great readability & are more maintanable
+     * and the default case makes sense here
+     */
+    switch (window.location.pathname) {
+        case '/faq':
+            faqJS();
+            break;
+
+        case '/shop':
+        case '/search':
+            searchJS();
+            break;
+
+        default:
+            colorJS();
+            totalJS();
+            break;
+    }
+};
+
+
+main();

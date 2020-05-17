@@ -14,7 +14,6 @@
         <section class="color" id="Color">
             <h2 class="color__heading">Farbe wählen</h2>
             <div class="color__content">
-                {# TODO: Das lösen wir besser mit einem Select und nicht mit so komischen custom Quatsch #}
                 {% for color_id, color in repair_form.color.choices %}
                 <span class="color__item">
                     <input class="color__input" id="{{ color.name.replace(' ', '_') }}" name="color" value="{{ color_id }}" type="radio" checked>
@@ -36,17 +35,16 @@
     <div class="container container--small">
         <section class="grid">
             <h2 class="grid__heading">Defekt wählen</h2>
-            {# TODO: Das lösen wir besser mit einem SelectMultiple anstatt so einem Custom Quark #}
             <div class="grid__content grid__content--repair">
                 {% for repair_id, repair in repair_form.repairs.choices %}
                     <div class="grid__item grid__item--repair">
-                        <input id="{{ repair.name.replace(' ', '_') }}" class="grid__input" type="checkbox" name="repair">
+                        <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair.price }}" class="grid__input" type="checkbox" name="repair">
                         <label class="grid__link" for="{{ repair.name.replace(' ', '_') }}">
                             <div class="grid__title">{{ repair.name }}</div>
                             {% if repair.image %}
                                 <img class="grid__image grid__image--repair" src="{{ repair.get_image_path() }}" alt=" auswählen">
                             {% endif %}
-                            <div class="grid__price">{{ repair.price }} EUR</div>
+                            <div class="grid__price"><span class="repairPrice">{{ repair.price }}</span> EUR</div>
                             <div class="grid__button" type="button"></div>
                         </label>
                     </div>
@@ -61,10 +59,9 @@
 
     <div class="container container--small">
         <section class="form">
-            <h2 class="form__heading">Problembeschreibung</h2>
-            {#  TODO: Hier fehlt 1 Label und eine ID #}
+            <h2 class="form__heading"><label for="Description">Problembeschreibung</label></h2>
             <div class="form__content">
-                <textarea class="form__textarea" name="problembeschreibung" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich"></textarea>
+                <textarea id="Description" class="form__textarea" name="problembeschreibung" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich"></textarea>
             </div>
         </section>
     </div>
@@ -72,7 +69,7 @@
     <div class="container container--fixed">
         <div class="price">
             <div class="price__content">
-                <span class="price__text">320 EUR <sub class="price__sub">inkl. MwSt.</sub></span>
+                <span class="price__text"><span id="Total">0</span> EUR <sub class="price__sub">inkl. MwSt.</sub></span>
                 <button class="price__button" type="submit">Weiter</button>
             </div>
         </div>
