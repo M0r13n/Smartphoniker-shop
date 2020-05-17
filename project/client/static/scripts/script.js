@@ -32,11 +32,11 @@ function $(id) {
 
 /**
  * Search Funtion.
- *
+ * @param {string}
  */
-function appendURL() {
+function appendURL(path = "/search/") {
     const origin = window.location.origin;
-    let url = new URLSearchParams(origin + "/search/");
+    let url = new URLSearchParams(origin + path);
     let input = $("Search");
     if (input.value.length === 0) return;
     url.searchParams.append("search", input);
@@ -95,25 +95,9 @@ function filterFunction() {
     }
 }
 
-const radioJS = () => {
-    const radios = document.getElementsByName('color');
-    $("menu").addEventListener("click", () => {
-        $("nav").classList.toggle("header__list--in")
-    }, false);
-
-    for (const radio of radios) {
-        if (radio.checked) {
-            $("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radio.value.replace("_", " ")
-        }
-        radio.addEventListener("change", () => {
-            if (this.checked) {
-                $("ColorName").innerHTML = "Aktuelle Farbauswahl: " + this.value.replace("_", " ")
-            }
-        }, false)
-
-    }
-};
-
+/**
+ * filters questions with user-input 
+ */
 const faqJS = () => {
     $("Search").addEventListener("keyup", () => {
         filterFunction()
@@ -144,6 +128,9 @@ const faqJS = () => {
     }
 };
 
+/**
+ * eventlisteners for device-search 
+ */
 const searchJS = () => {
     $("Submit").addEventListener("click", () => {
         appendURL()
@@ -155,13 +142,57 @@ const searchJS = () => {
     }, false);
 };
 
-/* Register event listeners */
-radioJS();
+/**
+ * calculate total on modell.html 
+ */
+const totalJS = () => {
 
-if (window.location.pathname === "/faq") {
-    faqJS();
-} else if (window.location.pathname === "/manufacturers") {
-    searchJS();
 }
 
+/**
+ * register EventListeners for Colors on modell.html 
+ */
+const colorJS = () => {
+    const radios = document.getElementsByName('color');
 
+    for (const radio of radios) {
+        if (radio.checked) {
+            $("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radio.id.replace("_", " ")
+        }
+        radio.addEventListener("change", () => {
+            if (radio.checked) {
+                $("ColorName").innerHTML = "Aktuelle Farbauswahl: " + radio.id.replace("_", " ")
+            }
+        }, false)
+    }
+}
+
+const main = () => {
+    /* mobile Navigation */
+    $("menu").addEventListener("click", () => {
+        $("nav").classList.toggle("header__list--in")
+    }, false);
+
+    /* I know that switch statements have bad performance, 
+     * but I think they have great readability and the 
+     * default option makes sense in this case
+     */
+    switch (window.location.pathname) {
+        case "/faq":
+            faqJS();
+            break;
+
+        case "/shop":
+        case "/search":
+            searchJS();
+            break;
+
+        default:
+            colorJS();
+            totalJS();
+            break;
+    }
+};
+
+
+main();
