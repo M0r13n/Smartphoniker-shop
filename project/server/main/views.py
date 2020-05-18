@@ -49,7 +49,7 @@ def all_devices_of_series(manufacturer_name, series_name):
     return render_template("main/devices.html", devices=_series.devices, manufacturer=manufacturer_name, series=series_name)
 
 
-@main_blueprint.route("/<string:manufacturer_name>/<string:series_name>/<string:device_name>/")
+@main_blueprint.route("/<string:manufacturer_name>/<string:series_name>/<string:device_name>/", methods=['GET', 'POST'])
 def model(manufacturer_name, series_name, device_name):
     """ Returns the chosen device """
     _manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
@@ -59,6 +59,8 @@ def model(manufacturer_name, series_name, device_name):
         abort(404)
 
     repair_form = SelectRepairForm(_device)
+    if repair_form.validate_on_submit():
+        print("SUCCESS", repair_form.color.data, repair_form.repairs.data, repair_form.problem_description.data)
     return render_template("main/modell.html", device=_device, repair_form=repair_form)
 
 

@@ -5,11 +5,13 @@ from wtforms.validators import DataRequired, Optional
 
 class SelectRepairForm(FlaskForm):
     color = SelectField(
-        validators=[DataRequired()]
+        validators=[DataRequired()],
+        coerce=int
     )
 
     repairs = SelectMultipleField(
-        validators=[DataRequired()]
+        validators=[DataRequired()],
+        coerce=int
     )
 
     problem_description = TextAreaField(
@@ -20,4 +22,3 @@ class SelectRepairForm(FlaskForm):
         super().__init__(*args, **kwargs)
         self.color.choices = [(color.id, color) for color in device.colors]
         self.repairs.choices = [(repair.id, repair) for repair in device.repairs]
-        self.process()
