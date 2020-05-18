@@ -10,7 +10,8 @@ $colors: (
     medium: rgb(138, 138, 138),
     light: #D8D8D8,
     b: black,
-    w: white
+    w: white,
+    error: rgba(255, 0, 0, 0.201)
 );
 
 $fonts: (
@@ -151,9 +152,12 @@ h1, h2, h3, p {
 
 .checkboxhack {
     position: absolute;
-    left: -9999px;
+    opacity: 0;
 } // done
 
+.error {
+    @include color(error, true);
+}
 
 // -----------------------------------------------
 // -------------  Switcher Classes ---------------
@@ -1343,6 +1347,17 @@ footer {
             border: 3px solid map-get($map: $colors, $key: primary);
             outline: none;
             padding: calc(.8em - 2px) calc(1.6em - 2px);
+        }
+    }
+
+    &__error {
+        @include color(red);
+        @include font(medium);
+        margin-top: 0;
+        margin-bottom: calc(2em * .85 * .5);
+
+        &--center {
+            text-align: center;
         }
     }
 } // done

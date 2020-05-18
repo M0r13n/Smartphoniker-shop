@@ -149,17 +149,17 @@ const searchJS = () => {
  */
 const getPrices = (selector) => {
     const elements = document.querySelectorAll(selector);
-    return [].map.call(elements, el => toInt(el.getAttribute("data-price")));
+    return [].map.call(elements, el => toInt(el.getAttribute('data-price')));
 }
 
 /**
  * calculate total on modell.html 
  */
 const totalJS = () => {
-    const repairs = document.getElementsByName('repair');
+    const repairs = document.getElementsByName('repairs');
 
     const calculateSum = () => {
-        let checkedRepairPrices = getPrices('input[name="repair"]:checked');
+        let checkedRepairPrices = getPrices('input[name="repairs"]:checked');
 
         if (checkedRepairPrices.length > 1) {
             let cheapest = Math.min(...checkedRepairPrices);
@@ -196,6 +196,10 @@ const colorJS = () => {
     }
 }
 
+const validateModellForm = () => {
+    // TODO: just get it done simple, no bs
+}
+
 const main = () => {
     /* mobile Navigation */
     $('menu').addEventListener('click', () => {
@@ -219,6 +223,7 @@ const main = () => {
         default:
             colorJS();
             totalJS();
+            validateModellForm();
             break;
     }
 };

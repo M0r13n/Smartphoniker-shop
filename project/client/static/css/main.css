@@ -115,7 +115,11 @@ h1, h2, h3, p {
 
 .checkboxhack, .grid__input, .color__input, .order__input {
   position: absolute;
-  left: -9999px;
+  opacity: 0;
+}
+
+.error {
+  background-color: rgba(255, 0, 0, 0.201);
 }
 
 .hide-mobile {
@@ -1362,6 +1366,15 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   border: 3px solid #FF6C00;
   outline: none;
   padding: calc(.8em - 2px) calc(1.6em - 2px);
+}
+
+.form__error {
+  margin-top: 0;
+  margin-bottom: calc(2em * .85 * .5);
+}
+
+.form__error--center {
+  text-align: center;
 }
 
 .price__content {
