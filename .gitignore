@@ -40,4 +40,5 @@ tests/test-reports-*/*
 .mypy_cache/
 profiling_results
 .DS_Store/
+.DS_Store*
 alchemydumps-backup/*
