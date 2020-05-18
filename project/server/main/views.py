@@ -96,6 +96,24 @@ def search(device_name):
     return render_template('main/search.html', devices=found_devices)
 
 
+@main_blueprint.route("/order")
+def order():
+    """ Render overview on customer data """
+    return render_template('main/order.html')
+
+
+@main_blueprint.route("/customer")
+def customer():
+    """ Render Form for Customer Contact Data """
+    return render_template('main/customer.html')
+
+
+@main_blueprint.route("/success")
+def success():
+    """ Render successful order page """
+    return render_template('main/success.html')
+
+
 @main_blueprint.route("/api/search/<string:device_name>/")
 def search_api(device_name):
     """

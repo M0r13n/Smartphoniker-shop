@@ -1,0 +1,89 @@
+{% extends "_base.html" %}
+{% block content %}
+<form>
+    <div class="container container--small">
+        <section class="hero hero--nocontent">
+            <h1 class="hero__heading">Ihre Kontaktdaten</h1>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="customer">
+            <h2 class="customer__heading">Persönliche Daten</h2>
+            <div class="customer__content">
+                <div class="customer__inputs">
+                    <div class="customer__inputwrapper">
+                        <label for="FirstName" class="customer__label">Vorname<sup>*</sup></label>
+                        <input id="FirstName" class="customer__input" type="text">
+                    </div>
+                    <div class="customer__inputwrapper">
+                        <label for="LastName" class="customer__label">Nachname<sup>*</sup></label>
+                        <input id="LastName" class="customer__input" type="text">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
+
+    <div class="container container--small">
+        <section class="customer">
+            <h2 class="customer__heading">Ihre Adresse</h2>
+            <div class="customer__content">
+                <div class="customer__inputs">
+                    <div class="customer__inputwrapper customer__inputwrapper--full">
+                        <label for="Street" class="customer__label">Straße und Hausnummer<sup>*</sup></label>
+                        <input id="Street" class="customer__input" type="text">
+                    </div>
+                    <div class="customer__inputwrapper customer__inputwrapper--small">
+                        <label for="ZipCode" class="customer__label">PLZ<sup>*</sup></label>
+                        <input id="ZipCode" class="customer__input" type="text">
+                    </div>
+                    <div class="customer__inputwrapper">
+                        <label for="City" class="customer__label">Ort<sup>*</sup></label>
+                        <input id="City" class="customer__input" type="text">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
+
+    <div class="container container--small">
+        <section class="customer">
+            <h2 class="customer__heading">Wie können wir Sie erreichen?</h2>
+            <div class="customer__content customer__content--infosection">
+                <div class="customer__inputs">
+                    <div class="customer__inputwrapper">
+                        <label for="Mail" class="customer__label">E-Mail Adresse<sup>*</sup></label>
+                        <input id="Mail" class="customer__input" type="text">
+                    </div>
+                    <div class="customer__inputwrapper">
+                        <label for="Phone" class="customer__label">Telefonnummer <sup>(optional)</sup></label>
+                        <input id="Phone" class="customer__input" type="text">
+                    </div>
+                    <div class="customer__inputwrapper customer__inputwrapper--small">
+                        <label for="CustomerId" class="customer__label">Kundennummer <sup>(optional)</sup></label>
+                        <input id="CustomerId" class="customer__input" type="text">
+                    </div>
+                    <div class="customer__buttonwrapper">
+                        <button class="customer__button">Zur Bestellübersicht</button>
+                    </div>
+                </div>
+                <div class="customer__infowrapper">
+                    <p class="customer__text"><sup>*</sup> = Feld ist erforderlich</p>
+                    <p class="customer__text">Ihre Adresse und Ihre Kontaktdaten werden einerseits zur Identifikation und Zuordnung verwendet und andererseits um Rückfragen für Sie möglichst bequem zu gestalten. </p>
+                    <p class="customer__text">Über Ihre Mail-Adresse erhalten Sie zudem laufende Informationen zum Status Ihrer Reparatur.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</form>
+{% endblock %}

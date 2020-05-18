@@ -132,6 +132,7 @@ h1, h2, h3, p {
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 2px;
 
     &:hover {
         transform: scale(0.95);
@@ -653,6 +654,7 @@ footer {
         cursor: pointer;
         position: relative;
         text-align: center;
+        border-radius: 2px;
 
         &:hover {
             transform: scale(0.99);
@@ -768,6 +770,7 @@ footer {
         width: 100%;
         cursor: pointer;
         transition: transform .2s ease;
+        border-radius: 2px;
 
         &:hover {
             transform: scale(0.99);
@@ -950,6 +953,7 @@ footer {
         font-family: Roboto, sans-serif;
         font-size: 1em;
         border: 1px solid map-get($map: $colors, $key: primary);
+        border-radius: 2px;
     
         &:focus {
             outline: none;
@@ -1095,7 +1099,7 @@ footer {
 
     &__item {
         @include shadow(.16);
-        
+        border-radius: 2px;
         height: 140px;
         transition: transform .3s ease, color .2s ease;
 
@@ -1301,7 +1305,7 @@ footer {
         @extend .checkboxhack;
 
         &:checked ~ label.color__label {
-            border-color: map-get($map: $colors, $key: b);
+            border-color: map-get($map: $colors, $key: primary);
         }
     }
 
@@ -1371,3 +1375,413 @@ footer {
         padding: .4em 3em;
     }
 } // done
+
+
+// -----------------------------------------------
+// ------------------  Order   -------------------
+// -----------------------------------------------
+
+.order {
+    @extend .section;
+
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__subheading {
+        @extend .subsubheading;
+
+        &--question {
+            font-size: 1em;
+
+            @media screen and (min-width: $large) {
+                min-height: 2.6em;
+            }
+        }
+    }
+
+    &__content {
+        @extend .content;
+
+        &--deviceinfo {
+            @include flex(flex-start);
+        }
+
+        &--address {
+            @include flex(flex-start);
+            flex-direction: column;
+            flex-wrap: wrap;
+
+            @media screen and (min-width: $medium) {
+                flex-direction: row;
+            }
+        }
+
+        &--questions {
+
+            @media screen and (min-width: $large) {
+                @include flex(space-between);
+            }       
+        }
+    }
+
+    &__image {
+        @include shadow(0.26);
+        width: 150px;
+        height: 150px;
+        margin-right: 2em;
+
+        @media screen and (min-width: $large) {
+            width: 250px;
+            height: 250px;
+        }
+    }
+
+    &__deviceinfo {
+        // ...
+    }
+
+    &__devicename {
+        @extend .subsubheading;
+    }
+
+    &__colorname {
+        @include font(light);
+        @include color(medium);
+        margin: 1em 0;
+    }
+
+    &__color {
+        @extend .color__label;
+        @include color(b, true);
+        margin-left: 1em;
+    }
+
+    &__list {
+        margin: 0;
+        padding: 0;
+
+        &--total {
+
+            @media screen and (min-width: $medium) {
+                max-width: 50%;
+                margin: 0 0 0 auto;
+            }   
+        }
+    }
+
+    &__item {
+        @include flex(space-between);
+
+        &:not(:last-child) {
+            margin-bottom: .4em;
+        }
+    }
+
+    &__text {
+        @include font(light);
+        @include color(dark);
+
+        &--taxes {
+            text-align: right;
+            font-size: -.9em;
+        }
+    }
+
+    &__textarea {
+        @extend .form__textarea;
+        width: calc(100% - 20px - 2em - 2px);
+        @include font(light);
+        @include color(dark);
+    }
+
+    &__address, &__contacts {
+        margin-bottom: 1em;
+        width: 50%;
+    }
+
+    &__shippinglabel {
+        display: block;
+        width: 100%;
+        margin-top: 1em;
+    }
+
+    &__input {
+        @extend .checkboxhack;
+
+        &:checked ~ label.order__label span.order__checkbox span.order__innercheckbox {
+            @include color(primary, true);
+            display: inline-block;
+            width: 90%;
+            height: 90%;
+            border-radius: 2px;
+        }
+    }
+
+    &__checkbox {
+        display: flex;
+        justify-content: center;
+        align-items: center; 
+        text-align: center;
+        min-width: 18px;
+        height: 18px;
+        border: 1px solid map-get($map: $colors, $key: medium);
+        border-radius: 2px;
+        margin-right: 1em;
+    }
+
+    &__label {
+        @include font(light);
+        display: flex;
+        align-content: center;
+    }
+
+    &__divider {
+        @extend .divider;
+
+        @media screen and (min-width: $xlarge) {
+            width: 25%;
+            margin: 0 0 0 auto;
+        }
+    }
+
+    &__total {
+        @include font(bold);
+        font-size: 1.1em;
+        text-align: right;
+        margin-top: .5em;
+    }
+
+    &__buttons {
+        margin-top: 2em;
+        width: 100%;
+
+        @media screen and (min-width: $medium) {
+            max-width: 330px;
+            margin: 1.5em 0 0 auto;
+        }
+    }
+
+    &__button {
+        @extend .cta;
+        border: none;
+        height: 40px;
+        width: 100%;
+        
+        &:not(:last-of-type) {
+            margin-bottom: 1em;
+        }
+
+        &--primary {
+            @include font(bold);
+            font-size: 1.2em;
+        }
+
+        &--secondary {
+            @include color(medium, true);
+            font-size: 1em;
+        }
+    }
+
+    &__link {
+        @include color(primary);
+        word-wrap: break-word;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    &__question {
+        
+        &:not(:first-of-type) {
+            margin-top: 1em;
+        }
+
+        @media screen and (min-width: $large) {
+            width: 30%;
+            margin-top: 0 !important;
+        }
+    }
+}
+
+
+// -----------------------------------------------
+// -----------------  Customer  ------------------
+// -----------------------------------------------
+
+
+.customer {
+    @extend .section;
+
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__content {
+        @extend .content;
+
+        &--infosection {
+
+            @media screen and (min-width: $xlarge) {
+                @include flex(space-between)
+            }
+        }
+    }
+
+    &__inputs {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+
+
+        @media screen and (min-width: $xlarge) {
+            max-width: 60%;
+        }
+    }
+
+    &__inputwrapper {
+        width: 100%;
+        display: inline-block;
+
+        &:not(:last-of-type) {
+            margin-bottom: 1em;
+        }
+
+        @media screen and (min-width: $small-medium) {
+            max-width: 49%;
+
+            &--full {
+                max-width: 100%;
+            }
+        }    
+    }
+
+    & sup {
+        @include color(primary);
+    }
+
+    &__input {
+        @include font(light);
+        display: block;
+        padding: .8em 1.6em;
+        width: calc(100% - 3.2em - 6px);
+        font-family: Roboto, sans-serif;
+        font-size: 1em;
+        border: 2px solid map-get($map: $colors, $key: light);
+        border-radius: 3px;
+
+        &:focus {
+            border: 2px solid map-get($map: $colors, $key: primary);
+            outline: none;
+        }
+    }
+
+    &__buttonwrapper {
+        width: 100%;
+    }
+
+    &__button {
+        @extend .cta;
+        @include font(bold);
+        border: none;
+        height: 40px;
+        width: 100%;
+        border-radius: 3px;
+
+        @media screen and (min-width: $small-medium) {
+            max-width: 48%;
+        }
+    }
+
+    &__infowrapper {
+        display: inline-block;
+        padding-top: 1em;
+        margin-top: 1em;
+
+        @media screen and (min-width: $xlarge) {
+            width: 36%;
+            margin-top: 0;
+        } 
+    }
+
+    &__text {
+        &:not(:last-of-type) {
+            margin-bottom: 1em;
+        }
+    }
+}
+
+
+// -----------------------------------------------
+// -----------------  Success  -------------------
+// -----------------------------------------------
+
+
+.success {
+    @extend .section;
+
+    &--card {
+        padding-top: 0;
+    }
+
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__content {
+        @extend .content;
+    }
+
+    &__text {
+        @include font(light);
+
+        &--card {
+            margin: 1em auto 1em;
+
+            @media screen and (min-width: $xxsmall) {
+                width: 65%;
+                margin: 0;
+                padding-top: 1em;
+            }
+        }
+    }
+
+    &__card {
+        @include shadow(0.26);
+        @include flex(space-between);
+        flex-wrap: wrap;
+        margin: 0 auto;
+        max-width: 500px;
+        padding: 1em;
+    }
+
+    &__image {
+        margin: 0 auto;
+        height: 100px;
+
+        @media screen and (min-width: $xxsmall) {
+            width: 25%;
+            margin-left: 0;
+        }
+        
+    }
+
+    &__button {
+        @extend .cta;
+        @include font(bold);
+        border: none;
+        width: 100%;
+        height: 40px;
+        margin-top: 1em;
+    }
+
+    &__link {
+        @include color(primary);
+        word-wrap: break-word;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}
