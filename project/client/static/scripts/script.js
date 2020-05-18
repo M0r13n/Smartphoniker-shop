@@ -156,10 +156,10 @@ const getPrices = (selector) => {
  * calculate total on modell.html 
  */
 const totalJS = () => {
-    const repairs = document.getElementsByName('repair');
+    const repairs = document.getElementsByName('repairs');
 
     const calculateSum = () => {
-        let checkedRepairPrices = getPrices('input[name="repair"]:checked');
+        let checkedRepairPrices = getPrices('input[name="repairs"]:checked');
 
         if (checkedRepairPrices.length > 1) {
             let cheapest = Math.min(...checkedRepairPrices);

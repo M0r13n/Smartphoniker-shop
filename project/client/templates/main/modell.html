@@ -46,7 +46,7 @@
                     {{ repair_form.repairs.errors }} {# TODO: @Tobi Du kannst auch pro Formfeld die Fehler abfragen: siehe Zeile unten.  Das gibt dir dann eine Liste zurück, dei du stylen kannst.#}
                     {% for repair_id, repair in repair_form.repairs.choices %}
                         <div class="grid__item grid__item--repair">
-                            <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair_id }}" class="grid__input" type="checkbox" name="{{ repair_form.repairs.name }}">
+                            <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair_id }}" class="grid__input" type="checkbox" data-price="{{ repair.price }}" name="{{ repair_form.repairs.name }}">
                             <label class="grid__link" for="{{ repair.name.replace(' ', '_') }}">
                                 <div class="grid__title">{{ repair.name }}</div>
                                 {% if repair.image %}
