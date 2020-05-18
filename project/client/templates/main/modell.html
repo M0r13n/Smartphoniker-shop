@@ -38,7 +38,7 @@
             <div class="grid__content grid__content--repair">
                 {% for repair_id, repair in repair_form.repairs.choices %}
                     <div class="grid__item grid__item--repair">
-                        <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair.price }}" class="grid__input" type="checkbox" name="repair">
+                        <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair.id }}" data-price="{{ repair.price }}" class="grid__input" type="checkbox" name="repair">
                         <label class="grid__link" for="{{ repair.name.replace(' ', '_') }}">
                             <div class="grid__title">{{ repair.name }}</div>
                             {% if repair.image %}

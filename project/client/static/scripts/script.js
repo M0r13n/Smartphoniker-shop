@@ -64,7 +64,7 @@ function show(elem) {
  * @returns {string}
  */
 const extractPlainText = (htmlObject, query = false) => {
-    let toBeSearched = query ? htmlObject.querySelectorAll(query)[0] : htmlObject;
+    const toBeSearched = query ? htmlObject.querySelectorAll(query)[0] : htmlObject;
     return toBeSearched.textContent.toLowerCase() || toBeSearched.innerText.toLowerCase() || '';
 }
 
@@ -147,9 +147,9 @@ const searchJS = () => {
  * @param {string}
  * @returns {Array}
  */
-const getValues = (selector) => {
-    var elements = document.querySelectorAll(selector);
-    return [].map.call(elements, el => toInt(el.value));
+const getPrices = (selector) => {
+    const elements = document.querySelectorAll(selector);
+    return [].map.call(elements, el => toInt(el.getAttribute("data-price")));
 }
 
 /**
@@ -159,7 +159,7 @@ const totalJS = () => {
     const repairs = document.getElementsByName('repair');
 
     const calculateSum = () => {
-        let checkedRepairPrices = getValues('input[name="repair"]:checked');
+        let checkedRepairPrices = getPrices('input[name="repair"]:checked');
 
         if (checkedRepairPrices.length > 1) {
             let cheapest = Math.min(...checkedRepairPrices);
