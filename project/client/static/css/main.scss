@@ -477,9 +477,10 @@ footer {
     &--fixed {
         @include color(medium, true);
         @include shadow(0.26);
-        position: fixed;
+        position: sticky;
         width: calc(100% - 36px);
         bottom: 0;
+        margin-bottom: 3em;
 
         @media screen and (min-width: $small) {
             width: calc(100% - 72px);
@@ -1384,7 +1385,11 @@ footer {
     &__text {
         @include color(w);
         @include font(regular);
-        font-size: 1.5em;
+        font-size: 1.2em;
+
+        @media screen and (min-width: $small-medium) {
+            font-size: 1.5em;
+        }
     }
 
     &__sub {
@@ -1395,7 +1400,15 @@ footer {
     &__button {
         @extend .cta;
         border: none;
-        padding: .4em 3em;
+        padding: .4em 1em;
+
+        @media screen and (min-width: $small-medium) {
+            padding: .4em 1.5em;
+        }
+
+        @media screen and (min-width: $small-medium) {
+            padding: .4em 3em;
+        }
     }
 } // done
 
