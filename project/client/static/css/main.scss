@@ -11,7 +11,8 @@ $colors: (
     light: #D8D8D8,
     b: black,
     w: white,
-    error: rgba(255, 0, 0, 0.201)
+    error-bg: rgba(255, 0, 0, 0.2),
+    error: red
 );
 
 $fonts: (
@@ -154,10 +155,6 @@ h1, h2, h3, p {
     position: absolute;
     opacity: 0;
 } // done
-
-.error {
-    @include color(error, true);
-}
 
 // -----------------------------------------------
 // -------------  Switcher Classes ---------------
@@ -1099,6 +1096,10 @@ footer {
         &--repair {
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
+
+        &--error {
+            display: block;
+        }
     }
 
     &__item {
@@ -1351,12 +1352,19 @@ footer {
     }
 
     &__error {
-        @include color(red);
+        @include color(error);
+        @include color(error-bg, true);
         @include font(medium);
         margin-top: 0;
         margin-bottom: calc(2em * .85 * .5);
+        padding: .5em 1em;
+        border: 1px solid map-get($map: $colors, $key: error);
+        border-radius: 2px;
+        display: none;
 
         &--center {
+            margin: 0 auto;
+            width: calc(100% - 20px - 2em);
             text-align: center;
         }
     }

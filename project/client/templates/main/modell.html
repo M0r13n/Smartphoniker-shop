@@ -1,6 +1,6 @@
 {% extends "_base.html" %}
 {% block content %}
-    <form action="#" method="POST">
+    <form action="#" method="POST" novalidate>
         {{ repair_form.hidden_tag() }}
         <div class="container container--small">
             <section class="hero hero--nocontent">
@@ -11,15 +11,24 @@
             </section>
         </div>
 
-        {% for field, errors in repair_form.errors.items() %}
-            <p class="form__error form__error--center">
-                {{ repair_form[field].label }}: {{ ', '.join(errors) }}
-            </p>
-        {% endfor %}
+        <div class="container container--small">
+            {% for field, errors in repair_form.errors.items() %}
+                <p class="form__error form__error--center">
+                    {{ repair_form[field].label }}: {{ ', '.join(errors) }}
+                </p>
+            {% endfor %}
+            <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
+        </div>
 
         <div class="container container--small">
             <section class="color" id="Color">
                 <h2 class="color__heading">Farbe wählen</h2>
+                <div class="grid__content grid__content--error">
+                    {% for error in repair_form.color.errors %}
+                        <p class="form__error">{{ error }}</p>
+                    {% endfor %}
+                        <p id="color" class="form__error">Bitte wählen Sie eine Farbe aus.</p>
+                </div>
                 <div class="color__content">
                     {% for color_id, color in repair_form.color.choices %}
                         <span class="color__item">
@@ -41,15 +50,16 @@
         <div class="container container--small">
             <section class="grid">
                 <h2 class="grid__heading">Defekt wählen</h2>
-                <div class="grid__content">
+                <div class="grid__content grid__content--error">
                     {% for error in repair_form.repairs.errors %}
                         <p class="form__error">{{ error }}</p>
                     {% endfor %}
+                        <p id="repairs" class="form__error">Bitte wählen Sie mindestens einen Defekt aus.</p>
                 </div>
                 <div class="grid__content grid__content--repair">
                     {% for repair_id, repair in repair_form.repairs.choices %}
                         <div class="grid__item grid__item--repair">
-                            <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair.id }}" class="grid__input" type="checkbox" name="{{ repair_form.repairs.name }}" data-price="{{ repair.price }}" required>
+                            <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair.id }}" class="grid__input" type="checkbox" name="{{ repair_form.repairs.name }}" data-price="{{ repair.price }}">
                             <label class="grid__link" for="{{ repair.name.replace(' ', '_') }}">
                                 <div class="grid__title">{{ repair.name }}</div>
                                 {% if repair.image %}
