@@ -32,7 +32,7 @@
                 <div class="color__content">
                     {% for color_id, color in repair_form.color.choices %}
                         <span class="color__item">
-                            <input class="color__input" id="{{ color.name.replace(' ', '_') }}" name="color" value="{{ color_id }}" type="radio" required>
+                            <input class="color__input" id="{{ color.name.replace(' ', '_') }}" name="color" value="{{ color_id }}" type="radio">
                             <label class="color__label color__label--active" for="{{ color.name.replace(' ', '_') }}">
                                 <div style="background-color: {{ color.color_code }};" class="color__circle"></div>
                             </label>
@@ -82,7 +82,7 @@
             <section class="form">
                 <h2 class="form__heading"><label for="Description">Problembeschreibung</label></h2>
                 <div class="form__content">
-                    <textarea id="Description" class="form__textarea" name="problembeschreibung" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich" data-validation="optional"></textarea>
+                    <textarea id="Description" class="form__textarea" name="problembeschreibung" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich"></textarea>
                 </div>
             </section>
         </div>
