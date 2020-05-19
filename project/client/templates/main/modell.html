@@ -1,13 +1,7 @@
 {% extends "_base.html" %}
 {% block content %}
-    <form action="#" method="POST">
+    <form action="#" method="POST" novalidate>
         {{ repair_form.hidden_tag() }}
-        {# TODO: @Tobi 1.): style errors messages. #}
-        {% for field, errors in repair_form.errors.items() %}
-            <div class="alert alert-error">
-                {{ repair_form[field].label }}: {{ ', '.join(errors) }}
-            </div>
-        {% endfor %}
         <div class="container container--small">
             <section class="hero hero--nocontent">
                 <h1 class="hero__heading">{{ device.name }}</h1>
@@ -18,17 +12,31 @@
         </div>
 
         <div class="container container--small">
+            {% for field, errors in repair_form.errors.items() %}
+                <p class="form__error form__error--center">
+                    {{ repair_form[field].label }}: {{ ', '.join(errors) }}
+                </p>
+            {% endfor %}
+            <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
+        </div>
+
+        <div class="container container--small">
             <section class="color" id="Color">
                 <h2 class="color__heading">Farbe wählen</h2>
+                <div class="grid__content grid__content--error">
+                    {% for error in repair_form.color.errors %}
+                        <p class="form__error">{{ error }}</p>
+                    {% endfor %}
+                        <p id="color" class="form__error">Bitte wählen Sie eine Farbe aus.</p>
+                </div>
                 <div class="color__content">
                     {% for color_id, color in repair_form.color.choices %}
                         <span class="color__item">
-                    <input class="color__input" id="{{ color.name.replace(' ', '_') }}" name="color" value="{{ color_id }}" type="radio" checked>
-                    <label class="color__label color__label--active" for="{{ color.name.replace(' ', '_') }}">
-                        <div style="background-color: {{ color.color_code }};" class="color__circle"></div>
-                    </label>
-                </span>
-
+                            <input class="color__input" id="{{ color.name.replace(' ', '_') }}" name="color" value="{{ color_id }}" type="radio">
+                            <label class="color__label color__label--active" for="{{ color.name.replace(' ', '_') }}">
+                                <div style="background-color: {{ color.color_code }};" class="color__circle"></div>
+                            </label>
+                        </span>
                     {% endfor %}
                     <span id="ColorName" class="color__name"></span>
                 </div>
@@ -42,11 +50,16 @@
         <div class="container container--small">
             <section class="grid">
                 <h2 class="grid__heading">Defekt wählen</h2>
+                <div class="grid__content grid__content--error">
+                    {% for error in repair_form.repairs.errors %}
+                        <p class="form__error">{{ error }}</p>
+                    {% endfor %}
+                        <p id="repairs" class="form__error">Bitte wählen Sie mindestens einen Defekt aus.</p>
+                </div>
                 <div class="grid__content grid__content--repair">
-                    {{ repair_form.repairs.errors }} {# TODO: @Tobi Du kannst auch pro Formfeld die Fehler abfragen: siehe Zeile unten.  Das gibt dir dann eine Liste zurück, dei du stylen kannst.#}
                     {% for repair_id, repair in repair_form.repairs.choices %}
                         <div class="grid__item grid__item--repair">
-                            <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair_id }}" class="grid__input" type="checkbox" data-price="{{ repair.price }}" name="{{ repair_form.repairs.name }}">
+                            <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair.id }}" class="grid__input" type="checkbox" name="{{ repair_form.repairs.name }}" data-price="{{ repair.price }}">
                             <label class="grid__link" for="{{ repair.name.replace(' ', '_') }}">
                                 <div class="grid__title">{{ repair.name }}</div>
                                 {% if repair.image %}
@@ -78,7 +91,7 @@
             <div class="price">
                 <div class="price__content">
                     <span class="price__text"><span id="Total">0</span> EUR <sub class="price__sub">inkl. MwSt.</sub></span>
-                    <button class="price__button" type="submit">Weiter</button>
+                    <button id="SubmitModell" class="price__button" type="submit">Weiter</button>
                 </div>
             </div>
         </div>

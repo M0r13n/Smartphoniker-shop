@@ -24,11 +24,20 @@ const toInt = (str) => {
 /**
  * Shorthand for document.getElementById()
  * @param str
- * @returns {object}
+ * @returns {object} HTML-DOM-Reference
  */
 function $(id) {
     return document.getElementById(id);
 };
+
+/**
+ * Shorthand for document.querySelectorAll()
+ * @param str
+ * @returns {NodeList} Liste mit passenden Elementen
+ */
+function byQuery(query) {
+    return document.querySelectorAll(query);
+}
 
 /**
  * Search Funtion.
@@ -52,8 +61,15 @@ function hide(elem) {
 
 /**
  * Show a given element by setting it's display attr.
+ * second argument allows specifying the display attribute
+ * @param {object}
+ * @param {string}
  */
-function show(elem) {
+function show(elem, display = false) {
+    if (display) {
+        elem.style.display = display;
+        return;
+    }
     elem.style.display = '';
 }
 
@@ -148,8 +164,8 @@ const searchJS = () => {
  * @returns {Array}
  */
 const getPrices = (selector) => {
-    const elements = document.querySelectorAll(selector);
-    return [].map.call(elements, el => toInt(el.getAttribute("data-price")));
+    const elements = byQuery(selector);
+    return [].map.call(elements, el => toInt(el.getAttribute('data-price')));
 }
 
 /**
@@ -195,6 +211,69 @@ const colorJS = () => {
         }, false);
     }
 }
+/**
+ * checks every input with given name, shows error message and 
+ * returns array of bools with the result
+ * @param {Array} names input names which should be tested
+ * @returns {Array} with a bool for each name
+ */
+const selectionValidation = (names) => {
+    const validated = [];
+
+    for (name of names) {
+        let checked = true;
+        // checks if at least one of inputs with given name is checked
+        const checkedInputs = byQuery('input[name=' + name + ']:checked');
+        if (checkedInputs.length === 0) {
+            checked = false;
+        }
+        
+        // shows individual error message
+        if (!checked) {
+            show($(name), 'block');
+        } else {
+            hide($(name));
+        }
+
+        // pushes to array
+        validated.push(checked);
+    }
+    return validated;
+}
+
+/**
+ * validates the form on the modell page
+ */
+const modellFormJS = () => {
+    $('SubmitModell').addEventListener('click', (evt) => {
+        const okay = [];
+        okay.push(...selectionValidation(['color', 'repairs']));
+        
+        // prevent form from sending + show top error message
+        if (okay.includes(false)) {
+            show($('Error0'), 'block');
+            evt.preventDefault();
+        }
+    } ,true);
+}
+
+/**
+ * calls the right formvalidation
+ * @param {string} form id of the submitbutton
+ */
+const validateForms = (form) => {
+    switch (form) {
+        case 'Modell':
+            if($('SubmitModell')) {
+                modellFormJS();
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+
 
 const main = () => {
     /* mobile Navigation */
@@ -219,9 +298,11 @@ const main = () => {
         default:
             colorJS();
             totalJS();
+            validateForms('Modell');
             break;
     }
 };
 
 
+// run script
 main();

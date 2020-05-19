@@ -115,7 +115,7 @@ h1, h2, h3, p {
 
 .checkboxhack, .grid__input, .color__input, .order__input {
   position: absolute;
-  left: -9999px;
+  opacity: 0;
 }
 
 .hide-mobile {
@@ -1108,6 +1108,10 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
+.grid__content--error {
+  display: block;
+}
+
 .grid__item {
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
           box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
@@ -1362,6 +1366,23 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   border: 3px solid #FF6C00;
   outline: none;
   padding: calc(.8em - 2px) calc(1.6em - 2px);
+}
+
+.form__error {
+  color: red;
+  background-color: rgba(255, 0, 0, 0.2);
+  margin-top: 0;
+  margin-bottom: calc(2em * .85 * .5);
+  padding: .5em 1em;
+  border: 1px solid red;
+  border-radius: 2px;
+  display: none;
+}
+
+.form__error--center {
+  margin: 0 auto;
+  width: calc(100% - 20px - 2em);
+  text-align: center;
 }
 
 .price__content {
