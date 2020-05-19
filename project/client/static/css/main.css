@@ -515,9 +515,11 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   background-color: #8a8a8a;
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.26);
           box-shadow: 0 3px 6px rgba(0, 0, 0, 0.26);
-  position: fixed;
+  position: -webkit-sticky;
+  position: sticky;
   width: calc(100% - 36px);
   bottom: 0;
+  margin-bottom: 3em;
 }
 
 @media screen and (min-width: 650px) {
@@ -1143,7 +1145,7 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 
 .grid__item--repair {
   height: 350px;
-  max-width: 200px;
+  max-width: 300px;
 }
 
 .grid__link {
@@ -1402,7 +1404,13 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 .price__text {
   color: white;
   font-weight: 400;
-  font-size: 1.5em;
+  font-size: 1.2em;
+}
+
+@media screen and (min-width: 750px) {
+  .price__text {
+    font-size: 1.5em;
+  }
 }
 
 .price__sub {
@@ -1412,7 +1420,19 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 
 .price__button {
   border: none;
-  padding: .4em 3em;
+  padding: .4em 1em;
+}
+
+@media screen and (min-width: 750px) {
+  .price__button {
+    padding: .4em 1.5em;
+  }
+}
+
+@media screen and (min-width: 750px) {
+  .price__button {
+    padding: .4em 3em;
+  }
 }
 
 .order__subheading--question {
