@@ -1,10 +1,19 @@
 {% extends "_base.html" %}
 {% block content %}
-<form>
+<form action="#" method="POST" novalidate>
     <div class="container container--small">
         <section class="hero hero--nocontent">
             <h1 class="hero__heading">Ihre Kontaktdaten</h1>
         </section>
+    </div>
+
+    <div class="container container--small">
+        {# for field, errors in repair_form.errors.items() #}
+            <p class="form__error form__error--center">
+                {{ label }}: {{ error }}
+            </p>
+        {# endfor #}
+        <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
     </div>
 
     <div class="container container--small">
@@ -13,12 +22,24 @@
             <div class="customer__content">
                 <div class="customer__inputs">
                     <div class="customer__inputwrapper">
-                        <label for="FirstName" class="customer__label">Vorname<sup>*</sup></label>
-                        <input id="FirstName" class="customer__input" type="text">
+                        <label for="Firstname" class="customer__label">Vorname<sup>*</sup></label>                        
+                        <input id="Firstname" class="customer__input" type="text" name="firstname">
+
+                        <!-- Fehlermeldung -->
+                        {# for #}
+                            <p class="form__error">{{ error }}</p>
+                        {# endfor #}
+                        <p id="firstname" class="form__error">Bitte geben Sie Ihren Vornamen an.</p>
                     </div>
                     <div class="customer__inputwrapper">
-                        <label for="LastName" class="customer__label">Nachname<sup>*</sup></label>
-                        <input id="LastName" class="customer__input" type="text">
+                        <label for="Lastname" class="customer__label">Nachname<sup>*</sup></label>
+                        <input id="Lastname" class="customer__input" type="text" name="lastname">
+
+                        <!-- Fehlermeldung -->
+                        {# for #}
+                            <p class="form__error">{{ error }}</p>
+                        {# endfor #}
+                        <p id="lastname" class="form__error">Bitte geben Sie Ihren Nachnamen an.</p>
                     </div>
                 </div>
             </div>
@@ -36,15 +57,33 @@
                 <div class="customer__inputs">
                     <div class="customer__inputwrapper customer__inputwrapper--full">
                         <label for="Street" class="customer__label">Straße und Hausnummer<sup>*</sup></label>
-                        <input id="Street" class="customer__input" type="text">
+                        <input id="Street" class="customer__input" type="text" name="street">
+
+                        <!-- Fehlermeldung -->
+                        {# for #}
+                            <p class="form__error">{{ error }}</p>
+                        {# endfor #}
+                        <p id="street" class="form__error">Bitte geben Sie eine Straße & Hausnummer an.</p>
                     </div>
                     <div class="customer__inputwrapper customer__inputwrapper--small">
-                        <label for="ZipCode" class="customer__label">PLZ<sup>*</sup></label>
-                        <input id="ZipCode" class="customer__input" type="text">
+                        <label for="Zipcode" class="customer__label">PLZ<sup>*</sup></label>
+                        <input id="Zipcode" class="customer__input" type="number" name="zipcode">
+
+                        <!-- Fehlermeldung -->
+                        {# for #}
+                            <p class="form__error">{{ error }}</p>
+                        {# endfor #}
+                        <p id="zipcode" class="form__error">Bitte geben Sie eine Postleitzahl an.</p>
                     </div>
                     <div class="customer__inputwrapper">
                         <label for="City" class="customer__label">Ort<sup>*</sup></label>
-                        <input id="City" class="customer__input" type="text">
+                        <input id="City" class="customer__input" type="text" name="city">
+
+                        <!-- Fehlermeldung -->
+                        {# for #}
+                            <p class="form__error">{{ error }}</p>
+                        {# endfor #}
+                        <p id="city" class="form__error">Bitte geben Sie einen Ort an.</p>
                     </div>
                 </div>
             </div>
@@ -62,18 +101,24 @@
                 <div class="customer__inputs">
                     <div class="customer__inputwrapper">
                         <label for="Mail" class="customer__label">E-Mail Adresse<sup>*</sup></label>
-                        <input id="Mail" class="customer__input" type="text">
+                        <input id="Mail" class="customer__input" type="mail" name="mail">
+
+                        <!-- Fehlermeldung -->
+                        {# for #}
+                            <p class="form__error">{{ error }}</p>
+                        {# endfor #}
+                        <p id="mail" class="form__error">Bitte geben Sie eine gültige E-Mail an.</p>
                     </div>
                     <div class="customer__inputwrapper">
                         <label for="Phone" class="customer__label">Telefonnummer <sup>(optional)</sup></label>
-                        <input id="Phone" class="customer__input" type="text">
+                        <input id="Phone" class="customer__input" type="text" name="phone">
                     </div>
                     <div class="customer__inputwrapper customer__inputwrapper--small">
-                        <label for="CustomerId" class="customer__label">Kundennummer <sup>(optional)</sup></label>
-                        <input id="CustomerId" class="customer__input" type="text">
+                        <label for="Customerid" class="customer__label">Kundennummer <sup>(optional)</sup></label>
+                        <input id="Customerid" class="customer__input" type="text" name="customerid">
                     </div>
                     <div class="customer__buttonwrapper">
-                        <button class="customer__button">Zur Bestellübersicht</button>
+                        <button id="Submit" class="customer__button">Zur Bestellübersicht</button>
                     </div>
                 </div>
                 <div class="customer__infowrapper">

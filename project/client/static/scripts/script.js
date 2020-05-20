@@ -112,6 +112,20 @@ function filterFunction() {
 }
 
 /**
+ * validates if e-mail is a correct e-mail and shows error if so
+ * @param {string} mail
+ * @returns {boolean}
+ */
+const validateMail = (element) => {
+    const re = /\S+@\S+\.\S+/;
+    if(!re.test(element.value)) {
+        show(element, 'block');
+        return false;
+    }
+    return true;    
+}
+
+/**
  * filters questions with user-input 
  */
 const faqJS = () => {
@@ -220,7 +234,7 @@ const colorJS = () => {
 const selectionValidation = (names) => {
     const validated = [];
 
-    for (name of names) {
+    for (const name of names) {
         let checked = true;
         // checks if at least one of inputs with given name is checked
         const checkedInputs = byQuery('input[name=' + name + ']:checked');
@@ -242,13 +256,54 @@ const selectionValidation = (names) => {
 }
 
 /**
- * validates the form on the modell page
+ * @param {Array}
  */
-const modellFormJS = () => {
-    $('SubmitModell').addEventListener('click', (evt) => {
-        const okay = [];
-        okay.push(...selectionValidation(['color', 'repairs']));
-        
+const inputValidation = (names) => {
+    const validated = [];
+
+    for (const name of names) {
+        let checked = true;
+        const inputValue = byQuery('input[name=' + name + ']')[0].value;
+        if (inputValue === undefined || inputValue == '') {
+            checked = false;
+        }
+        // shows individual error message
+        if (!checked) {
+            show($(name), 'block');
+        } else {
+            hide($(name));
+        }
+
+        validated.push(checked);
+    }
+    return validated;
+}
+
+/**
+ * validates forms
+ * @param {string} formName name of the form
+ */
+const formsJS = (formName) => {
+    const okay = [];
+    // return if no submit is set
+    if(!$('Submit')) return false;
+
+    $('Submit').addEventListener('click', (evt) => {
+        // check specific inputs varying on the form
+        switch (formName) {
+            case 'Modell':
+                okay.push(...selectionValidation(['color', 'repairs']));
+                break;
+
+            case 'Customer':
+                okay.push(...inputValidation(['firstname', 'lastname', 'street', 'zipcode', 'city', 'mail']));
+                okay.push(validateMail($('Mail')));                
+                break;
+
+            default:
+                break;
+        }
+    
         // prevent form from sending + show top error message
         if (okay.includes(false)) {
             show($('Error0'), 'block');
@@ -256,24 +311,6 @@ const modellFormJS = () => {
         }
     } ,true);
 }
-
-/**
- * calls the right formvalidation
- * @param {string} form id of the submitbutton
- */
-const validateForms = (form) => {
-    switch (form) {
-        case 'Modell':
-            if($('SubmitModell')) {
-                modellFormJS();
-            }
-            break;
-        default:
-            break;
-    }
-}
-
-
 
 const main = () => {
     /* mobile Navigation */
@@ -295,14 +332,17 @@ const main = () => {
             searchJS();
             break;
 
+        case '/customer':
+            formsJS('Customer');
+            break;
+
         default:
             colorJS();
             totalJS();
-            validateForms('Modell');
+            formsJS('Modell');
             break;
     }
 };
-
 
 // run script
 main();
