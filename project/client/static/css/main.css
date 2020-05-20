@@ -1240,7 +1240,7 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   font-size: 1.2em;
 }
 
-@media screen and (max-width: 538px) {
+@media screen and (max-width: 650px) {
   .grid__title {
     font-size: 1em;
   }
