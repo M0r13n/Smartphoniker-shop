@@ -225,6 +225,7 @@ const colorJS = () => {
         }, false);
     }
 }
+
 /**
  * checks every input with given name, shows error message and 
  * returns array of bools with the result
