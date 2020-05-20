@@ -248,7 +248,7 @@ const selectionValidation = (names) => {
         } else {
             hide($(name));
         }
-
+        console.log(checked)
         // pushes to array
         validated.push(checked);
     }
@@ -287,27 +287,25 @@ const formsJS = (formName) => {
     const okay = [];
     // return if no submit is set
     if(!$('Submit')) return false;
-
+    // addeventlistener
     $('Submit').addEventListener('click', (evt) => {
         // check specific inputs varying on the form
         switch (formName) {
+            // form where customers choose repair / detaill page for each phone
             case 'Modell':
                 okay.push(...selectionValidation(['color', 'repairs']));
                 break;
-
+            // customer registration form
             case 'Customer':
                 okay.push(...inputValidation(['firstname', 'lastname', 'street', 'zipcode', 'city', 'mail']));
                 okay.push(validateMail($('Mail')));                
                 break;
-
-            default:
-                break;
         }
-    
         // prevent form from sending + show top error message
         if (okay.includes(false)) {
             show($('Error0'), 'block');
             evt.preventDefault();
+            okay.length = 0;
         }
     } ,true);
 }
