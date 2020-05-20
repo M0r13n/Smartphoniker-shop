@@ -1106,8 +1106,14 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 }
 
 .grid__content--repair {
-  -ms-grid-columns: (minmax(200px, 1fr))[auto-fit];
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  -ms-grid-columns: (minmax(150px, 1fr))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
+@media screen and (max-width: 538px) {
+  .grid__content--repair {
+    width: 100%;
+  }
 }
 
 .grid__content--error {
@@ -1145,7 +1151,13 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 
 .grid__item--repair {
   height: 350px;
-  max-width: 300px;
+  max-width: 100%;
+}
+
+@media screen and (min-width: 1250px) {
+  .grid__item--repair {
+    max-width: 250px;
+  }
 }
 
 .grid__link {
@@ -1226,6 +1238,12 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   color: black;
   margin-top: 1em;
   font-size: 1.2em;
+}
+
+@media screen and (max-width: 538px) {
+  .grid__title {
+    font-size: 1em;
+  }
 }
 
 .grid__price {

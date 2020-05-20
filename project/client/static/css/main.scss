@@ -1095,7 +1095,10 @@ footer {
         }
 
         &--repair {
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            @media screen and (max-width: $xsmall) {
+                width: 100%;
+            }
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         }
 
         &--error {
@@ -1124,7 +1127,11 @@ footer {
 
         &--repair {
             height: 350px;
-            max-width: 300px;
+            max-width: 100%;
+
+            @media screen and (min-width: $xlarge) {
+                max-width: 250px;
+            }
         }
     }
 
@@ -1201,7 +1208,12 @@ footer {
         @include color(b);
         margin-top: 1em;
         font-size: 1.2em;
+
+        @media screen and (max-width: $xsmall) {
+            font-size: 1em;
+        }
     }
+
     &__price {
         @include font(light);
         font-size: 1.1em;
