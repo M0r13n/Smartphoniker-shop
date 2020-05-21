@@ -1658,7 +1658,6 @@ footer {
 // -----------------  Customer  ------------------
 // -----------------------------------------------
 
-
 .customer {
     @extend .section;
 
@@ -1765,7 +1764,6 @@ footer {
 // -----------------  Success  -------------------
 // -----------------------------------------------
 
-
 .success {
     @extend .section;
 
@@ -1830,6 +1828,62 @@ footer {
 
         &:hover {
             text-decoration: underline;
+        }
+    }
+}
+
+
+// -----------------------------------------------
+// ---------------  Global-Error  ----------------
+// -----------------------------------------------
+
+.globalerror {
+    position: fixed;
+    top: 20px;
+    width: 100%;
+    max-width: 1600px;
+    z-index: 1000;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+
+    &__close {
+        @include color(b);
+        font-size: 1.6em;
+        margin-right: .5em;
+        transition: transform .3s ease;
+
+        &:hover {
+            transform: rotateZ(-90deg);
+        }
+    }
+
+    &__box {
+        @include font(medium);
+        font-size: 1.05em;
+        display: flex;
+        align-items: center;
+        border-radius: 2px;
+        width: 85%;
+        margin: .3em auto;
+        padding: 10px 20px;
+
+        &--alert {
+            background-color: rgba(255, 188, 187, .97);
+            border: 1px solid red;
+            color: red;
+        }
+
+        &--warning {
+            background-color: rgba(255, 231, 187, .97);
+            border: 1px solid rgb(222, 144, 0);
+            color: rgb(222, 144, 0);
+        }
+
+        &--success {
+            background-color: rgba(225, 241, 195, .96);
+            border: 1px solid green;
+            color: green;
         }
     }
 }

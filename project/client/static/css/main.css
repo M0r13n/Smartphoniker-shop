@@ -1851,4 +1851,62 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 .success__link:hover {
   text-decoration: underline;
 }
+
+.globalerror {
+  position: fixed;
+  top: 20px;
+  width: 100%;
+  max-width: 1600px;
+  z-index: 1000;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+}
+
+.globalerror__close {
+  color: black;
+  font-size: 1.6em;
+  margin-right: .5em;
+  -webkit-transition: -webkit-transform .3s ease;
+  transition: -webkit-transform .3s ease;
+  transition: transform .3s ease;
+  transition: transform .3s ease, -webkit-transform .3s ease;
+}
+
+.globalerror__close:hover {
+  -webkit-transform: rotateZ(-90deg);
+          transform: rotateZ(-90deg);
+}
+
+.globalerror__box {
+  font-size: 1.05em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-radius: 2px;
+  width: 85%;
+  margin: .3em auto;
+  padding: 10px 20px;
+}
+
+.globalerror__box--alert {
+  background-color: rgba(255, 188, 187, 0.97);
+  border: 1px solid red;
+  color: red;
+}
+
+.globalerror__box--warning {
+  background-color: rgba(255, 231, 187, 0.97);
+  border: 1px solid #de9000;
+  color: #de9000;
+}
+
+.globalerror__box--success {
+  background-color: rgba(225, 241, 195, 0.96);
+  border: 1px solid green;
+  color: green;
+}
 /*# sourceMappingURL=main.css.map */
