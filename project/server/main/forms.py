@@ -41,8 +41,7 @@ class RegisterCustomerForm(FlaskForm):
         validators=[
             DataRequired("Dieses Feld wird benötigt"),
             Length(min=1, max=255, message="Der Name muss zwischen 1 und 255 Zeichen lang sein")
-        ],
-        render_kw={'placeholder': 'Maxi'}
+        ]
     )
 
     last_name = StringField(
@@ -50,8 +49,7 @@ class RegisterCustomerForm(FlaskForm):
         validators=[
             DataRequired("Dieses Feld wird benötigt"),
             Length(min=1, max=255, message="Der Name muss zwischen 1 und 255 Zeichen lang sein")
-        ],
-        render_kw={'placeholder': 'Musterfrau'}
+        ]
     )
 
     street = StringField(
@@ -59,8 +57,7 @@ class RegisterCustomerForm(FlaskForm):
         validators=[
             DataRequired("Dieses Feld wird benötigt"),
             Length(min=1, max=255, message="Die Straße muss zwischen 1 und 255 Zeichen lang sein")
-        ],
-
+        ]
     )
 
     zip_code = StringField(

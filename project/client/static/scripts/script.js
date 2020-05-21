@@ -290,6 +290,7 @@ const formsJS = (formName) => {
     if(!$('Submit')) return false;
     // addeventlistener
     $('Submit').addEventListener('click', (evt) => {
+        evt.preventDefault();
         // check specific inputs varying on the form
         switch (formName) {
             // form where customers choose repair / detaill page for each phone
@@ -298,8 +299,8 @@ const formsJS = (formName) => {
                 break;
             // customer registration form
             case 'Customer':
-                okay.push(...inputValidation(['firstname', 'lastname', 'street', 'zipcode', 'city', 'mail']));
-                okay.push(validateMail($('Mail')));                
+                okay.push(...inputValidation(['first_name', 'last_name', 'street', 'zip_code', 'city', 'email']));
+                okay.push(validateMail($('Email')));                
                 break;
         }
         // prevent form from sending + show top error message
@@ -331,7 +332,7 @@ const main = () => {
             searchJS();
             break;
 
-        case '/customer':
+        case '/register':
             formsJS('Customer');
             break;
 
