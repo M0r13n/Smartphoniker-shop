@@ -19,6 +19,10 @@ class SessionStoreMixin(object):
             obj = cls.deserialize(obj)
         return obj
 
+    @classmethod
+    def remove_from_session(cls) -> None:
+        session.pop(cls.get_session_kw())
+
     def save_to_session(self) -> None:
         session[self.get_session_kw()] = self.serialize()
 

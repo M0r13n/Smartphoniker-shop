@@ -36,8 +36,10 @@ class BaseConfig(object):
     MAIL_SERVER = os.getenv("MAIL_SERVER")
     MAIL_USE_TLS = os.getenv("MAIL_USE_TLS")
     MAIL_USE_SSL = os.getenv("MAIL_USE_SSL")
-    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER")
+    MAIL_DEFAULT_SENDER = os.getenv("MAIL_DEFAULT_SENDER", MAIL_USERNAME)
     MAIL_PORT = os.getenv("MAIL_PORT")
+
+    NOTIFICATION_MAILS = ['support@smartphoniker.de', 'leonrichter1337@gmail.com']
 
 
 class DevelopmentConfig(BaseConfig):

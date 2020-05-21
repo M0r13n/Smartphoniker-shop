@@ -98,8 +98,8 @@ def init_celery(app=None):
     celery.conf.broker_url = app.config["CELERY_BROKER_URL"]
     celery.conf.result_backend = app.config["CELERY_RESULT_BACKEND"]
     # This is needed to fix the indefinite hang of delay and apply_async if celery is down
-    celery.conf.broker_transport_options = {"max_retries": 3, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
-    celery.conf.redis_socket_timeout = 10.0
+    celery.conf.broker_transport_options = {"max_retries": 2, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
+    celery.conf.redis_socket_timeout = 2.0
     celery.conf.update(app.config)
 
     class ContextTask(celery.Task):

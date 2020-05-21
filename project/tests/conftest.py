@@ -91,6 +91,12 @@ def sample_device(sample_series, sample_color):
 
 
 @pytest.fixture
+def another_device(sample_series, sample_color):
+    """ Create a sample device """
+    return Device.create(name="iPhone 6S Plus", colors=[sample_color], series=sample_series)
+
+
+@pytest.fixture
 def sample_series(sample_manufacturer):
     """ Sample Series """
     return DeviceSeries.create(name="iPhone", manufacturer=sample_manufacturer)
@@ -112,6 +118,11 @@ def sample_shop():
 def sample_repair(sample_device):
     """ Return a sample repair """
     return Repair.create(name="Display", price=69, device=sample_device)
+
+
+@pytest.fixture
+def another_repair(another_device):
+    return Repair.create(name="Battery", price=49, device=another_device)
 
 
 @pytest.fixture

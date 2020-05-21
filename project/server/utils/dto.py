@@ -14,10 +14,11 @@ class CustomerRepair(SessionStoreMixin):
     """
     SESSION_KW = 'repair'
 
-    def __init__(self, device_color: Color, repairs: typing.List[Repair], problem_description: str):
+    def __init__(self, device_color: Color, repairs: typing.Iterable[Repair], problem_description: str):
         self.device_color: Color = device_color
-        self.repairs: typing.List[Repair] = repairs
+        self.repairs: typing.FrozenSet[Repair] = frozenset(repairs)
         self.problem_description: str = problem_description
+        self.ensure_same_device()
 
     def __repr__(self):
         return f"<CustomerRepair: {self.repairs}>"
@@ -28,6 +29,10 @@ class CustomerRepair(SessionStoreMixin):
             repairs=self.repairs,
             problem_description=self.problem_description
         )
+
+    def ensure_same_device(self):
+        if len(set(map(lambda rep: rep.device, self.repairs))) > 1:
+            raise ValueError("All repairs must belong to the same device!")
 
     @classmethod
     def deserialize(cls, obj):
@@ -50,7 +55,8 @@ class CustomerRepair(SessionStoreMixin):
 
     @property
     def total_cost(self):
-        return reduce(lambda total, cost: total + cost, map(lambda repair: repair.price, self.repairs))
+        tot = reduce(lambda total, cost: total + cost, map(lambda repair: repair.price, self.repairs))
+        return round(tot, 2)
 
     @property
     def taxes(self):
@@ -67,4 +73,4 @@ class CustomerRepair(SessionStoreMixin):
 
     @property
     def total_cost_including_tax_and_discount(self):
-        return self.total_cost - self.discount
+        return round(float(self.total_cost) - float(self.discount), 2)

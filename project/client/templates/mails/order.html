@@ -1,0 +1,36 @@
+Sie haben eine neue Anfrage über den Price-Picker erhalten.
+
+
+Kundendaten:
+----------------------------
+TRICOMA-Kundennummer:   {{ tricoma_id }}
+Vorname:                {{ first_name }}
+Nachname:               {{ last_name }}
+Email:                  {{ email }}
+Telefonnummer:          {{ tel }}
+Straße:                 {{ street }}
+PLZ - Ort:              {{ zip }} {{ city }}
+
+
+Auftragsdaten:
+----------------------------
+Auftragsart:        {% if kva %} KOSTENVORANSCHLAG {% else %} AUFTRAG {% endif %}
+Gerät:              {{ device }}
+Farbe:              {{ color }}
+Shop:               {{ shop }}
+Versand gewünscht: {% if shipping_required %} VERSAND LABEL erforderlich {% else %} NEIN {% endif %}
+
+
+Reparaturen:
+----------------------------
+{% for repair in repairs %}
+    {{ repair.name }}:{{ repair.price }}
+{% endfor %}
+
+Rabatt: {{ discount or 0 }}
+TOTAL: {{ total_price }}
+
+
+Problem-Beschreibung:
+----------------------------
+{{ problem_description }}

@@ -1,5 +1,5 @@
 # project/server/main/views.py
-from flask import render_template, Blueprint, jsonify, abort, redirect, url_for
+from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash
 
 from project.common.email.message import make_html_mail
 from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
@@ -73,6 +73,7 @@ def model(manufacturer_name, series_name, device_name):
 
 @main_blueprint.route("/register", methods=['GET', 'POST'])
 def register_customer():
+    """ Customer enters his/her personal data """
     customer_data_form = RegisterCustomerForm()
     if customer_data_form.validate_on_submit():
         customer = Customer()
@@ -86,15 +87,16 @@ def register_customer():
 
 @main_blueprint.route("/order", methods=['GET', 'POST'])
 def order_overview():
+    """ A overview about customer data and the repair(s) """
     repair_dto: CustomerRepair = CustomerRepair.get_from_session()
-    # TODO was machen wir dann?
     if not repair_dto or not len(repair_dto.repairs) > 0:
-        abort(400)
+        flash("Es wurde noch keine Reparatur ausgewählt", "error")
+        return redirect(url_for('main.home'))
 
     customer: Customer = Customer.get_from_session()
-    # TODO was machen wir dann?
     if not customer:
-        abort(400)
+        flash("Sie müssen sich erst registrieren", "warning")
+        return redirect(url_for('main.register_customer'))
 
     form = FinalSubmitForm()
 
@@ -116,17 +118,13 @@ def order_overview():
 
 @main_blueprint.route("/order/submit", methods=['GET', 'POST'])
 def submit_order():
+    """ Handle a submitted order or request """
     form = FinalSubmitForm()
     if form.validate_on_submit():
-        if form.kva_button:
-            # TODO handle KVA
-            pass
-        else:
-            # TODO handle Submit
-            pass
+        send_mails(form.kva_button.data, form.shipping_label.data)
         return redirect(url_for('main.success'))
-    # TODO handle this
-    return redirect('main.order_overview')
+    flash("Wir konnten ihre Anfrage nicht bearbeiten. Bitte versuchen Sie es erneut!", "error")
+    return redirect(url_for('main.order_overview'))
 
 
 @main_blueprint.route("/agb")
@@ -157,13 +155,13 @@ def impressum():
 def search(device_name):
     """ Render Search Results """
     found_devices = Device.query.all()
-
     return render_template('main/search.html', devices=found_devices)
 
 
 @main_blueprint.route("/success")
 def success():
     """ Render successful order page """
+    CustomerRepair.remove_from_session()  # Delete the repair from current session
     return render_template('main/success.html')
 
 
@@ -184,11 +182,30 @@ def search_api(device_name):
     })
 
 
-@main_blueprint.route("/mail")
-def send_mail():
-    """ Test route """
-    html_body = render_template("mails/example_mail.html", user="Tim")
-    msg = make_html_mail(to_list=["leon.morten@gmail.com"], from_address="anfrage@smartphoniker.de",
-                         subject="Ich will das hier html drinnen ist", html_body=html_body, text_body="Das ist text!!!!!!11111elf!!!!")
-    send_email(msg)
-    return jsonify(dict(status="Task received"))
+def send_mails(kva: bool, shipping: bool):
+    repair_dto: CustomerRepair = CustomerRepair.get_from_session()
+    customer: Customer = Customer.get_from_session()
+    body = render_template(
+        "mails/order.html",
+        tricoma_id=customer.tricoma_id,
+        first_name=customer.first_name,
+        last_name=customer.last_name,
+        email=customer.email,
+        tel=customer.tel,
+        street=customer.street,
+        zip=customer.zip_code,
+        city=customer.city,
+        kva=kva,
+        repairs=repair_dto.repairs,
+        discount=repair_dto.discount,
+        total_price=repair_dto.total_cost_including_tax_and_discount,
+        shipping_required=shipping,
+        problem_description=repair_dto.problem_description
+    )
+    order = make_html_mail(to_list=current_app.config['NOTIFICATION_MAILS'], from_address=current_app.config['MAIL_DEFAULT_SENDER'],
+                           subject="Neue Anfrage über den Pricepicker", html_body=body, text_body=body)
+
+    send_email(order)
+    confirmation = make_html_mail(to_list=[customer.email], from_address=current_app.config['MAIL_DEFAULT_SENDER'],
+                                  subject="Ihre Anfrage bei Smartphoniker", html_body=render_template("mails/confirmation.html"))
+    send_email(confirmation)

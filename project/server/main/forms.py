@@ -3,7 +3,7 @@ import typing
 from flask_wtf import FlaskForm
 from wtforms import SelectField, TextAreaField, SelectMultipleField, StringField, BooleanField, SubmitField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, Optional, Length, Email
+from wtforms.validators import DataRequired, Length, Email
 
 from project.server.models import Color, Repair
 
@@ -20,7 +20,7 @@ class SelectRepairForm(FlaskForm):
     )
 
     problem_description = TextAreaField(
-        validators=[Optional()]
+        validators=[]
     )
 
     def __init__(self, device, *args, **kwargs):
@@ -83,23 +83,22 @@ class RegisterCustomerForm(FlaskForm):
         "Email",
         validators=[
             DataRequired("Dieses Feld wird benötigt"),
-            Email(message="Bitte gib eine gültige Email Adresse an")
+            Email(message="Bitte gib eine gültige Email Adresse an"),
+            Length(min=1, max=64, message="Die Email muss zwischen 1 und 255 Zeichen lang sein")
         ]
     )
 
     tel = StringField(
         "Telefon",
         validators=[
-            Optional(),
-            Length(min=1, max=64, message="Die Nummer muss zwischen 3 und 64 Zeichen lang sein")
+            Length(min=0, max=64, message="Die Nummer muss zwischen 3 und 64 Zeichen lang sein")
         ]
     )
 
     tricoma_id = StringField(
         "Kundennummer",
         validators=[
-            Optional(),
-            Length(min=1, max=64, message="Die Nummer muss zwischen 3 und 64 Zeichen lang sein")
+            Length(min=0, max=64, message="Die Nummer muss zwischen 1 und 64 Zeichen lang sein")
         ]
     )
 
@@ -112,6 +111,6 @@ class FinalSubmitForm(FlaskForm):
 
     kva_button = SubmitField(
         "kostenloser Kostenvoranschlag",
-        validators=[Optional()],
+        validators=[],
         default=False
     )

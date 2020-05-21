@@ -17,6 +17,22 @@
 {% include 'header.html' %}
 
 <main>
+    {# Message container. TODO: @TOBI sytle this. Es gibt drei KAtegorien: error, warning und success. Für jede wäre ein anders farbiges Banner nice#}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <a class="close" title="Close" href="#" data-dismiss="alert">&times;</a>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
     <!-- child template -->
     {% block content %}{% endblock %}
 </main>
