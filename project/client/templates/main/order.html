@@ -1,0 +1,172 @@
+{% extends "_base.html" %}
+{% block content %}
+<form>
+    <div class="container container--small">
+        <section class="hero hero--nocontent">
+            <h1 class="hero__heading">Bestellübersicht</h1>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="order">
+            <h2 class="order__heading">Ihr Smartphone</h2>
+            <div class="order__content order__content--deviceinfo">
+                <img class="order__image" src="" alt="Grafik Ihres Gerätes">
+                <div class="order__deviceinfo">
+                    <p class="order__devicename">Samsung Galaxy S9</p>
+                    <p class="order__colorname">Black</p>
+                    <div class="order__color"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
+
+    <div class="container container--small">
+        <section class="order">
+            <h2 class="order__heading">Gewünschte Reparaturen</h2>
+            <div class="order__content">
+                <ul class="order__list">
+                    <li class="order__item">
+                        <span class="order__text">Displayreparatur</span>
+                        <span class="order__text">249,00</span>
+                    </li>
+                    <li class="order__item">
+                        <span class="order__text">Akkutausch</span>
+                        <span class="order__text">89,00</span>
+                    </li>
+                    <li class="order__item">
+                        <span class="order__text">Rabatt</span>
+                        <span class="order__text">-18,00</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+
+    <!-- nur, wenn angegeben -->
+        <div class="container container--small">
+            <hr class="divider">
+        </div>
+        <div class="container container--small">
+            <section class="order">
+                <h2 class="order__heading"><label for="Issue">Ihre Problembeschreibung</label></h2>
+                <div class="order__content">
+                    <textarea id="Issue" class="order__textarea"></textarea>
+                </div>
+            </section>
+        </div>
+
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
+
+    <div class="container container--small">
+        <section class="order">
+            <h2 class="order__heading">Ihre Anschrift & Kontaktdaten</h2>
+            <div class="order__content order__content--address">
+                <div class="order__address">
+                    <p class="order__text">Tobias Pörtner</p>
+                    <p class="order__text">Kirchhofallee 5</p>
+                    <p class="order__text">24103 Kiel</p>
+                </div>
+                <div class="order__contacts">
+                    <p class="order__text">Kd.-Nr. 12345</p>
+                    <p class="order__text">me@tobiaspoertner.com</p>
+                    <p class="order__text">+49 170 / 8275715</p>
+                </div>
+                <div class="order__shippinglabel">
+                    <input id="ShippingLabel" class="order__input" type="checkbox" value="yes" name="ShippingLabel">
+                    <label class="order__label" for="ShippingLabel">
+                        <span class="order__checkbox">
+                            <span class="order__innercheckbox"></span>
+                        </span>
+                        Ich wünsche ein kostenloses Versandlabel um mein Gerät zu versenden.
+                    </label>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
+
+    <div class="container container--small">
+        <section class="order">
+            <h2 class="order__heading">Gesamtsumme</h2>
+            <div class="order__content">
+                <ul class="order__list order__list--total">
+                    <li class="order__item">
+                        <span class="order__text">Zwischensumme</span>
+                        <span class="order__text">320,00 EUR</span>
+                    </li>
+                    
+                    <!-- nur, wenn sonstige Rep. angeklickt wurde -->
+                    <li class="order__item">
+                        <span class="order__text">Kostenvoranschlag</span>
+                        <span class="order__text">kostenlos</span>
+                    </li>
+
+                    <!-- nur, wenn versandlabel angeklickt wurde -->
+                    <li class="order__item">
+                        <span class="order__text">Versandlabel</span>
+                        <span class="order__text">kostenlos</span>
+                    </li>
+                </ul>
+                <div class="order__divider">
+                    <hr class="order__line">
+                </div>
+                <div class="order__total">320,00 EUR</div>
+                <div class="order__text order__text--taxes">inkl. 60,80 EUR MwSt.</div>
+                <div class="order__buttons">
+                    <button class="order__button order__button--primary">Auftrag abschicken</button>
+                    <button class="order__button order__button--secondary">kostenloser Kostenvoranschlag</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
+
+    <div class="container container--small">
+        <section class="order">
+            <h3 class="order__subheading">Brauchen Sie Hilfe?</h3>
+            <p class="order__text">Werfen Sie einen Blick in unser <a class="order__link" href="">FAQ</a> oder melden Sie sich bei unserem Kundenservice: <a class="order__link" href="tel:4943190700390">+49 431 / 90 700 930</a>.</p>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
+
+    <div class="container container--small">
+        <section class="order">
+            <h2 class="order__heading">Häufige Fragen und Antworten</h2>
+            <div class="order__content order__content--questions">
+                <div class="order__question">
+                    <h3 class="order__subheading order__subheading--question">Wie geht es weiter?</h3>
+                    <p class="order__text">Nachdem Sie Ihre Bestellung online abgeschickt haben, bekommen Sie eine Bestätigung per Nail zugeschickt.</p>
+                </div>
+                <div class="order__question">
+                    <h3 class="order__subheading order__subheading--question">Wie läuft der Bezahlvorgang ab?</h3>
+                    <p class="order__text">Sie müssen erst zahlen, sobald Ihr Handy bereits fertig repariert ist. Aktuell bieten wir eine Zahlung per Paypal, als Überweisung oder bei Abgabe in einer unserer <a class="order__link" href="">Filialen</a> in Bar, mit EC-Karte oder mit Kreditkarte an. Nachdem wir die Zahlung erhalten haben, senden wir Ihnen das Gerät umgehend und sicher verpackt zu.</p>
+                </div>
+                <div class="order__question">
+                    <h3 class="order__subheading order__subheading--question">Wie schicke ich mein Handy zu euch?</h3>
+                    <p class="order__text">Sobald Ihre Bestellung bearbeitet ist, bekommen Sie ein kostenloses Versandlabel und Anleitung zum Verpacken zugeschickt</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+</form>
+{% endblock %}

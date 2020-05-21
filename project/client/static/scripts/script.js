@@ -24,11 +24,20 @@ const toInt = (str) => {
 /**
  * Shorthand for document.getElementById()
  * @param str
- * @returns {object}
+ * @returns {object} HTML-DOM-Reference
  */
 function $(id) {
     return document.getElementById(id);
 };
+
+/**
+ * Shorthand for document.querySelectorAll()
+ * @param str
+ * @returns {NodeList} Liste mit passenden Elementen
+ */
+function byQuery(query) {
+    return document.querySelectorAll(query);
+}
 
 /**
  * Search Funtion.
@@ -52,8 +61,15 @@ function hide(elem) {
 
 /**
  * Show a given element by setting it's display attr.
+ * second argument allows specifying the display attribute
+ * @param {object}
+ * @param {string}
  */
-function show(elem) {
+function show(elem, display = false) {
+    if (display) {
+        elem.style.display = display;
+        return;
+    }
     elem.style.display = '';
 }
 
@@ -64,7 +80,7 @@ function show(elem) {
  * @returns {string}
  */
 const extractPlainText = (htmlObject, query = false) => {
-    let toBeSearched = query ? htmlObject.querySelectorAll(query)[0] : htmlObject;
+    const toBeSearched = query ? htmlObject.querySelectorAll(query)[0] : htmlObject;
     return toBeSearched.textContent.toLowerCase() || toBeSearched.innerText.toLowerCase() || '';
 }
 
@@ -93,6 +109,20 @@ function filterFunction() {
             hide(item);
         }
     }
+}
+
+/**
+ * validates if e-mail is a correct e-mail and shows error if so
+ * @param {string} mail
+ * @returns {boolean}
+ */
+const validateMail = (element) => {
+    const re = /\S+@\S+\.\S+/;
+    if(!re.test(element.value)) {
+        show(element, 'block');
+        return false;
+    }
+    return true;    
 }
 
 /**
@@ -147,19 +177,19 @@ const searchJS = () => {
  * @param {string}
  * @returns {Array}
  */
-const getValues = (selector) => {
-    var elements = document.querySelectorAll(selector);
-    return [].map.call(elements, el => toInt(el.value));
+const getPrices = (selector) => {
+    const elements = byQuery(selector);
+    return [].map.call(elements, el => toInt(el.getAttribute('data-price')));
 }
 
 /**
  * calculate total on modell.html 
  */
 const totalJS = () => {
-    const repairs = document.getElementsByName('repair');
+    const repairs = document.getElementsByName('repairs');
 
     const calculateSum = () => {
-        let checkedRepairPrices = getValues('input[name="repair"]:checked');
+        let checkedRepairPrices = getPrices('input[name="repairs"]:checked');
 
         if (checkedRepairPrices.length > 1) {
             let cheapest = Math.min(...checkedRepairPrices);
@@ -196,6 +226,91 @@ const colorJS = () => {
     }
 }
 
+/**
+ * checks every input with given name, shows error message and 
+ * returns array of bools with the result
+ * @param {Array} names input names which should be tested
+ * @returns {Array} with a bool for each name
+ */
+const selectionValidation = (names) => {
+    const validated = [];
+
+    for (const name of names) {
+        let checked = true;
+        // checks if at least one of inputs with given name is checked
+        const checkedInputs = byQuery('input[name=' + name + ']:checked');
+        if (checkedInputs.length === 0) {
+            checked = false;
+        }
+        
+        // shows individual error message
+        if (!checked) {
+            show($(name), 'block');
+        } else {
+            hide($(name));
+        }
+        console.log(checked)
+        // pushes to array
+        validated.push(checked);
+    }
+    return validated;
+}
+
+/**
+ * @param {Array}
+ */
+const inputValidation = (names) => {
+    const validated = [];
+
+    for (const name of names) {
+        let checked = true;
+        const inputValue = byQuery('input[name=' + name + ']')[0].value;
+        if (inputValue === undefined || inputValue == '') {
+            checked = false;
+        }
+        // shows individual error message
+        if (!checked) {
+            show($(name), 'block');
+        } else {
+            hide($(name));
+        }
+
+        validated.push(checked);
+    }
+    return validated;
+}
+
+/**
+ * validates forms
+ * @param {string} formName name of the form
+ */
+const formsJS = (formName) => {
+    const okay = [];
+    // return if no submit is set
+    if(!$('Submit')) return false;
+    // addeventlistener
+    $('Submit').addEventListener('click', (evt) => {
+        // check specific inputs varying on the form
+        switch (formName) {
+            // form where customers choose repair / detaill page for each phone
+            case 'Modell':
+                okay.push(...selectionValidation(['color', 'repairs']));
+                break;
+            // customer registration form
+            case 'Customer':
+                okay.push(...inputValidation(['firstname', 'lastname', 'street', 'zipcode', 'city', 'mail']));
+                okay.push(validateMail($('Mail')));                
+                break;
+        }
+        // prevent form from sending + show top error message
+        if (okay.includes(false)) {
+            show($('Error0'), 'block');
+            evt.preventDefault();
+            okay.length = 0;
+        }
+    } ,true);
+}
+
 const main = () => {
     /* mobile Navigation */
     $('menu').addEventListener('click', () => {
@@ -216,12 +331,17 @@ const main = () => {
             searchJS();
             break;
 
+        case '/customer':
+            formsJS('Customer');
+            break;
+
         default:
             colorJS();
             totalJS();
+            formsJS('Modell');
             break;
     }
 };
 
-
+// run script
 main();
