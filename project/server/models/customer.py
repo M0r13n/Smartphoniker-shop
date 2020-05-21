@@ -3,9 +3,10 @@ import datetime
 
 from project.server import db
 from .crud import CRUDMixin
+from project.server.utils.session_mixin import SessionStoreMixin
 
 
-class Customer(CRUDMixin, db.Model):
+class Customer(CRUDMixin, db.Model, SessionStoreMixin):
     __tablename__ = "customer"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -25,3 +26,17 @@ class Customer(CRUDMixin, db.Model):
 
     def __repr__(self):
         return f"<Customer {self.email}>"
+
+    @classmethod
+    def deserialize(cls, obj):
+        try:
+            customer_id = obj['customer_id']
+            instance = cls.query.get(customer_id)
+            return instance
+        except KeyError as error:
+            raise ValueError(f"{obj} is an invalid CustomerRepairDTO") from error
+
+    def serialize(self) -> dict:
+        return dict(
+            customer_id=self.id
+        )

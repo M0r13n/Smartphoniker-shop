@@ -1,134 +1,88 @@
 {% extends "_base.html" %}
+{# TODO: @Tobi: Ich habe mir die Freiheit benommen, deine repetitiven Inputs in ein Macro zu packen. Die unterscheiden sich ja nur hinsichtlich ihres Namens und ID #}
+{% macro render_field(field, wrapper_class) %}
+    <div class="{{ wrapper_class }}">
+        <label for="{{ field.name }}" class="customer__label">{{ field.label }}{% if field.flags.required %}<sup>*</sup>{% endif %}</label>
+        <input id="{{ field.name }}" class="customer__input" type="{{ field.type }}" name="{{ field.name }}" {% if field.data and field.data|length>0 %}value="{{ field.data }}"{% endif %} placeholder="{{ field.render_kw['placeholder'] }}">
+
+        <!-- Fehlermeldung -->
+        {% for error in field.erros %}
+            <p class="form__error">{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endmacro %}
+
+
 {% block content %}
-<form action="#" method="POST" novalidate>
-    <div class="container container--small">
-        <section class="hero hero--nocontent">
-            <h1 class="hero__heading">Ihre Kontaktdaten</h1>
-        </section>
-    </div>
+    <form action="#" method="POST" novalidate>
+        {{ customer_data_form.hidden_tag() }}
+        <div class="container container--small">
+            <section class="hero hero--nocontent">
+                <h1 class="hero__heading">Ihre Kontaktdaten</h1>
+            </section>
+        </div>
 
-    <div class="container container--small">
-        {# for field, errors in repair_form.errors.items() #}
-            <p class="form__error form__error--center">
-                {{ label }}: {{ error }}
-            </p>
-        {# endfor #}
-        <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
-    </div>
+        <div class="container container--small">
+            {# TODO: @Tobi eventuell macht es Sinn, dass wir hier statt den einzelnen Fehler einfach ne Warning zeigen #}
+            {% if customer_data_form.errors %}
+                <h1> Fehler im Form !!!1!1elf!!</h1>
+            {% endif %}
+            <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
+        </div>
 
-    <div class="container container--small">
-        <section class="customer">
-            <h2 class="customer__heading">Persönliche Daten</h2>
-            <div class="customer__content">
-                <div class="customer__inputs">
-                    <div class="customer__inputwrapper">
-                        <label for="Firstname" class="customer__label">Vorname<sup>*</sup></label>                        
-                        <input id="Firstname" class="customer__input" type="text" name="firstname">
-
-                        <!-- Fehlermeldung -->
-                        {# for #}
-                            <p class="form__error">{{ error }}</p>
-                        {# endfor #}
-                        <p id="firstname" class="form__error">Bitte geben Sie Ihren Vornamen an.</p>
-                    </div>
-                    <div class="customer__inputwrapper">
-                        <label for="Lastname" class="customer__label">Nachname<sup>*</sup></label>
-                        <input id="Lastname" class="customer__input" type="text" name="lastname">
-
-                        <!-- Fehlermeldung -->
-                        {# for #}
-                            <p class="form__error">{{ error }}</p>
-                        {# endfor #}
-                        <p id="lastname" class="form__error">Bitte geben Sie Ihren Nachnamen an.</p>
+        <div class="container container--small">
+            <section class="customer">
+                <h2 class="customer__heading">Persönliche Daten</h2>
+                <div class="customer__content">
+                    <div class="customer__inputs">
+                        {{ render_field(customer_data_form.first_name, "customer__inputwrapper") }}
+                        {{ render_field(customer_data_form.last_name, "customer__inputwrapper") }}
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
+            </section>
+        </div>
 
-    <div class="container container--small">
-        <hr class="divider">
-    </div>
+        <div class="container container--small">
+            <hr class="divider">
+        </div>
 
-    <div class="container container--small">
-        <section class="customer">
-            <h2 class="customer__heading">Ihre Adresse</h2>
-            <div class="customer__content">
-                <div class="customer__inputs">
-                    <div class="customer__inputwrapper customer__inputwrapper--full">
-                        <label for="Street" class="customer__label">Straße und Hausnummer<sup>*</sup></label>
-                        <input id="Street" class="customer__input" type="text" name="street">
-
-                        <!-- Fehlermeldung -->
-                        {# for #}
-                            <p class="form__error">{{ error }}</p>
-                        {# endfor #}
-                        <p id="street" class="form__error">Bitte geben Sie eine Straße & Hausnummer an.</p>
-                    </div>
-                    <div class="customer__inputwrapper customer__inputwrapper--small">
-                        <label for="Zipcode" class="customer__label">PLZ<sup>*</sup></label>
-                        <input id="Zipcode" class="customer__input" type="number" name="zipcode">
-
-                        <!-- Fehlermeldung -->
-                        {# for #}
-                            <p class="form__error">{{ error }}</p>
-                        {# endfor #}
-                        <p id="zipcode" class="form__error">Bitte geben Sie eine Postleitzahl an.</p>
-                    </div>
-                    <div class="customer__inputwrapper">
-                        <label for="City" class="customer__label">Ort<sup>*</sup></label>
-                        <input id="City" class="customer__input" type="text" name="city">
-
-                        <!-- Fehlermeldung -->
-                        {# for #}
-                            <p class="form__error">{{ error }}</p>
-                        {# endfor #}
-                        <p id="city" class="form__error">Bitte geben Sie einen Ort an.</p>
+        <div class="container container--small">
+            <section class="customer">
+                <h2 class="customer__heading">Ihre Adresse</h2>
+                <div class="customer__content">
+                    <div class="customer__inputs">
+                        {{ render_field(customer_data_form.street, "customer__inputwrapper customer__inputwrapper--full") }}
+                        {{ render_field(customer_data_form.zip_code, "customer__inputwrapper customer__inputwrapper--small") }}
+                        {{ render_field(customer_data_form.city, "customer__inputwrapper customer__inputwrapper--small") }}
                     </div>
                 </div>
-            </div>
-        </section>
-    </div>
+            </section>
+        </div>
 
-    <div class="container container--small">
-        <hr class="divider">
-    </div>
+        <div class="container container--small">
+            <hr class="divider">
+        </div>
 
-    <div class="container container--small">
-        <section class="customer">
-            <h2 class="customer__heading">Wie können wir Sie erreichen?</h2>
-            <div class="customer__content customer__content--infosection">
-                <div class="customer__inputs">
-                    <div class="customer__inputwrapper">
-                        <label for="Mail" class="customer__label">E-Mail Adresse<sup>*</sup></label>
-                        <input id="Mail" class="customer__input" type="mail" name="mail">
-
-                        <!-- Fehlermeldung -->
-                        {# for #}
-                            <p class="form__error">{{ error }}</p>
-                        {# endfor #}
-                        <p id="mail" class="form__error">Bitte geben Sie eine gültige E-Mail an.</p>
+        <div class="container container--small">
+            <section class="customer">
+                <h2 class="customer__heading">Wie können wir Sie erreichen?</h2>
+                <div class="customer__content customer__content--infosection">
+                    <div class="customer__inputs">
+                        {{ render_field(customer_data_form.email, "customer__inputwrapper") }}
+                        {{ render_field(customer_data_form.tel, "customer__inputwrapper") }}
+                        {{ render_field(customer_data_form.tricoma_id, "customer__inputwrapper customer__inputwrapper customer__inputwrapper--small") }}
+                        <div class="customer__buttonwrapper">
+                            <button id="Submit" class="customer__button">Zur Bestellübersicht</button>
+                        </div>
                     </div>
-                    <div class="customer__inputwrapper">
-                        <label for="Phone" class="customer__label">Telefonnummer <sup>(optional)</sup></label>
-                        <input id="Phone" class="customer__input" type="text" name="phone">
-                    </div>
-                    <div class="customer__inputwrapper customer__inputwrapper--small">
-                        <label for="Customerid" class="customer__label">Kundennummer <sup>(optional)</sup></label>
-                        <input id="Customerid" class="customer__input" type="text" name="customerid">
-                    </div>
-                    <div class="customer__buttonwrapper">
-                        <button id="Submit" class="customer__button">Zur Bestellübersicht</button>
+                    <div class="customer__infowrapper">
+                        <p class="customer__text"><sup>*</sup> = Feld ist erforderlich</p>
+                        <p class="customer__text">Ihre Adresse und Ihre Kontaktdaten werden einerseits zur Identifikation und Zuordnung verwendet und andererseits um Rückfragen für Sie möglichst bequem zu gestalten. </p>
+                        <p class="customer__text">Über Ihre Mail-Adresse erhalten Sie zudem laufende Informationen zum Status Ihrer Reparatur.</p>
                     </div>
                 </div>
-                <div class="customer__infowrapper">
-                    <p class="customer__text"><sup>*</sup> = Feld ist erforderlich</p>
-                    <p class="customer__text">Ihre Adresse und Ihre Kontaktdaten werden einerseits zur Identifikation und Zuordnung verwendet und andererseits um Rückfragen für Sie möglichst bequem zu gestalten. </p>
-                    <p class="customer__text">Über Ihre Mail-Adresse erhalten Sie zudem laufende Informationen zum Status Ihrer Reparatur.</p>
-                </div>
-            </div>
-        </section>
-    </div>
+            </section>
+        </div>
 
-</form>
+    </form>
 {% endblock %}

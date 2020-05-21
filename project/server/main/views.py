@@ -1,10 +1,11 @@
 # project/server/main/views.py
-from flask import render_template, Blueprint, jsonify, abort
+from flask import render_template, Blueprint, jsonify, abort, redirect, url_for
 
 from project.common.email.message import make_html_mail
-from project.server.main.forms import SelectRepairForm
-from project.server.models import Repair, Manufacturer, DeviceSeries, Device
-from project.server.utils import send_email
+from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
+from project.server.models import Repair, Manufacturer, DeviceSeries, Device, Customer
+from project.server.utils.dto import CustomerRepair
+from project.server.utils.mail import send_email
 
 main_blueprint = Blueprint("main", __name__)
 
@@ -60,8 +61,72 @@ def model(manufacturer_name, series_name, device_name):
 
     repair_form = SelectRepairForm(_device)
     if repair_form.validate_on_submit():
-        print("SUCCESS", repair_form.color.data, repair_form.repairs.data, repair_form.problem_description.data)
+        repair_dto = CustomerRepair(
+            device_color=repair_form.get_color(),
+            repairs=repair_form.get_repairs(),
+            problem_description=repair_form.problem_description.data
+        )
+        repair_dto.save_to_session()
+        return redirect(url_for('main.register_customer'))
     return render_template("main/modell.html", device=_device, repair_form=repair_form)
+
+
+@main_blueprint.route("/register", methods=['GET', 'POST'])
+def register_customer():
+    customer_data_form = RegisterCustomerForm()
+    if customer_data_form.validate_on_submit():
+        customer = Customer()
+        customer_data_form.populate_obj(customer)
+        customer.save()
+        customer.save_to_session()
+        return redirect(url_for('main.order_overview'))
+
+    return render_template("main/customer.html", customer_data_form=customer_data_form)
+
+
+@main_blueprint.route("/order", methods=['GET', 'POST'])
+def order_overview():
+    repair_dto: CustomerRepair = CustomerRepair.get_from_session()
+    # TODO was machen wir dann?
+    if not repair_dto or not len(repair_dto.repairs) > 0:
+        abort(400)
+
+    customer: Customer = Customer.get_from_session()
+    # TODO was machen wir dann?
+    if not customer:
+        abort(400)
+
+    form = FinalSubmitForm()
+
+    return render_template(
+        "main/order.html",
+        color=repair_dto.device_color,
+        repairs=repair_dto.repairs,
+        problem_description=repair_dto.problem_description,
+        device=repair_dto.repairs[0].device,
+        customer=customer,
+        total_cost=repair_dto.total_cost,
+        taxes=repair_dto.taxes,
+        discount=repair_dto.discount,
+        total_cost_including_tax_and_discount=repair_dto.total_cost_including_tax_and_discount,
+        form=form
+
+    )
+
+
+@main_blueprint.route("/order/submit", methods=['GET', 'POST'])
+def submit_order():
+    form = FinalSubmitForm()
+    if form.validate_on_submit():
+        if form.kva_button:
+            # TODO handle KVA
+            pass
+        else:
+            # TODO handle Submit
+            pass
+        return redirect(url_for('main.success'))
+    # TODO handle this
+    return redirect('main.order_overview')
 
 
 @main_blueprint.route("/agb")
@@ -94,18 +159,6 @@ def search(device_name):
     found_devices = Device.query.all()
 
     return render_template('main/search.html', devices=found_devices)
-
-
-@main_blueprint.route("/order")
-def order():
-    """ Render overview on customer data """
-    return render_template('main/order.html')
-
-
-@main_blueprint.route("/customer")
-def customer():
-    """ Render Form for Customer Contact Data """
-    return render_template('main/customer.html')
 
 
 @main_blueprint.route("/success")
