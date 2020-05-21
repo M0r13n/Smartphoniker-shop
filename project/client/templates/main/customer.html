@@ -7,7 +7,7 @@
 
         <!-- Fehlermeldung -->
         {% for error in field.erros %}
-            <p class="form__error">{{ error }}</p>
+            <p style="display: block;" class="form__error">{{ error }}</p>
         {% endfor %}
     </div>
 {% endmacro %}
@@ -25,7 +25,7 @@
         <div class="container container--small">
             {# TODO: @Tobi eventuell macht es Sinn, dass wir hier statt den einzelnen Fehler einfach ne Warning zeigen #}
             {% if customer_data_form.errors %}
-                <h1> Fehler im Form !!!1!1elf!!</h1>
+            <p style="display: block;" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
             {% endif %}
             <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
         </div>
