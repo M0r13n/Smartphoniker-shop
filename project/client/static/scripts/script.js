@@ -290,7 +290,6 @@ const formsJS = (formName) => {
     if(!$('Submit')) return false;
     // addeventlistener
     $('Submit').addEventListener('click', (evt) => {
-        evt.preventDefault();
         // check specific inputs varying on the form
         switch (formName) {
             // form where customers choose repair / detaill page for each phone
