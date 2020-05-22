@@ -3,8 +3,7 @@ from flask import render_template, Blueprint, jsonify, abort, redirect, url_for,
 
 from project.common.email.message import make_html_mail
 from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
-from project.server.models import Repair, Manufacturer, DeviceSeries, Device, Customer
-from project.server.utils.dto import CustomerRepair
+from project.server.models import Repair, Manufacturer, DeviceSeries, Device, Customer, Order
 from project.server.utils.mail import send_email
 
 main_blueprint = Blueprint("main", __name__)
@@ -61,13 +60,15 @@ def model(manufacturer_name, series_name, device_name):
 
     repair_form = SelectRepairForm(_device)
     if repair_form.validate_on_submit():
-        repair_dto = CustomerRepair(
-            device_color=repair_form.get_color(),
+        order = Order.create(
+            color=repair_form.get_color(),
             repairs=repair_form.get_repairs(),
             problem_description=repair_form.problem_description.data
         )
-        repair_dto.save_to_session()
+        order.save()
+        order.save_to_session()
         return redirect(url_for('main.register_customer'))
+
     return render_template("main/modell.html", device=_device, repair_form=repair_form)
 
 
@@ -88,8 +89,8 @@ def register_customer():
 @main_blueprint.route("/order", methods=['GET', 'POST'])
 def order_overview():
     """ A overview about customer data and the repair(s) """
-    repair_dto: CustomerRepair = CustomerRepair.get_from_session()
-    if not repair_dto or not len(repair_dto.repairs) > 0:
+    order: Order = Order.get_from_session()
+    if not order or not len(order.repairs) > 0:
         flash("Es wurde noch keine Reparatur ausgewählt", "error")
         return redirect(url_for('main.home'))
 
@@ -98,33 +99,25 @@ def order_overview():
         flash("Sie müssen sich erst registrieren", "warning")
         return redirect(url_for('main.register_customer'))
 
-    form = FinalSubmitForm()
-
-    return render_template(
-        "main/order.html",
-        color=repair_dto.device_color,
-        repairs=repair_dto.repairs,
-        problem_description=repair_dto.problem_description,
-        device=repair_dto.repairs[0].device,
-        customer=customer,
-        total_cost=repair_dto.total_cost,
-        taxes=repair_dto.taxes,
-        discount=repair_dto.discount,
-        total_cost_including_tax_and_discount=repair_dto.total_cost_including_tax_and_discount,
-        form=form
-
-    )
-
-
-@main_blueprint.route("/order/submit", methods=['GET', 'POST'])
-def submit_order():
-    """ Handle a submitted order or request """
+    order.customer = customer
     form = FinalSubmitForm()
     if form.validate_on_submit():
         send_mails(form.kva_button.data, form.shipping_label.data)
         return redirect(url_for('main.success'))
-    flash("Wir konnten ihre Anfrage nicht bearbeiten. Bitte versuchen Sie es erneut!", "error")
-    return redirect(url_for('main.order_overview'))
+
+    return render_template(
+        "main/order.html",
+        color=order.color,
+        repairs=order.repairs,
+        problem_description=order.problem_description,
+        device=order.device,
+        customer=customer,
+        total_cost=order.total_cost,
+        taxes=order.taxes,
+        discount=order.discount,
+        total_cost_including_tax_and_discount=order.total_cost_including_tax_and_discount,
+        form=form
+    )
 
 
 @main_blueprint.route("/agb")
@@ -161,7 +154,6 @@ def search(device_name):
 @main_blueprint.route("/success")
 def success():
     """ Render successful order page """
-    CustomerRepair.remove_from_session()  # Delete the repair from current session
     return render_template('main/success.html')
 
 
@@ -183,7 +175,7 @@ def search_api(device_name):
 
 
 def send_mails(kva: bool, shipping: bool):
-    repair_dto: CustomerRepair = CustomerRepair.get_from_session()
+    order_dto: Order = Order.get_from_session()
     customer: Customer = Customer.get_from_session()
     body = render_template(
         "mails/order.html",
@@ -196,11 +188,12 @@ def send_mails(kva: bool, shipping: bool):
         zip=customer.zip_code,
         city=customer.city,
         kva=kva,
-        repairs=repair_dto.repairs,
-        discount=repair_dto.discount,
-        total_price=repair_dto.total_cost_including_tax_and_discount,
+        repairs=order_dto.repairs,
+        discount=order_dto.discount,
+        total_price=order_dto.total_cost_including_tax_and_discount,
         shipping_required=shipping,
-        problem_description=repair_dto.problem_description
+        problem_description=order_dto.problem_description,
+        color=order_dto.color
     )
     order = make_html_mail(to_list=current_app.config['NOTIFICATION_MAILS'], from_address=current_app.config['MAIL_DEFAULT_SENDER'],
                            subject="Neue Anfrage über den Pricepicker", html_body=body, text_body=body)

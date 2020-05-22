@@ -1,6 +1,6 @@
 {% extends "_base.html" %}
 {% block content %}
-    <form action="{{ url_for('main.submit_order') }}" method="POST">
+    <form action="" method="POST">
         {{ form.hidden_tag() }}
         <div class="container container--small">
             <section class="hero hero--nocontent">
@@ -22,6 +22,9 @@
                 </div>
             </section>
         </div>
+
+        <h1>Implement me in schön</h1>
+        {{ form.shop() }} {# TODO: Das fehlt noch #}
 
         <div class="container container--small">
             <hr class="divider">
@@ -124,7 +127,7 @@
                     <div class="order__divider">
                         <hr class="order__line">
                     </div>
-                    <div class="order__total">{{ total_cost }} EUR</div>
+                    <div class="order__total"><span id="totalCost">{{ total_cost_including_tax_and_discount }}</span> EUR</div>
                     <div class="order__text order__text--taxes">inkl. {{ taxes }}EUR MwSt.</div>
                     <div class="order__buttons">
                         <button class="order__button order__button--primary" type="submit">Auftrag abschicken</button>

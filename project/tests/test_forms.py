@@ -1,7 +1,7 @@
 from flask_login import login_user
 
 from project.server.admin.forms import LoginForm, ChangePasswordForm
-from project.server.main.forms import SelectRepairForm
+from project.server.main.forms import SelectRepairForm, FinalSubmitForm
 from project.server.models import Repair
 
 
@@ -117,3 +117,16 @@ class TestSelectRepairForm:
         repair_form.color.data = sample_device.colors[0].id
         repair_form.repairs.data = [sample_repair.id, another_repair.id]
         assert repair_form.validate()
+
+
+class TestFinalSubmitForm:
+
+    def test_form_requires_shop(self, app):
+        form = FinalSubmitForm()
+        assert not form.validate()
+        assert "Bitte wähle den Zielshop." in form.shop.errors
+
+    def test_shop(self, db, app, sample_shop):
+        form = FinalSubmitForm(shop=sample_shop)
+        assert form.validate()
+        assert form.shop.data == sample_shop

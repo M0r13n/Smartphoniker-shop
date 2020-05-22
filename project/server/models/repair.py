@@ -16,5 +16,7 @@ class Repair(db.Model, CRUDMixin, ImageMixin):
     device_id = db.Column(db.Integer, db.ForeignKey('device.id'), nullable=False)
     device = db.relationship("Device")
 
+    orders = db.relationship("OrderRepairAssociation", back_populates="repair")
+
     def __repr__(self):
         return f"{self.device.name} {self.name}"

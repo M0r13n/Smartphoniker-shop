@@ -122,6 +122,10 @@ class ShopView(AdminExportableModelView):
 class OrderView(AdminExportableModelView):
     """ View all orders """
     can_create = False
+    can_edit = True
+
+    column_hide_backrefs = False
+    column_list = ('timestamp', 'complete', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description')
 
 
 class DeviceView(AdminExportableModelView):

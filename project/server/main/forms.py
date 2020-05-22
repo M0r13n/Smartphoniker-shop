@@ -2,10 +2,11 @@ import typing
 
 from flask_wtf import FlaskForm
 from wtforms import SelectField, TextAreaField, SelectMultipleField, StringField, BooleanField, SubmitField
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Length, Email
 
-from project.server.models import Color, Repair
+from project.server.models import Color, Repair, Shop
 
 
 class SelectRepairForm(FlaskForm):
@@ -29,10 +30,10 @@ class SelectRepairForm(FlaskForm):
         self.repairs.choices = [(repair.id, repair) for repair in device.repairs]
 
     def get_color(self) -> typing.Optional[Color]:
-        return Color.query.get(self.color.data)
+        return Color.query.get_or_404(self.color.data)
 
     def get_repairs(self) -> typing.List[Repair]:
-        return list(map(lambda repair_id: Repair.query.get(repair_id), self.repairs.data))
+        return list(map(lambda repair_id: Repair.query.get_or_404(repair_id), self.repairs.data))
 
 
 class RegisterCustomerForm(FlaskForm):
@@ -113,4 +114,12 @@ class FinalSubmitForm(FlaskForm):
         "kostenloser Kostenvoranschlag",
         validators=[],
         default=False
+    )
+
+    shop = QuerySelectField(
+        "Shop",
+        query_factory=lambda: Shop.query.all(),
+        get_pk=lambda x: x.id,
+        get_label=lambda x: x.name,
+        validators=[DataRequired("Bitte wähle den Zielshop.")]
     )

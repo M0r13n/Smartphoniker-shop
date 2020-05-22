@@ -3,10 +3,13 @@ from flask import session
 
 class SessionStoreMixin(object):
     """ Mixin that enables storing the object in current session on server side """
+    SESSION_KW = None
 
     @classmethod
     def get_session_kw(cls) -> str:
-        return cls.__class__.__name__
+        if not cls.SESSION_KW:
+            raise ValueError(f"SESSION KW not set for {cls.__name__}")
+        return cls.SESSION_KW
 
     @classmethod
     def deserialize(cls, obj):

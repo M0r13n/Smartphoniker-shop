@@ -41,7 +41,7 @@ class Device(db.Model, CRUDMixin, ImageMixin):
         secondary=color_device_table,
         back_populates="devices"
     )
-    orders = db.relationship("Order", back_populates="device")
+
     repairs = db.relationship("Repair", back_populates="device")
 
     __table_args__ = (

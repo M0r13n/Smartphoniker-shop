@@ -2,12 +2,13 @@
 import datetime
 
 from project.server import db
-from .crud import CRUDMixin
 from project.server.utils.session_mixin import SessionStoreMixin
+from .crud import CRUDMixin
 
 
 class Customer(CRUDMixin, db.Model, SessionStoreMixin):
     __tablename__ = "customer"
+    SESSION_KW = __tablename__
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tricoma_id = db.Column(db.String, nullable=True, index=True)
