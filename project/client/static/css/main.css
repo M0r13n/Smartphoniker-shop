@@ -1893,7 +1893,7 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   padding: 10px 20px;
 }
 
-.globalerror__box--alert {
+.globalerror__box--error {
   background-color: rgba(255, 188, 187, 0.97);
   border: 1px solid red;
   color: red;
