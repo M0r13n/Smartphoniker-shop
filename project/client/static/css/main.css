@@ -182,7 +182,7 @@ header .header__menutoggle {
   height: 32px;
   position: absolute;
   opacity: 0;
-  z-index: 9;
+  z-index: 102;
   -webkit-touch-callout: none;
 }
 
@@ -215,7 +215,7 @@ header .header__burgerline {
   position: relative;
   top: 25%;
   border-radius: 4px;
-  z-index: 8;
+  z-index: 101;
   -webkit-transition: background-color 0.3s ease, opacity 0.55s ease, -webkit-transform 0.5s ease;
   transition: background-color 0.3s ease, opacity 0.55s ease, -webkit-transform 0.5s ease;
   transition: transform 0.5s ease, background-color 0.3s ease, opacity 0.55s ease;
@@ -241,6 +241,7 @@ header .header__list {
   transition: -webkit-transform 0.4s ease;
   transition: transform 0.4s ease;
   transition: transform 0.4s ease, -webkit-transform 0.4s ease;
+  z-index: 100;
 }
 
 header .header__list--in {
