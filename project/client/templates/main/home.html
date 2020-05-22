@@ -69,7 +69,7 @@
 
     <div class="container container--small ">
         <section class="bestseller">
-            <h2 class="bestseller__heading">Bestseller</h2>
+            <h2 class="bestseller__heading">Top Geräte</h2>
             <div class="bestseller__content">
                 <ul class="bestseller__list">
                     {% for seller in bestseller %}
@@ -78,8 +78,6 @@
                             <a class="bestseller__link" href="TODO">
                                 <h3 class="bestseller__devicename">{{ seller.device.name }}</h3>
                             </a>
-                            <p class="bestseller__repair">{{ seller.name }}</p>
-                            <p class="bestseller__price">{{ seller.price }}€</p>
                         </li>
                     {% endfor %}
                     <li class="bestseller__item">
@@ -96,9 +94,9 @@
             <h2 class="brands__heading">Spezialist für:</h2>
             <div class="brands__content">
                 <ul class="brands__list">
-                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Apple.svg") }}" alt="show apple devices"></a></li>
-                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Huawei.svg") }}" alt="show huawei devices"></a></li>
-                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Samsung_Galaxy.svg") }}" alt="show samsung devices"></a></li>
+                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/apple-color.svg") }}" alt="show apple devices"></a></li>
+                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/huawei-color.svg") }}" alt="show huawei devices"></a></li>
+                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/samsung_galaxy-color.svg") }}" alt="show samsung devices"></a></li>
                     <li class="brands__item"><a class="brands__link" href="{{ url_for('main.shop') }}">Viele<br>mehr</a></li>
                 </ul>
             </div>
