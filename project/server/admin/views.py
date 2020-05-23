@@ -162,7 +162,7 @@ class RepairView(AdminExportableModelView):
 
 class ImageView(AdminExportableModelView):
     """ Manage and view images  """
-    column_editable_list = ['name', 'default']
+    column_editable_list = ['name', 'device_default', 'repair_default', 'manufacturer_default']
     form_excluded_columns = ['path']
 
 

@@ -1,29 +1,30 @@
 {% extends "_base.html" %}
 {% block content %}
-<div class="container container--small">
-      <section class="hero">
-          <h1 class="hero__heading">Alle Hersteller</h1>
-          <p class="hero__chronic hide-mobile">
-              <a class="hero__chroniclink" href="{{ url_for('main.shop') }}">Shop</a>  >  <a class="hero__chroniclink" href="../">Hersteller auswählen</a>
-          </p>
-          <div class="progressbar">
-              <div class="progressbar__step">
-                  <div class="progressbar__number progressbar__number--active">1</div>
-                  <div class="progressbar__text">Hersteller wählen</div>
-              </div>
-              <div class="progressbar__divider"></div>
-              <div class="progressbar__step">
-                  <div id="STEP2" class="progressbar__number progressbar__number--active">2</div>
-                  <div class="progressbar__text">Modellreihe bestimmen</div>
-              </div>
-              <div class="progressbar__divider"></div>
-              <div class="progressbar__step">
-                  <div id="STEP3" class="progressbar__number progressbar__number--active">3</div>
-                  <div class="progressbar__text">Gerät auswählen</div>
-              </div>
-          </div>
-      </section>
-  </div>
+    <div class="container container--small">
+        <section class="hero">
+            <h1 class="hero__heading">Alle Hersteller</h1>
+            <p class="hero__chronic hide-mobile">
+                <a class="hero__chroniclink" href="{{ url_for('main.manufacturer') }}">Hersteller auswählen</a> >
+                <a class="hero__chroniclink" href="{{ url_for('main.series', manufacturer_name=manufacturer) }}">Serie auswählen</a>
+            </p>
+            <div class="progressbar">
+                <div class="progressbar__step">
+                    <div class="progressbar__number progressbar__number--active">1</div>
+                    <div class="progressbar__text">Hersteller wählen</div>
+                </div>
+                <div class="progressbar__divider"></div>
+                <div class="progressbar__step">
+                    <div id="STEP2" class="progressbar__number progressbar__number--active">2</div>
+                    <div class="progressbar__text">Modellreihe bestimmen</div>
+                </div>
+                <div class="progressbar__divider"></div>
+                <div class="progressbar__step">
+                    <div id="STEP3" class="progressbar__number progressbar__number--active">3</div>
+                    <div class="progressbar__text">Gerät auswählen</div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <div class="container container--small">
         <section class="grid">
@@ -40,7 +41,12 @@
                     </div>
                 {% endfor %}
             </div>
-            
+            {% if not devices|length %}
+                {# No repairs #}
+                {# TODO stylen #}
+                <h3>Aktuell bieten wir keine Reparatruen für diesen Serie an + Zurück buttun</h3>
+            {% endif %}
+
         </section>
     </div>
 {% endblock %}

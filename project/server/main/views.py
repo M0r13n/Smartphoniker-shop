@@ -1,11 +1,11 @@
 # project/server/main/views.py
 import typing
 
-from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash
+from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash, session
 
 from project.common.email.message import make_html_mail
-from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
-from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
+from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm, SelectShopForm
+from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order, Shop
 from project.server.models.queries import get_bestsellers
 from project.server.utils.mail import send_email
 
@@ -16,14 +16,20 @@ main_blueprint = Blueprint("main", __name__)
 def home():
     """ Render Homepage """
     bestseller: typing.List[Device] = get_bestsellers()
-    return render_template("main/home.html", bestseller=bestseller)
+    specialist_manufacturers = Manufacturer.query.filter(
+        (Manufacturer.name == "Apple") | (Manufacturer.name == "Samsung") | (Manufacturer.name == "Huawei")
+    ).all()
+    return render_template("main/home.html", bestseller=bestseller, specialist_manufacturers=specialist_manufacturers)
 
 
-@main_blueprint.route("/shop")
+@main_blueprint.route("/shop", methods=['GET', 'POST'])
 def shop():
     """ Render a list of all manufacturers """
-    all_manufacturers = Manufacturer.query.filter(Manufacturer.activated == True).all()  # noqa
-    return render_template("main/shop.html", manufacturers=all_manufacturers)
+    shop_form = SelectShopForm()
+    if shop_form.validate_on_submit():
+        session['shop_id'] = shop_form.shop.data.id
+        return redirect(url_for('main.manufacturer'))
+    return render_template("main/shop.html", shop_form=shop_form)
 
 
 @main_blueprint.route("/manufacturer")
@@ -49,16 +55,18 @@ def all_devices_of_series(manufacturer_name, series_name):
     _series = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
     if not _manufacturer or not _series:
         abort(404)
-    return render_template("main/devices.html", devices=_series.devices, manufacturer=manufacturer_name, series=series_name)
+    _devices = list(filter(lambda device: len(device.repairs) > 0, _series.devices))  # display only devices that have at least one repair
+    return render_template("main/devices.html", devices=_devices, manufacturer=manufacturer_name, series=series_name)
 
 
 @main_blueprint.route("/<string:manufacturer_name>/<string:series_name>/<string:device_name>/", methods=['GET', 'POST'])
 def model(manufacturer_name, series_name, device_name):
     """ Returns the chosen device """
-    _manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
-    _series = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
-    _device = Device.query.filter(Device.name == device_name).first()
-    if not _manufacturer or not _series or not _device:
+    _manufacturer: Manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
+    _series: DeviceSeries = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
+    _device: Device = Device.query.filter(Device.name == device_name).first()
+    _shop: Shop = Shop.query.get(session.get('shop_id'))
+    if not _manufacturer or not _series or not _device or not _shop:
         abort(404)
 
     repair_form = SelectRepairForm(_device)
@@ -66,13 +74,14 @@ def model(manufacturer_name, series_name, device_name):
         order = Order.create(
             color=repair_form.get_color(),
             repairs=repair_form.get_repairs(),
-            problem_description=repair_form.problem_description.data
+            problem_description=repair_form.problem_description.data,
+            shop=_shop
         )
         order.save()
         order.save_to_session()
         return redirect(url_for('main.register_customer'))
 
-    return render_template("main/modell.html", device=_device, repair_form=repair_form)
+    return render_template("main/modell.html", device=_device, repair_form=repair_form, manufacturer=manufacturer_name, series=series_name)
 
 
 @main_blueprint.route("/register", methods=['GET', 'POST'])

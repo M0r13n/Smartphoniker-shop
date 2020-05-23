@@ -21,4 +21,6 @@ def most_selling_repairs(limit: int = 5) -> typing.List[Repair]:
 
 def get_bestsellers(limit: int = 5) -> typing.List[Device]:
     repairs = most_selling_repairs(limit=limit)
-    return list(set(map(lambda rep: rep.device, repairs)))
+    seen = set()
+    seen_add = seen.add
+    return [rep.device for rep in repairs if not (rep in seen or seen_add(rep))]

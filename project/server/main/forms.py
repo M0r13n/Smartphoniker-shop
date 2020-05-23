@@ -101,6 +101,16 @@ class RegisterCustomerForm(FlaskForm):
     )
 
 
+class SelectShopForm(FlaskForm):
+    shop = QuerySelectField(
+        "Shop",
+        query_factory=lambda: Shop.query.all(),
+        get_pk=lambda x: x.id,
+        get_label=lambda x: x.name,
+        validators=[DataRequired("Bitte wähle den Zielshop.")]
+    )
+
+
 class FinalSubmitForm(FlaskForm):
     shipping_label = BooleanField(
         "Versandlabel",
@@ -111,12 +121,4 @@ class FinalSubmitForm(FlaskForm):
         "kostenloser Kostenvoranschlag",
         validators=[],
         default=False
-    )
-
-    shop = QuerySelectField(
-        "Shop",
-        query_factory=lambda: Shop.query.all(),
-        get_pk=lambda x: x.id,
-        get_label=lambda x: x.name,
-        validators=[DataRequired("Bitte wähle den Zielshop.")]
     )

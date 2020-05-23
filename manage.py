@@ -142,20 +142,22 @@ def clean_db():
 @cli.command()
 def load_svg():
     """ Load all SVG's from a default path """
-    Image.query.delete()
 
     img_path = "client/static/images"
     search_dir = os.path.join(PROJECT_ROOT, img_path)
     assert os.path.exists(search_dir)
 
     rootdir = Path(search_dir)
-
+    counter = 0
     for f in rootdir.glob('**/*'):
         if f.is_file() and f.exists() and f.suffix == '.svg':
             f = f.relative_to(rootdir)
             file = f.parts[-1]
-            i = Image.create(path=str(f.as_posix()), name=file)
-            assert os.path.exists(os.path.join(search_dir, i.path))
+            if not Image.query.filter(Image.name == file).first():
+                counter += 1
+                i = Image.create(path=str(f.as_posix()), name=file)
+                assert os.path.exists(os.path.join(search_dir, i.path))
+    print("Loaded", counter, "images into db.")
 
 
 @cli.command()

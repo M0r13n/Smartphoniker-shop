@@ -78,8 +78,6 @@
                             <a class="bestseller__link" href="{{ url_for('main.model', manufacturer_name=seller.manufacturer.name, series_name=seller.series.name, device_name=seller.name) }}">
                                 <h3 class="bestseller__devicename">{{ seller.name }}</h3>
                             </a>
-                            {# <p class="bestseller__repair">{{ seller.name }}</p> #}
-                            {# <p class="bestseller__price">{{ seller.price }}€</p> #}
                         </li>
                     {% endfor %}
                     <li class="bestseller__item">
@@ -96,9 +94,17 @@
             <h2 class="brands__heading">Spezialist für:</h2>
             <div class="brands__content">
                 <ul class="brands__list">
-                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Apple.svg") }}" alt="show apple devices"></a></li>
-                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Huawei.svg") }}" alt="show huawei devices"></a></li>
-                    <li class="brands__item"><a class="brands__link" href="#"><img class="brands__img" src="{{ url_for('static', filename="images/phone-logos/Samsung_Galaxy.svg") }}" alt="show samsung devices"></a></li>
+                    {% for manu in specialist_manufacturers %}
+                        <li class="brands__item">
+                            <a class="brands__link" href="{{ url_for('main.series', manufacturer_name=manu.name) }}">
+                                {% if manu.get_image_path() %}
+                                    <img class="brands__img" src="{{ manu.get_image_path() }}" alt="show {{ manu.name }} devices">
+                                {% else %}
+                                    {{ manu.name }}
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endfor %}
                     <li class="brands__item"><a class="brands__link" href="{{ url_for('main.shop') }}">Viele<br>mehr</a></li>
                 </ul>
             </div>
