@@ -1,9 +1,12 @@
 # project/server/main/views.py
+import typing
+
 from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash
 
 from project.common.email.message import make_html_mail
 from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
-from project.server.models import Repair, Manufacturer, DeviceSeries, Device, Customer, Order
+from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
+from project.server.models.queries import get_bestsellers
 from project.server.utils.mail import send_email
 
 main_blueprint = Blueprint("main", __name__)
@@ -12,7 +15,7 @@ main_blueprint = Blueprint("main", __name__)
 @main_blueprint.route("/")
 def home():
     """ Render Homepage """
-    bestseller = Repair.query.filter(Repair.bestseller == True).all()  # noqa
+    bestseller: typing.List[Device] = get_bestsellers()
     return render_template("main/home.html", bestseller=bestseller)
 
 

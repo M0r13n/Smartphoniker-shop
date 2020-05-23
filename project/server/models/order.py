@@ -78,7 +78,7 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
 
     @property
     def taxes(self) -> float:
-        return round((19.0 * float(self.total_cost)) / 100.0, 2)
+        return round((19.0 * float(self.total_cost_including_tax_and_discount)) / 100.0, 2)
 
     @property
     def discount(self) -> float:

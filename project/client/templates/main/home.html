@@ -1,56 +1,56 @@
 {% extends "_base.html" %}
 {% block content %}
- <style>
-    body {
-        background-repeat: no-repeat;
-        background-image: url("{{ url_for('static', filename='images/heroimage.jpg') }}");
-        background-size: 800px;
-        background-position: top;
-    }
-
-    @media screen and (min-width: 650px) {
+    <style>
         body {
-            background-position-y: inherit;
+            background-repeat: no-repeat;
+            background-image: url("{{ url_for('static', filename='images/heroimage.jpg') }}");
+            background-size: 800px;
+            background-position: top;
         }
-    }
 
-    @media screen and (min-width: 800px) {
-        body {
-            background-size: 900px;
-            background-position-y: -3%;
+        @media screen and (min-width: 650px) {
+            body {
+                background-position-y: inherit;
+            }
         }
-    }
 
-    @media screen and (min-width: 900px) {
-        body {
-            background-image: url("{{ url_for('static', filename='images/heroimage-wide.jpg') }}");
-            background-size: 1920px;
-            background-position-y: inherit;
-            background-position-x: 62%;
-            max-height: none;
+        @media screen and (min-width: 800px) {
+            body {
+                background-size: 900px;
+                background-position-y: -3%;
+            }
         }
-    }
 
-    @media screen and (min-width: 1250px) {
-        body {
-            background-position-y: -2%;
+        @media screen and (min-width: 900px) {
+            body {
+                background-image: url("{{ url_for('static', filename='images/heroimage-wide.jpg') }}");
+                background-size: 1920px;
+                background-position-y: inherit;
+                background-position-x: 62%;
+                max-height: none;
+            }
         }
-    }
 
-    @media screen and (min-width: 1920px) {
-        body {
-            background-size: 2560px;
-            background-position-y: -5%;
+        @media screen and (min-width: 1250px) {
+            body {
+                background-position-y: -2%;
+            }
         }
-    }
 
-    @media screen and (min-width: 2560px) {
-        body {
-            background-size: 3440px;
-            background-position-y: -15%;
+        @media screen and (min-width: 1920px) {
+            body {
+                background-size: 2560px;
+                background-position-y: -5%;
+            }
         }
-    }
- </style>
+
+        @media screen and (min-width: 2560px) {
+            body {
+                background-size: 3440px;
+                background-position-y: -15%;
+            }
+        }
+    </style>
     <div class="container container--small container--heroimage">
         <section class="hero">
             <h1 class="hero__heading hero__heading--home">Professionelle&thinsp;Handy-Reparatur</h1>
@@ -74,12 +74,12 @@
                 <ul class="bestseller__list">
                     {% for seller in bestseller %}
                         <li class="bestseller__item">
-                            <img class="bestseller__img" src="{{ seller.get_image_path() }}" alt="{{ seller.device.name }} {{ seller.name }}">
-                            <a class="bestseller__link" href="TODO">
-                                <h3 class="bestseller__devicename">{{ seller.device.name }}</h3>
+                            <img class="bestseller__img" src="{{ seller.get_image_path() }}" alt="{{ seller.name }}">
+                            <a class="bestseller__link" href="{{ url_for('main.model', manufacturer_name=seller.manufacturer.name, series_name=seller.series.name, device_name=seller.name) }}">
+                                <h3 class="bestseller__devicename">{{ seller.name }}</h3>
                             </a>
-                            <p class="bestseller__repair">{{ seller.name }}</p>
-                            <p class="bestseller__price">{{ seller.price }}€</p>
+                            {# <p class="bestseller__repair">{{ seller.name }}</p> #}
+                            {# <p class="bestseller__price">{{ seller.price }}€</p> #}
                         </li>
                     {% endfor %}
                     <li class="bestseller__item">
@@ -88,7 +88,7 @@
                     </li>
                 </ul>
             </div>
-        </section> 
+        </section>
     </div>
 
     <div class="container container--wide container--brands">

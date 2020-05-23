@@ -157,7 +157,7 @@ class DeviceSeriesView(AdminExportableModelView):
 
 class RepairView(AdminExportableModelView):
     """ Repair View """
-    column_editable_list = ['device', 'name', 'image', 'price', 'bestseller']
+    column_editable_list = ['device', 'name', 'image', 'price']
 
 
 class ImageView(AdminExportableModelView):
