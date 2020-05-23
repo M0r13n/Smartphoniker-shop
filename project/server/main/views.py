@@ -114,6 +114,10 @@ def order_overview():
     order.customer = customer
     form = FinalSubmitForm()
     if form.validate_on_submit():
+        order.kva = form.kva_button.data
+        order.complete = True
+        # TODO Shipping label
+        order.save()
         send_mails(form.kva_button.data, form.shipping_label.data)
         return redirect(url_for('main.success'))
 
