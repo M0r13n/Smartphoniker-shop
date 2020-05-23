@@ -132,7 +132,7 @@ class DeviceView(AdminExportableModelView):
     """ Create and manage devices """
     form_excluded_columns = ['orders', 'repairs']
 
-    column_editable_list = ['series']
+    column_editable_list = ['series', 'image']
 
 
 class ColorView(AdminExportableModelView):

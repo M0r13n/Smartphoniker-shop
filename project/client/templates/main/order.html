@@ -12,12 +12,13 @@
             <section class="order">
                 <h2 class="order__heading">Ihr Smartphone</h2>
                 <div class="order__content order__content--deviceinfo">
-                    <img class="order__image" src="" alt="Grafik Ihres Gerätes">
+                    <img class="order__image" src="{{ device.get_image_path() }}" alt="{{ device.name }}">
                     <div class="order__deviceinfo">
                         <p class="order__devicename">{{ device.name }}</p>
                         <p class="order__colorname">{{ color.name }}</p>
-                        <div class="order__color">{{ color.color_code }}</div>
-                        {# TODO: @Tobi Pass mal an #}
+                        <label class="color__label color__label--active" for="{{ color.name.replace(' ', '_') }}">
+                            <div style="background-color: {{ color.color_code }};" class="color__circle"></div>
+                        </label>
                     </div>
                 </div>
             </section>
