@@ -60,8 +60,8 @@ def create_sample_data():
     Device.create(name="iPhone 11", colors=[b, w], series=s),
     Device.create(name="iPhone Pro", colors=[b, w], series=s),
 
-    Repair.create(name="Display Reparatur", device=a1, price=69, bestseller=True)
-    Repair.create(name="Akku Reparatur", device=a1, price=69, bestseller=True)
+    Repair.create(name="Display Reparatur", device=a1, price=69)
+    Repair.create(name="Akku Reparatur", device=a1, price=69)
     Repair.create(name="Kleinteilreparatur", device=a1, price=69)
     Repair.create(name="Display Reparatur", device=a2, price=69)
 
