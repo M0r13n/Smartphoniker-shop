@@ -1945,3 +1945,24 @@ footer {
         }
     }
 }
+
+
+// -----------------------------------------------
+// ---------------  Global-Error  ----------------
+// -----------------------------------------------
+
+.error {
+    @extend .section;
+    padding-top: 0;
+
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__button {
+        @extend .cta;
+        margin: 0 auto;
+        max-width: 240px;
+        height: 40px;
+    }
+}

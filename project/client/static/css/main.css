@@ -85,26 +85,26 @@ option {
   }
 }
 
-.subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading {
+.subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading, .error__heading {
   font-weight: 400;
   font-size: calc(2em * .85);
   margin-bottom: .5em;
 }
 
 @media screen and (min-width: 900px) {
-  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading {
+  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading, .error__heading {
     font-size: calc(2.2em * .7);
   }
 }
 
 @media screen and (min-width: 1250px) {
-  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading {
+  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading, .error__heading {
     font-size: calc(2.5em * .7);
   }
 }
 
 @media screen and (min-width: 2560px) {
-  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading {
+  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading, .error__heading {
     font-size: calc(3.5em * .7);
   }
 }
@@ -114,7 +114,7 @@ option {
   font-size: 1.2em;
 }
 
-.cta, .hero__cta, .bestseller__cta, .search__button, .grid__button, .price__button, .order__button, .customer__button, .success__button {
+.cta, .hero__cta, .bestseller__cta, .search__button, .grid__button, .price__button, .order__button, .customer__button, .success__button, .error__button {
   font-weight: 400;
   color: white;
   background-color: #FF6C00;
@@ -137,12 +137,12 @@ option {
   border-radius: 2px;
 }
 
-.cta:hover, .hero__cta:hover, .bestseller__cta:hover, .search__button:hover, .grid__button:hover, .price__button:hover, .order__button:hover, .customer__button:hover, .success__button:hover {
+.cta:hover, .hero__cta:hover, .bestseller__cta:hover, .search__button:hover, .grid__button:hover, .price__button:hover, .order__button:hover, .customer__button:hover, .success__button:hover, .error__button:hover {
   -webkit-transform: scale(0.98);
           transform: scale(0.98);
 }
 
-.section, .hero, .bestseller, .brands, .testimonial, .faq-section, .datagb, .search, .faq, .grid, .color, .form, .order, .customer, .success {
+.section, .hero, .bestseller, .brands, .testimonial, .faq-section, .datagb, .search, .faq, .grid, .color, .form, .order, .customer, .success, .error {
   padding: 3em 0;
   text-align: left;
 }
@@ -1968,5 +1968,15 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   background-color: rgba(225, 241, 195, 0.96);
   border: 1px solid green;
   color: green;
+}
+
+.error {
+  padding-top: 0;
+}
+
+.error__button {
+  margin: 0 auto;
+  max-width: 240px;
+  height: 40px;
 }
 /*# sourceMappingURL=main.css.map */

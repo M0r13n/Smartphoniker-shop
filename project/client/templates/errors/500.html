@@ -1,8 +1,16 @@
 {% extends "_base.html" %}
 {% block page_title %}- Server Error{% endblock %}
 {% block content %}
+    <div class="container container--small">
+        <section class="hero hero--nocontent">
+            <h1 class="hero__heading">403</h1>
+        </section>
+    </div>
 
-    <h1>500</h1>
-    <p>Sorry. Something went terribly wrong. Go <a href="{{ url_for('main.home')}}">home</a>.</p>
-
+    <div class="container container--small">
+        <section class="error">
+            <h2 class="error__heading">Sorry. Something went terribly wrong.</h2>
+            <a class="error__button" href="{{ url_for('user.login') }}">Go Home here</a>
+        </section>
+    </div>
 {% endblock %}
