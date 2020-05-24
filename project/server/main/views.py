@@ -25,8 +25,9 @@ def home():
 @main_blueprint.route("/manufacturer")
 def manufacturer():
     """ Render a list of all manufacturers as a starting point """
-    all_manufacturers = Manufacturer.query.filter(Manufacturer.activated == True).all()  # noqa
-    return render_template("main/manufacturer.html", manufacturers=all_manufacturers)
+    all_manufacturers: [Manufacturer] = Manufacturer.query.filter(Manufacturer.activated == True).all()  # noqa
+    all_manufacturers_with_repairs = filter(lambda manu: len(manu.series) > 0, all_manufacturers)
+    return render_template("main/manufacturer.html", manufacturers=all_manufacturers_with_repairs)
 
 
 @main_blueprint.route("/<string:manufacturer_name>/series")
