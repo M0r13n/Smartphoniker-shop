@@ -6,7 +6,9 @@
             <section class="hero hero--nocontent">
                 <h1 class="hero__heading">{{ device.name }}</h1>
                 <p class="hero__chronic hide-mobile">
-                    <a class="hero__chroniclink" href="{{ url_for('main.shop') }}">Shop</a> > <a class="hero__chroniclink" href="">Samsung</a> > <a class="hero__chroniclink" href="">S-Serie</a> > <a class="hero__chroniclink" href="">Galaxy S9</a>
+                    <a class="hero__chroniclink" href="{{ url_for('main.manufacturer') }}">Hersteller auswählen</a> >
+                    <a class="hero__chroniclink" href="{{ url_for('main.series', manufacturer_name=manufacturer) }}">Serie auswählen</a> >
+                    <a class="hero__chroniclink" href="{{ url_for('main.all_devices_of_series', manufacturer_name=manufacturer, series_name=series) }}">Gerät auswählen</a> >
                 </p>
             </section>
         </div>
@@ -27,7 +29,7 @@
                     {% for error in repair_form.color.errors %}
                         <p class="form__error">{{ error }}</p>
                     {% endfor %}
-                        <p id="color" class="form__error">Bitte wählen Sie eine Farbe aus.</p>
+                    <p id="color" class="form__error">Bitte wählen Sie eine Farbe aus.</p>
                 </div>
                 <div class="color__content">
                     {% for color_id, color in repair_form.color.choices %}
@@ -54,7 +56,7 @@
                     {% for error in repair_form.repairs.errors %}
                         <p class="form__error">{{ error }}</p>
                     {% endfor %}
-                        <p id="repairs" class="form__error">Bitte wählen Sie mindestens einen Defekt aus.</p>
+                    <p id="repairs" class="form__error">Bitte wählen Sie mindestens einen Defekt aus.</p>
                 </div>
                 <div class="grid__content grid__content--repair">
                     {% for repair_id, repair in repair_form.repairs.choices %}
@@ -80,9 +82,9 @@
 
         <div class="container container--small">
             <section class="form">
-                <h2 class="form__heading"><label for="Description">Problembeschreibung</label></h2>
+                <h2 class="form__heading"><label for="{{ repair_form.problem_description.name }}">Problembeschreibung</label></h2>
                 <div class="form__content">
-                    <textarea id="Description" class="form__textarea" name="problembeschreibung" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich"></textarea>
+                    <textarea id="Description" class="form__textarea" name="{{ repair_form.problem_description.name }}" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich"></textarea>
                 </div>
             </section>
         </div>

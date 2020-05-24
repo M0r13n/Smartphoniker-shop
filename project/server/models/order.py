@@ -23,8 +23,8 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
     id = db.Column(db.Integer, primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.datetime.now)
     # Data
-    complete = db.Column(db.Boolean, default=False)
-    kva = db.Column(db.Boolean, default=False)
+    complete = db.Column(db.Boolean, default=False, nullable=False)
+    kva = db.Column(db.Boolean, default=False, nullable=False)
     problem_description = db.Column(db.Text(), nullable=True)
 
     # Relations
@@ -78,7 +78,7 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
 
     @property
     def taxes(self) -> float:
-        return round((19.0 * float(self.total_cost)) / 100.0, 2)
+        return round((19.0 * float(self.total_cost_including_tax_and_discount)) / 100.0, 2)
 
     @property
     def discount(self) -> float:

@@ -1,9 +1,12 @@
 # project/server/main/views.py
+import typing
+
 from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash
 
 from project.common.email.message import make_html_mail
 from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
-from project.server.models import Repair, Manufacturer, DeviceSeries, Device, Customer, Order
+from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
+from project.server.models.queries import get_bestsellers
 from project.server.utils.mail import send_email
 
 main_blueprint = Blueprint("main", __name__)
@@ -12,15 +15,11 @@ main_blueprint = Blueprint("main", __name__)
 @main_blueprint.route("/")
 def home():
     """ Render Homepage """
-    bestseller = Repair.query.filter(Repair.bestseller == True).all()  # noqa
-    return render_template("main/home.html", bestseller=bestseller)
-
-
-@main_blueprint.route("/shop")
-def shop():
-    """ Render a list of all manufacturers """
-    all_manufacturers = Manufacturer.query.filter(Manufacturer.activated == True).all()  # noqa
-    return render_template("main/shop.html", manufacturers=all_manufacturers)
+    bestseller: typing.List[Device] = get_bestsellers()
+    specialist_manufacturers = Manufacturer.query.filter(
+        (Manufacturer.name == "Apple") | (Manufacturer.name == "Samsung") | (Manufacturer.name == "Huawei")
+    ).all()
+    return render_template("main/home.html", bestseller=bestseller, specialist_manufacturers=specialist_manufacturers)
 
 
 @main_blueprint.route("/manufacturer")
@@ -46,15 +45,16 @@ def all_devices_of_series(manufacturer_name, series_name):
     _series = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
     if not _manufacturer or not _series:
         abort(404)
-    return render_template("main/devices.html", devices=_series.devices, manufacturer=manufacturer_name, series=series_name)
+    _devices = list(filter(lambda device: len(device.repairs) > 0, _series.devices))  # display only devices that have at least one repair
+    return render_template("main/devices.html", devices=_devices, manufacturer=manufacturer_name, series=series_name)
 
 
 @main_blueprint.route("/<string:manufacturer_name>/<string:series_name>/<string:device_name>/", methods=['GET', 'POST'])
 def model(manufacturer_name, series_name, device_name):
     """ Returns the chosen device """
-    _manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
-    _series = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
-    _device = Device.query.filter(Device.name == device_name).first()
+    _manufacturer: Manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
+    _series: DeviceSeries = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
+    _device: Device = Device.query.filter(Device.name == device_name).first()
     if not _manufacturer or not _series or not _device:
         abort(404)
 
@@ -69,7 +69,7 @@ def model(manufacturer_name, series_name, device_name):
         order.save_to_session()
         return redirect(url_for('main.register_customer'))
 
-    return render_template("main/modell.html", device=_device, repair_form=repair_form)
+    return render_template("main/modell.html", device=_device, repair_form=repair_form, manufacturer=manufacturer_name, series=series_name)
 
 
 @main_blueprint.route("/register", methods=['GET', 'POST'])
@@ -102,6 +102,11 @@ def order_overview():
     order.customer = customer
     form = FinalSubmitForm()
     if form.validate_on_submit():
+        order.kva = form.kva_button.data
+        order.complete = True
+        order.shop = form.shop.data
+        # TODO Shipping label
+        order.save()
         send_mails(form.kva_button.data, form.shipping_label.data)
         return redirect(url_for('main.success'))
 

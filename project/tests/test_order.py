@@ -96,7 +96,7 @@ class TestOrder:
 
         assert dto.total_cost_including_tax_and_discount == 108.2
         assert dto.total_cost == 118
-        assert dto.taxes == 22.42
+        assert dto.taxes == 20.56
         assert dto.discount == 9.8
 
     def test_session_save(self, db, sample_color, sample_repair):

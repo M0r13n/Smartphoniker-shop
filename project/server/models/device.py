@@ -89,5 +89,9 @@ class Device(db.Model, CRUDMixin, ImageMixin):
         query = cls.query.order_by(asc(func.levenshtein(Device.name, q))).limit(limit)
         return query
 
+    @property
+    def manufacturer(self):
+        return self.series.manufacturer
+
     def __repr__(self):
         return f"<Device: {self.name}>"

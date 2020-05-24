@@ -132,7 +132,7 @@ class DeviceView(AdminExportableModelView):
     """ Create and manage devices """
     form_excluded_columns = ['orders', 'repairs']
 
-    column_editable_list = ['series']
+    column_editable_list = ['series', 'image']
 
 
 class ColorView(AdminExportableModelView):
@@ -157,12 +157,12 @@ class DeviceSeriesView(AdminExportableModelView):
 
 class RepairView(AdminExportableModelView):
     """ Repair View """
-    column_editable_list = ['device', 'name', 'image', 'price', 'bestseller']
+    column_editable_list = ['device', 'name', 'image', 'price']
 
 
 class ImageView(AdminExportableModelView):
     """ Manage and view images  """
-    column_editable_list = ['name', 'default']
+    column_editable_list = ['name', 'device_default', 'repair_default', 'manufacturer_default']
     form_excluded_columns = ['path']
 
 
