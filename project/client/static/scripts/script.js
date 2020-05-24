@@ -385,6 +385,8 @@ const main = () => {
         $('nav').classList.toggle('header__list--in')
     }, false);
 
+    globalErrorJS();
+
     /* I know that switch statements have bad stigma, 
      * but I think they have great readability & are more maintanable
      * and the default case makes sense here
@@ -408,7 +410,6 @@ const main = () => {
             break;
 
         default:
-            globalErrorJS();
             colorJS();
             totalJS();
             formsJS('Modell');
