@@ -1598,10 +1598,6 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   margin-bottom: .4em;
 }
 
-.order__item:last-child {
-  display: none;
-}
-
 .order__text {
   font-weight: 300;
   color: #424242;

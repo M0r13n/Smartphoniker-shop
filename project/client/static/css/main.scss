@@ -1561,10 +1561,6 @@ footer {
         &:not(:last-child) {
             margin-bottom: .4em;
         }
-
-        &:last-child {
-            display: none;
-        }
     }
 
     &__text {

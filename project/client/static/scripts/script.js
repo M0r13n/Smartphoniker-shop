@@ -316,11 +316,7 @@ const orderJS = () => {
     $('ShippingLabel').addEventListener('change', () => {
         $('Orderselect').classList.toggle('hide');
         $('Orderselect').getElementsByTagName('option')[1].selected = 'selected';
-        hide($('Labelcost'));
-        if ($('ShippingLabel').checked) {
-            show($('Labelcost'), 'flex');
-        }
-        
+        $('Labelcost').classList.toggle('hide');
     });
 
 
