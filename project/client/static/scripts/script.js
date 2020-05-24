@@ -365,6 +365,20 @@ const orderJS = () => {
     }, true); 
 }
 
+/**
+ * iterates over
+ */
+const globalErrorJS = () => {
+    const closeButtons = byQuery('a.globalerror__close');
+
+    for (const button of closeButtons) {
+        button.addEventListener('click', function(evt) {
+            evt.preventDefault();
+            hide(this.parentNode);
+        });
+    }
+}
+
 const main = () => {
     /* mobile Navigation */
     $('menu').addEventListener('click', () => {
@@ -394,6 +408,7 @@ const main = () => {
             break;
 
         default:
+            globalErrorJS();
             colorJS();
             totalJS();
             formsJS('Modell');
