@@ -118,7 +118,7 @@ def order_overview():
         total_cost=order.total_cost,
         taxes=order.taxes,
         discount=order.discount,
-        total_cost_including_tax_and_discount=order.total_cost_including_tax_and_discount,
+        total_cost_including_tax_and_discount=f"{order.total_cost_including_tax_and_discount:.2f}",
         form=form
     )
 

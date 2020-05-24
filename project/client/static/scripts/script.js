@@ -40,6 +40,17 @@ function byQuery(query) {
 }
 
 /**
+ * scrolls to top of the window
+ */
+const scrollToTop = () => {
+    const c = document.documentElement.scrollTop || document.body.scrollTop;
+    if (c > 0) {
+      window.requestAnimationFrame(scrollToTop);
+      window.scrollTo(0, c - c / 16);
+    }
+  };
+
+/**
  * Search Funtion.
  * @param {string}
  */
@@ -65,9 +76,9 @@ function hide(elem) {
  * @param {object}
  * @param {string}
  */
-function show(elem, display = false) {
-    if (display) {
-        elem.style.display = display;
+function show(elem, displayattr = false) {
+    if (displayattr) {
+        elem.style.display = displayattr;
         return;
     }
     elem.style.display = '';
@@ -225,6 +236,19 @@ const colorJS = () => {
         }, false);
     }
 }
+/**
+ * checks select on order page and shows error 
+ */
+const orderValidation = () => {
+    let okay = true;
+    if (!$('ShippingLabel').checked) {
+        if ($('shop').value == '') {
+            okay = false;
+            show($('Selecterror'), 'block');
+        }
+    }
+    return okay;
+}
 
 /**
  * checks every input with given name, shows error message and 
@@ -307,8 +331,38 @@ const formsJS = (formName) => {
             show($('Error0'), 'block');
             evt.preventDefault();
             okay.length = 0;
+            scrollToTop();
         }
     } ,true);
+}
+
+/**
+ * shows and hides elements depending on what is selected
+ */
+const orderJS = () => {
+    $('ShippingLabel').addEventListener('change', () => {
+        $('Orderselect').classList.toggle('hide');
+        $('Orderselect').getElementsByTagName('option')[1].selected = 'selected';
+        $('Labelcost').classList.toggle('hide');
+    });
+
+    $('Submit').addEventListener('click', (evt) => {
+        let okay = orderValidation();
+        if (!okay) {
+            show($('Error0'), 'block');
+            evt.preventDefault();
+            scrollToTop();
+        }
+    }, true); 
+
+    $('SecondarySubmit').addEventListener('click', (evt) => {
+        let okay = orderValidation();
+        if (!okay) {
+            show($('Error0'), 'block');
+            evt.preventDefault();
+            scrollToTop();
+        }
+    }, true); 
 }
 
 const main = () => {
@@ -333,6 +387,10 @@ const main = () => {
 
         case '/register':
             formsJS('Customer');
+            break;
+
+        case "/order":
+            orderJS();
             break;
 
         default:
