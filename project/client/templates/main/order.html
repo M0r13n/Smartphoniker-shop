@@ -9,9 +9,9 @@
         </div>
 
         <div class="container container--small">
-            {# TODO if form.error ... #}
+            {% if form.shop.error %}
                 <p style="display: block;" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
-            {# endif #}
+            {% endif %}
             <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
         </div>
 

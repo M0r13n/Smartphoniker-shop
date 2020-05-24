@@ -1,6 +1,16 @@
 {% extends "_base.html" %}
 {% block page_title %}- Unauthorized{% endblock %}
 {% block content %}
-    <h1>401</h1>
-    <p>You are not authorized to view this page. Please <a href="{{ url_for('user.login') }}">log in</a>.</p>
+    <div class="container container--small">
+        <section class="hero hero--nocontent">
+            <h1 class="hero__heading">401</h1>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="error">
+            <h2 class="error__heading">You are not authorized to view this page.</h2>
+            <a class="error__button" href="{{ url_for('user.login') }}">Click here to log in</a>
+        </section>
+    </div>
 {% endblock %}

@@ -1,6 +1,16 @@
 {% extends "_base.html" %}
 {% block page_title %}- Forbidden{% endblock %}
 {% block content %}
-    <h1>403</h1>
-    <p>You are forbidden from viewing this page. You can login as an admin <a href="{{ url_for('admin.login_view') }}">here</a>.</p>
+    <div class="container container--small">
+        <section class="hero hero--nocontent">
+            <h1 class="hero__heading">403</h1>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="error">
+            <h2 class="error__heading">You are forbidden from viewing this page.</h2>
+            <a class="error__button" href="{{ url_for('user.login') }}">Log in as Admin here</a>
+        </section>
+    </div>
 {% endblock %}
