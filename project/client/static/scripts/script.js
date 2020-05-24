@@ -366,7 +366,7 @@ const orderJS = () => {
 }
 
 /**
- * iterates over
+ * iterates over globalerrormessages
  */
 const globalErrorJS = () => {
     const closeButtons = byQuery('a.globalerror__close');
