@@ -58,7 +58,7 @@ $xxxlarge: 2560px;
 // -----------------------------------------------
 
 * {
-//    outline: .5px dashed red;
+    outline: .5px dashed red;
 }
 
 body {
@@ -779,7 +779,8 @@ footer {
 
     &__heading {
         @extend .subheading;
-        @include color(primary);
+        @include color(b);
+        text-align: left;
     }
 
     &__content {
@@ -803,8 +804,7 @@ footer {
     &__item {
         @include shadow(.26);
         @include color(w, true);
-        @include flex(center);
-        flex-direction: column;
+        display: table;
         min-height: 238px;
         width: 100%;
         cursor: pointer;
@@ -813,11 +813,6 @@ footer {
 
         &:hover {
             transform: scale(0.99);
-        }
-
-        &:last-child {
-            @include flex(center);
-            align-items: center;
         }
 
         &:nth-child(3) {
@@ -831,10 +826,10 @@ footer {
         @include color(primary);
         @include font(regular);
         font-size: 1.2em;
-        display: block;
-        height: 100%;
-        width: 100%;
-        
+        display: table-cell;
+        min-height: 100%;
+        text-align: center;
+        vertical-align: middle;
     }
 
     &__img {

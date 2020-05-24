@@ -1,5 +1,9 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
+* {
+  outline: .5px dashed red;
+}
+
 body {
   font-size: 16px;
   margin: 0;
@@ -834,7 +838,8 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 }
 
 .brands__heading {
-  color: #FF6C00;
+  color: black;
+  text-align: left;
 }
 
 .brands__list {
@@ -862,16 +867,7 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   -webkit-box-shadow: 0 3px 6px rgba(0, 0, 0, 0.26);
           box-shadow: 0 3px 6px rgba(0, 0, 0, 0.26);
   background-color: white;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  display: table;
   min-height: 238px;
   width: 100%;
   cursor: pointer;
@@ -887,18 +883,6 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
           transform: scale(0.99);
 }
 
-.brands__item:last-child {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
 .brands__item:nth-child(3) img {
   width: 75%;
 }
@@ -907,9 +891,10 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   color: #FF6C00;
   font-weight: 400;
   font-size: 1.2em;
-  display: block;
-  height: 100%;
-  width: 100%;
+  display: table-cell;
+  min-height: 100%;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .brands__img {
