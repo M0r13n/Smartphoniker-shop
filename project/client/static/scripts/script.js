@@ -312,14 +312,15 @@ const formsJS = (formName) => {
     } ,true);
 }
 
+/**
+ * shows and hides elements depending on what is selected
+ */
 const orderJS = () => {
     $('ShippingLabel').addEventListener('change', () => {
         $('Orderselect').classList.toggle('hide');
         $('Orderselect').getElementsByTagName('option')[1].selected = 'selected';
         $('Labelcost').classList.toggle('hide');
     });
-
-
 }
 
 const main = () => {
