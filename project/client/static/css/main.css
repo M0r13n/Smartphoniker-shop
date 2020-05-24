@@ -1727,11 +1727,16 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 }
 
 .order__select {
-  margin-top: 1.5em;
+  color: black;
+  margin-top: 2em;
 }
 
 .order__selectwrapper {
   margin-top: .5em;
+}
+
+.order sup {
+  color: #FF6C00;
 }
 
 @media screen and (min-width: 1250px) {

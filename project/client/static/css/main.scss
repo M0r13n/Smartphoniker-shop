@@ -1692,11 +1692,17 @@ footer {
     }
 
     &__select {
-        margin-top: 1.5em;
+        @include font(medium);
+        @include color(b);
+        margin-top: 2em;
     }
 
     &__selectwrapper {
         margin-top: .5em;
+    }
+
+    & sup {
+        @include color(primary);
     }
 }
 
