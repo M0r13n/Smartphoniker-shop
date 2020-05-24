@@ -25,6 +25,7 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
     # Data
     complete = db.Column(db.Boolean, default=False, nullable=False)
     kva = db.Column(db.Boolean, default=False, nullable=False)
+    customer_wishes_shipping_label = db.Column(db.Boolean, default=False)
     problem_description = db.Column(db.Text(), nullable=True)
 
     # Relations

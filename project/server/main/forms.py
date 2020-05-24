@@ -6,7 +6,7 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Length, Email
 
-from project.server.models import Color, Repair, Shop
+from project.server.models import Color, Repair, Shop, Order
 
 
 class SelectRepairForm(FlaskForm):
@@ -122,3 +122,9 @@ class FinalSubmitForm(SelectShopForm):
         validators=[],
         default=False
     )
+
+    def populate_order(self, order: Order):
+        order.kva = self.kva_button.data
+        order.complete = True
+        order.shop = self.shop.data
+        order.customer_wishes_shipping_label = self.shipping_label.data
