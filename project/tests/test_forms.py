@@ -1,8 +1,9 @@
 from flask_login import login_user
+from wtforms import BooleanField, SubmitField
 
 from project.server.admin.forms import LoginForm, ChangePasswordForm
-from project.server.main.forms import SelectRepairForm
-from project.server.models import Repair
+from project.server.main.forms import SelectRepairForm, FinalSubmitForm
+from project.server.models import Repair, Shop, Order
 
 
 class TestLoginForm:
@@ -117,3 +118,41 @@ class TestSelectRepairForm:
         repair_form.color.data = sample_device.colors[0].id
         repair_form.repairs.data = [sample_repair.id, another_repair.id]
         assert repair_form.validate()
+
+
+class TestFinalSubmitForm:
+
+    def test_final_submit_form_fields(self, app, db, sample_shop):
+        form = FinalSubmitForm()
+        assert isinstance(form.shipping_label, BooleanField)
+        assert isinstance(form.kva_button, SubmitField)
+        assert form.shop.flags.required
+        assert not form.kva_button.flags.required
+        assert not form.shipping_label.flags.required
+        assert len(list(form.shop.iter_choices())) == Shop.query.count()
+
+    def test_shop_required(self, app, db, sample_shop):
+        form = FinalSubmitForm()
+        assert not form.validate()
+        assert "Bitte wähle den Zielshop." in form.shop.errors
+
+    def test_test_populate(self, app, db, sample_shop, sample_color):
+        def test_fields(shipping, kva, shop):
+            form = FinalSubmitForm(
+                shop=shop,
+                shipping_label=shipping,
+                kva_button=kva
+            )
+            assert form.validate()
+
+            order = Order.create(color=sample_color)
+            form.populate_order(order)
+            assert order.shop == shop
+            assert order.kva == kva
+            assert order.customer_wishes_shipping_label == shipping
+            order.save()
+
+        test_fields(False, False, sample_shop)
+        test_fields(True, False, sample_shop)
+        test_fields(False, True, sample_shop)
+        test_fields(True, True, Shop.create(name="Salami"))

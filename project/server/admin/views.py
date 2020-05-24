@@ -125,7 +125,23 @@ class OrderView(AdminExportableModelView):
     can_edit = True
 
     column_hide_backrefs = False
-    column_list = ('timestamp', 'complete', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description')
+
+
+class SubmittedOrderView(OrderView):
+    """ Submitted Orders """
+    column_list = ('timestamp', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description')
+
+    def get_query(self):
+        return self.session.query(self.model).filter(self.model.complete == True)  # noqa
+
+
+class PendingOrderView(OrderView):
+    """ Not submitted orders """
+
+    column_list = ('timestamp', 'color', 'customer', 'repairs', 'problem_description')
+
+    def get_query(self):
+        return self.session.query(self.model).filter(self.model.complete == False)  # noqa
 
 
 class DeviceView(AdminExportableModelView):
@@ -172,7 +188,8 @@ admin.add_view(UserModelView(User, db.session))  # User
 admin.add_view(CustomerListView(Customer, db.session))  # Customer
 admin.add_view(MailLogView(MailLog, db.session))  # Mails
 admin.add_view(ShopView(Shop, db.session))  # Shop
-admin.add_view(OrderView(Order, db.session))  # Orders
+admin.add_view(SubmittedOrderView(Order, db.session, name="Aufträge", endpoint="orders"))  # Orders
+admin.add_view(PendingOrderView(Order, db.session, name="Nicht abgeschlossene Aufträge", endpoint="pending"))  # Orders
 admin.add_view(DeviceView(Device, db.session))  # Devices
 admin.add_view(ColorView(Color, db.session))  # Colors
 admin.add_view(ManufacturerView(Manufacturer, db.session))  # Manufacturers
