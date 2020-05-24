@@ -58,7 +58,7 @@ $xxxlarge: 2560px;
 // -----------------------------------------------
 
 * {
-    outline: .5px dashed red;
+    //outline: .5px dashed red;
 }
 
 body {
@@ -1103,34 +1103,35 @@ footer {
         grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
         grid-gap: 2em 1em;
 
-        @media screen and (min-width: 494px) {
-            grid-template-columns: repeat(1, minmax(130px, 1fr) minmax(130px, 1fr) minmax(130px, 1fr));
+        @media screen and (min-width: 374px) {
+            grid-template-columns: repeat(1, minmax(130px, 1fr) minmax(130px, 1fr));
         }
 
-        @media screen and (min-width: 1024px) {
-            grid-template-columns: repeat(2, minmax(120px, 1fr) minmax(120px, 1fr) minmax(120px, 1fr));
+        @media screen and (min-width: $small-medium) {
+            grid-template-columns: repeat(1, minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr) minmax(150px, 1fr));
+        }
+
+        @media screen and (min-width: $xlarge) {
+            grid-template-columns: repeat(1, minmax(170px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr) minmax(170px, 1fr));
         }
 
         // We need this because using 3 minmax in one repeat is not supported in firefox
         @-moz-document url-prefix() {
             // max-width / columns - grid-gap / columns
             // this is necessary, because there is one less grids than columns
-            grid-template-columns: repeat(auto-fit, calc(100% / 3 - 2em / 3));
+            grid-template-columns: repeat(auto-fit, calc(100% / 2 - 1em / 2));
 
-            @media screen and (min-width: $large) {
-                grid-template-columns: repeat(auto-fit, calc(100% / 6 - 5em / 6)); 
+            @media screen and (min-width: $small-medium) {
+                grid-template-columns: repeat(auto-fit, calc(100% / 3 - 2em / 3));
+            }
+
+            @media screen and (min-width: $xlarge) {
+                grid-template-columns: repeat(auto-fit, calc(100% / 4 - 3em / 4)); 
             }
         }
 
         &--short {
             grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-        }
-
-        &--repair {
-            @media screen and (max-width: $xsmall) {
-                width: 100%;
-            }
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         }
 
         &--error {
@@ -1141,15 +1142,11 @@ footer {
     &__item {
         @include shadow(.16);
         border-radius: 2px;
-        height: 140px;
+        height: 220px;
         transition: transform .3s ease, color .2s ease;
 
-        @media screen and (min-width: $small) {
-            height: 170px;
-        }
-
         @media screen and (min-width: $medium) {
-            height: 200px;
+            height: 250px;
         }
 
         &:hover {
@@ -1158,7 +1155,7 @@ footer {
         }
 
         &--repair {
-            height: 350px;
+            height: 380px;
             max-width: 100%;
 
             @media screen and (min-width: $xlarge) {
@@ -1184,9 +1181,11 @@ footer {
         width: 60%;
         max-height: 60%;
         padding: 0;
+        text-align: center;
 
         &--repair {
             width: 70%;
+            padding: 1.8em 0;
         }
     }
 
