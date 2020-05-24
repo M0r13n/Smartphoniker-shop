@@ -1,3 +1,3 @@
 web: python wsgi.py
-worker: ./manage.py start-worker
+worker: celery worker -A project.server.celery_app:app --loglevel=info
 #postdeploy: python manage.py dev-db
