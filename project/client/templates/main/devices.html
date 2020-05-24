@@ -33,7 +33,7 @@
                 {% for device in devices %}
                     <div class="grid__item">
                         <a class="grid__link" href="{{ url_for('main.model', manufacturer_name=manufacturer, series_name=series, device_name=device.name) }}">
-                            {% if device.image %}
+                            {% if device.get_image() %}
                                 <img class="grid__image" src="{{ device.get_image_path() }}" alt="{{ device.name }} auswählen">
                             {% endif %}
                             <div>{{ device.name }}</div>

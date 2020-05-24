@@ -12,6 +12,7 @@ from flask_alchemydumps.cli import alchemydumps
 from project.server.app import create_app, db
 from project.server.models import User, Shop, Customer, Manufacturer, Repair, Image, DeviceSeries
 from project.server.models.device import Color, Device
+from project.server.models.image import Default
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -50,20 +51,30 @@ def create_sample_data():
     s = DeviceSeries.create(name="iPhone", manufacturer=a)
     a1 = Device.create(name="iPhone 6S", colors=[b, w], series=s)
     a2 = Device.create(name="iPhone 7", colors=[b, w], series=s)
-    Device.create(name="iPhone 6S Plus", colors=[b, w], series=s),
-    Device.create(name="iPhone 6S +", colors=[b, w], series=s),
-    Device.create(name="iPhone 9", colors=[b, w], series=s),
-    Device.create(name="iPhone SE", colors=[b, w], series=s),
-    Device.create(name="iPhone XS Max", colors=[b, w], series=s),
-    Device.create(name="iPhone XS", colors=[b, w], series=s),
-    Device.create(name="iPhone X", colors=[b, w], series=s),
-    Device.create(name="iPhone 11", colors=[b, w], series=s),
-    Device.create(name="iPhone Pro", colors=[b, w], series=s),
+    Device.create(name="iPhone 6S Plus", colors=[b, w], series=s)
+    Device.create(name="iPhone 6S +", colors=[b, w], series=s)
+    Device.create(name="iPhone 9", colors=[b, w], series=s)
+    Device.create(name="iPhone SE", colors=[b, w], series=s)
+    Device.create(name="iPhone XS Max", colors=[b, w], series=s)
+    Device.create(name="iPhone XS", colors=[b, w], series=s)
+    Device.create(name="iPhone X", colors=[b, w], series=s)
+    Device.create(name="iPhone 11", colors=[b, w], series=s)
+    Device.create(name="iPhone Pro", colors=[b, w], series=s)
 
     Repair.create(name="Display Reparatur", device=a1, price=69)
     Repair.create(name="Akku Reparatur", device=a1, price=69)
     Repair.create(name="Kleinteilreparatur", device=a1, price=69)
     Repair.create(name="Display Reparatur", device=a2, price=69)
+
+    # Some tablets
+    tablet = DeviceSeries.create(name="iPad", manufacturer=a)
+    ip11 = Device.create(name="iPad Pro 11\"", colors=[b], series=tablet, is_tablet=True)
+    ip12 = Device.create(name="iPad Pro 12.9\"", colors=[b], series=tablet, is_tablet=True)
+
+    Repair.create(name="Display Reparatur", device=ip11, price=169)
+    Repair.create(name="Display Reparatur", device=ip12, price=69)
+    Repair.create(name="Akku Reparatur", device=ip11, price=169)
+    Repair.create(name="Akku Reparatur", device=ip12, price=69)
 
     # Manus
     Manufacturer.create(name="ASUS")
@@ -92,6 +103,43 @@ def create_sample_data():
     Manufacturer.create(name="ZTE")
 
     User.create(email="ad@min.com", password="admin", admin=True)
+
+    # load svgs
+    load_images()
+
+    # Set default image for devices
+    device_default_img_name = "default_phone.svg"
+    img = Image.query.filter(Image.name == device_default_img_name).first()
+    img.device_default = Default.true
+    img.save()
+    # Set default image for tablets
+    tablet_default_img_name = "default_tablet.svg"
+    img = Image.query.filter(Image.name == tablet_default_img_name).first()
+    img.tablet_default = Default.true
+    img.save()
+    # Set default image for repair
+    repair_default_img_name = "default_phone_kleinteil.svg"
+    img = Image.query.filter(Image.name == repair_default_img_name).first()
+    img.repair_default = Default.true
+    img.save()
+
+
+def load_images():
+    img_path = "client/static/images"
+    search_dir = os.path.join(PROJECT_ROOT, img_path)
+    assert os.path.exists(search_dir)
+
+    rootdir = Path(search_dir)
+    counter = 0
+    for f in rootdir.glob('**/*'):
+        if f.is_file() and f.exists() and f.suffix == '.svg':
+            f = f.relative_to(rootdir)
+            file = f.parts[-1]
+            if not Image.query.filter(Image.name == file).first():
+                counter += 1
+                i = Image.create(path=str(f.as_posix()), name=file)
+                assert os.path.exists(os.path.join(search_dir, i.path))
+    print("Loaded", counter, "images into db.")
 
 
 @cli.command()
@@ -142,22 +190,7 @@ def clean_db():
 @cli.command()
 def load_svg():
     """ Load all SVG's from a default path """
-
-    img_path = "client/static/images"
-    search_dir = os.path.join(PROJECT_ROOT, img_path)
-    assert os.path.exists(search_dir)
-
-    rootdir = Path(search_dir)
-    counter = 0
-    for f in rootdir.glob('**/*'):
-        if f.is_file() and f.exists() and f.suffix == '.svg':
-            f = f.relative_to(rootdir)
-            file = f.parts[-1]
-            if not Image.query.filter(Image.name == file).first():
-                counter += 1
-                i = Image.create(path=str(f.as_posix()), name=file)
-                assert os.path.exists(os.path.join(search_dir, i.path))
-    print("Loaded", counter, "images into db.")
+    load_images()
 
 
 @cli.command()

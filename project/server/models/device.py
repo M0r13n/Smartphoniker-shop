@@ -31,6 +31,7 @@ class Device(db.Model, CRUDMixin, ImageMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True)
+    is_tablet = db.Column(db.Boolean(), default=False)
 
     # Relations
     series_id = db.Column(db.Integer, db.ForeignKey('device_series.id'), nullable=False)
@@ -95,3 +96,9 @@ class Device(db.Model, CRUDMixin, ImageMixin):
 
     def __repr__(self):
         return f"<Device: {self.name}>"
+
+    def _get_image_name_for_class(self):
+        from project.server.models.image import Image, Default
+        if self.is_tablet:
+            return Image.query.filter(Image.tablet_default == Default.true).first()  # noqa
+        return Image.query.filter(Image.device_default == Default.true).first()  # noqa

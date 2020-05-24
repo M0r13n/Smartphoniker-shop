@@ -19,3 +19,7 @@ class Manufacturer(db.Model, CRUDMixin, ImageMixin):
     @property
     def devices(self):
         return [devices for devices in self.series.devices]
+
+    def _get_image_name_for_class(self):
+        from project.server.models.image import Image, Default
+        return Image.query.filter(Image.manufacturer_default == Default.true).first()  # noqa

@@ -64,7 +64,7 @@
                             <input id="{{ repair.name.replace(' ', '_') }}" value="{{ repair.id }}" class="grid__input" type="checkbox" name="{{ repair_form.repairs.name }}" data-price="{{ repair.price }}">
                             <label class="grid__link" for="{{ repair.name.replace(' ', '_') }}">
                                 <div class="grid__title">{{ repair.name }}</div>
-                                {% if repair.image %}
+                                {% if repair.get_image() %}
                                     <img class="grid__image grid__image--repair" src="{{ repair.get_image_path() }}" alt=" auswählen">
                                 {% endif %}
                                 <div class="grid__price"><span class="repairPrice">{{ repair.price }}</span> EUR</div>
