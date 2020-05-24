@@ -66,7 +66,6 @@ function hide(elem) {
  * @param {string}
  */
 function show(elem, displayattr = false) {
-    console.log(displayattr);
     if (displayattr) {
         elem.style.display = displayattr;
         return;
@@ -226,6 +225,19 @@ const colorJS = () => {
         }, false);
     }
 }
+/**
+ * checks select on order page and shows error 
+ */
+const orderValidation = () => {
+    let okay = true;
+    if (!$('ShippingLabel').checked) {
+        if ($('shop').value == '') {
+            okay = false;
+            show($('Selecterror'), 'block');
+        }
+    }
+    return okay;
+}
 
 /**
  * checks every input with given name, shows error message and 
@@ -321,6 +333,20 @@ const orderJS = () => {
         $('Orderselect').getElementsByTagName('option')[1].selected = 'selected';
         $('Labelcost').classList.toggle('hide');
     });
+
+    $('Submit').addEventListener('click', (evt) => {
+        let okay = orderValidation();
+        if (!okay) {
+            evt.preventDefault();
+        }
+    }, true); 
+
+    $('SecondarySubmit').addEventListener('click', (evt) => {
+        let okay = orderValidation();
+        if (!okay) {
+            evt.preventDefault();
+        }
+    }, true); 
 }
 
 const main = () => {

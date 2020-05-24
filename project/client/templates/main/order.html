@@ -94,10 +94,11 @@
                         </label>
                     </div>
                     <div id="Orderselect" class="order__select">
-                        <div>Shop für Reparatur wählen<sup>*</sup>: </div>
+                        <p id="Selecterror" class="form__error">Bitte wählen Sie einen Shop aus.</p>
+                        <div><label for="shop">Shop für Reparatur wählen<sup>*</sup>: </label></div>
                         <div class="order__selectwrapper select-wrapper">
                             <select name="shop" id="shop">
-                                <option value=""></option>
+                                <option disabled selected></option>
                                 {% for option in form.shop %}
                                     <option value="{{ option.id }}">{{ option.label }}</option>
                                 {% endfor %}
@@ -140,8 +141,8 @@
                     <div class="order__total"><span id="totalCost">{{ total_cost_including_tax_and_discount }}</span> EUR</div>
                     <div class="order__text order__text--taxes">inkl. {{ taxes }} EUR MwSt.</div>
                     <div class="order__buttons">
-                        <button class="order__button order__button--primary" type="submit">Auftrag abschicken</button>
-                        <button class="order__button order__button--secondary" name="{{ form.kva_button.name }}" value="{{ form.kva_button.name }}" type="submit">kostenloser Kostenvoranschlag</button>
+                        <button id="Submit" class="order__button order__button--primary" type="submit">Auftrag abschicken</button>
+                        <button id="SecondarySubmit" class="order__button order__button--secondary" name="{{ form.kva_button.name }}" value="{{ form.kva_button.name }}" type="submit">kostenloser Kostenvoranschlag</button>
                     </div>
                 </div>
             </section>
