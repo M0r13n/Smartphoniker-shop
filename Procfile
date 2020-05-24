@@ -1,3 +1,3 @@
 web: python wsgi.py
-worker: celery worker -A price_picker.celery_app:app
+worker: ./manage.py start-worker
 #postdeploy: python manage.py dev-db
