@@ -94,7 +94,6 @@
             <h2 class="brands__heading">Spezialist für:</h2>
             <div class="brands__content">
                 <ul class="brands__list">
-
                     {% for manu in specialist_manufacturers %}
                         <li class="brands__item">
                             <a class="brands__link" href="{{ url_for('main.series', manufacturer_name=manu.name) }}">

@@ -10,7 +10,7 @@ from flask_admin.contrib.sqla import ModelView as _ModelView
 from flask_login import current_user, login_user, logout_user
 
 from project.server import flask_admin as admin, db
-from project.server.models import User, Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries
+from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries
 # Create customized model view class
 from .forms import LoginForm, ChangePasswordForm
 from ..models.device import Color
@@ -167,6 +167,7 @@ class ManufacturerView(AdminExportableModelView):
 
 class DeviceSeriesView(AdminExportableModelView):
     """ Series view """
+    form_excluded_columns = ['devices']
 
     column_editable_list = ['name', 'manufacturer']
 
@@ -174,6 +175,7 @@ class DeviceSeriesView(AdminExportableModelView):
 class RepairView(AdminExportableModelView):
     """ Repair View """
     column_editable_list = ['device', 'name', 'image', 'price']
+    form_excluded_columns = ['orders']
 
 
 class ImageView(AdminExportableModelView):
@@ -184,15 +186,14 @@ class ImageView(AdminExportableModelView):
 
 # Register ModelViews
 
-admin.add_view(UserModelView(User, db.session))  # User
 admin.add_view(CustomerListView(Customer, db.session))  # Customer
-admin.add_view(MailLogView(MailLog, db.session))  # Mails
+admin.add_view(MailLogView(MailLog, db.session, name="Email Log"))  # Mails
 admin.add_view(ShopView(Shop, db.session))  # Shop
 admin.add_view(SubmittedOrderView(Order, db.session, name="Aufträge", endpoint="orders"))  # Orders
 admin.add_view(PendingOrderView(Order, db.session, name="Nicht abgeschlossene Aufträge", endpoint="pending"))  # Orders
-admin.add_view(DeviceView(Device, db.session))  # Devices
-admin.add_view(ColorView(Color, db.session))  # Colors
-admin.add_view(ManufacturerView(Manufacturer, db.session))  # Manufacturers
-admin.add_view(DeviceSeriesView(DeviceSeries, db.session))  # Manufacturers
-admin.add_view(RepairView(Repair, db.session))  # Repairs
-admin.add_view(ImageView(Image, db.session))  # Images
+admin.add_view(ColorView(Color, db.session, name="Farben"))  # Colors
+admin.add_view(DeviceView(Device, db.session, name="Geräte"))  # Devices
+admin.add_view(ManufacturerView(Manufacturer, db.session, name="Hersteller"))  # Manufacturers
+admin.add_view(DeviceSeriesView(DeviceSeries, db.session, name="Serien"))  # Manufacturers
+admin.add_view(RepairView(Repair, db.session, name="Reparaturen"))  # Repairs
+admin.add_view(ImageView(Image, db.session, name="Bilder"))  # Images

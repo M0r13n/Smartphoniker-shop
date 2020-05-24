@@ -104,10 +104,10 @@
                         <p id="Selecterror" class="form__error">Bitte wählen Sie einen Shop aus.</p>
                         <div><label for="shop">Shop für Reparatur wählen<sup>*</sup>: </label></div>
                         <div class="order__selectwrapper select-wrapper">
-                            <select name="shop" id="shop">
+                            <select name="{{ form.shop.name }}" id="shop">
                                 <option disabled selected></option>
                                 {% for option in form.shop %}
-                                    <option value="{{ option.id }}">{{ option.label }}</option>
+                                    <option value="{{ option.data }}">{{ option.label }}</option>
                                 {% endfor %}
                             </select>
                         </div>
