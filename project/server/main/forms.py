@@ -111,7 +111,7 @@ class SelectShopForm(FlaskForm):
     )
 
 
-class FinalSubmitForm(FlaskForm):
+class FinalSubmitForm(SelectShopForm):
     shipping_label = BooleanField(
         "Versandlabel",
         default=False

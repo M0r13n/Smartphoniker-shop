@@ -1,11 +1,11 @@
 # project/server/main/views.py
 import typing
 
-from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash, session
+from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash
 
 from project.common.email.message import make_html_mail
-from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm, SelectShopForm
-from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order, Shop
+from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
+from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
 from project.server.models.queries import get_bestsellers
 from project.server.utils.mail import send_email
 
@@ -20,16 +20,6 @@ def home():
         (Manufacturer.name == "Apple") | (Manufacturer.name == "Samsung") | (Manufacturer.name == "Huawei")
     ).all()
     return render_template("main/home.html", bestseller=bestseller, specialist_manufacturers=specialist_manufacturers)
-
-
-@main_blueprint.route("/shop", methods=['GET', 'POST'])
-def shop():
-    """ Render a list of all manufacturers """
-    shop_form = SelectShopForm()
-    if shop_form.validate_on_submit():
-        session['shop_id'] = shop_form.shop.data.id
-        return redirect(url_for('main.manufacturer'))
-    return render_template("main/shop.html", shop_form=shop_form)
 
 
 @main_blueprint.route("/manufacturer")
@@ -65,8 +55,7 @@ def model(manufacturer_name, series_name, device_name):
     _manufacturer: Manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
     _series: DeviceSeries = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
     _device: Device = Device.query.filter(Device.name == device_name).first()
-    _shop: Shop = Shop.query.get(session.get('shop_id'))
-    if not _manufacturer or not _series or not _device or not _shop:
+    if not _manufacturer or not _series or not _device:
         abort(404)
 
     repair_form = SelectRepairForm(_device)
@@ -74,8 +63,7 @@ def model(manufacturer_name, series_name, device_name):
         order = Order.create(
             color=repair_form.get_color(),
             repairs=repair_form.get_repairs(),
-            problem_description=repair_form.problem_description.data,
-            shop=_shop
+            problem_description=repair_form.problem_description.data
         )
         order.save()
         order.save_to_session()
@@ -116,6 +104,7 @@ def order_overview():
     if form.validate_on_submit():
         order.kva = form.kva_button.data
         order.complete = True
+        order.shop = form.shop.data
         # TODO Shipping label
         order.save()
         send_mails(form.kva_button.data, form.shipping_label.data)

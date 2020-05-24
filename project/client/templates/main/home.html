@@ -63,7 +63,7 @@
                         sehr kurzer Zeit. Egal ob iPhone, Samsung, Huawei
                         oder ganz was anderes. Hier bist du richtig!</span>
             </p>
-            <a class="hero__cta" href="{{ url_for('main.shop') }}">Gerät auswählen</a>
+            <a class="hero__cta" href="{{ url_for('main.manufacturer') }}">Gerät auswählen</a>
         </section>
     </div>
 
@@ -82,7 +82,7 @@
                     {% endfor %}
                     <li class="bestseller__item">
                         <p class="bestseller__text">Dein Gerät ist <br> nicht dabei?</p>
-                        <a class="bestseller__cta" href="{{ url_for('.shop') }}">Alle ansehen</a>
+                        <a class="bestseller__cta" href="{{ url_for('.manufacturer') }}">Alle ansehen</a>
                     </li>
                 </ul>
             </div>
@@ -105,7 +105,7 @@
                             </a>
                         </li>
                     {% endfor %}
-                    <li class="brands__item"><a class="brands__link" href="{{ url_for('main.shop') }}">Viele<br>mehr</a></li>
+                    <li class="brands__item"><a class="brands__link" href="{{ url_for('main.manufacturer') }}">Viele<br>mehr</a></li>
                 </ul>
             </div>
         </section>

@@ -82,9 +82,9 @@
 
         <div class="container container--small">
             <section class="form">
-                <h2 class="form__heading"><label for="Description">Problembeschreibung</label></h2>
+                <h2 class="form__heading"><label for="{{ repair_form.problem_description.name }}">Problembeschreibung</label></h2>
                 <div class="form__content">
-                    <textarea id="Description" class="form__textarea" name="problembeschreibung" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich"></textarea>
+                    <textarea id="Description" class="form__textarea" name="{{ repair_form.problem_description.name }}" placeholder="(optional) Beschreiben Sie ihre Schwierigkeiten so genau wie möglich"></textarea>
                 </div>
             </section>
         </div>
