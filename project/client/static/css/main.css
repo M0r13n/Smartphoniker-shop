@@ -355,6 +355,12 @@ main {
   min-height: calc(100vh - 90px - 257px);
 }
 
+@media screen and (min-width: 650px) {
+  main {
+    min-height: calc(100vh - 90px - 156px);
+  }
+}
+
 @media screen and (min-width: 800px) {
   main {
     min-height: calc(100vh - 120px - 156px);

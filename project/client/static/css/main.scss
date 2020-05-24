@@ -369,6 +369,10 @@ main {
     padding: 0;
     min-height: calc(100vh - 90px - 257px);
     
+    @media screen and (min-width: $small) {
+        min-height: calc(100vh - 90px - 156px);
+    }
+
     @media screen and (min-width: $medium) {
         min-height: calc(100vh - 120px - 156px);
     }
