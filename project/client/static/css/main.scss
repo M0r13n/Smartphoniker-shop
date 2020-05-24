@@ -215,7 +215,7 @@ header {
             height: 32px;
             position: absolute;
             opacity: 0;
-            z-index: 9;
+            z-index: 102;
             -webkit-touch-callout: none;
     
             &:checked ~ span {
@@ -245,7 +245,7 @@ header {
             position: relative;
             top: 25%;
             border-radius: 4px;      
-            z-index: 8;       
+            z-index: 101;       
             transition: transform 0.5s ease,
                         background-color 0.3s ease,
                         opacity 0.55s ease;
@@ -264,6 +264,7 @@ header {
             height: 100%;
             padding: 3em 0;
             transition: transform 0.4s ease;
+            z-index: 100;
     
             &--in {
                 transform: translateY(0);
@@ -1868,7 +1869,7 @@ footer {
         margin: .3em auto;
         padding: 10px 20px;
 
-        &--alert {
+        &--error {
             background-color: rgba(255, 188, 187, .97);
             border: 1px solid red;
             color: red;
