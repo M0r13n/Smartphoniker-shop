@@ -40,6 +40,17 @@ function byQuery(query) {
 }
 
 /**
+ * scrolls to top of the window
+ */
+const scrollToTop = () => {
+    const c = document.documentElement.scrollTop || document.body.scrollTop;
+    if (c > 0) {
+      window.requestAnimationFrame(scrollToTop);
+      window.scrollTo(0, c - c / 16);
+    }
+  };
+
+/**
  * Search Funtion.
  * @param {string}
  */
@@ -320,6 +331,7 @@ const formsJS = (formName) => {
             show($('Error0'), 'block');
             evt.preventDefault();
             okay.length = 0;
+            scrollToTop();
         }
     } ,true);
 }
@@ -337,14 +349,18 @@ const orderJS = () => {
     $('Submit').addEventListener('click', (evt) => {
         let okay = orderValidation();
         if (!okay) {
+            show($('Error0'), 'block');
             evt.preventDefault();
+            scrollToTop();
         }
     }, true); 
 
     $('SecondarySubmit').addEventListener('click', (evt) => {
         let okay = orderValidation();
         if (!okay) {
+            show($('Error0'), 'block');
             evt.preventDefault();
+            scrollToTop();
         }
     }, true); 
 }
