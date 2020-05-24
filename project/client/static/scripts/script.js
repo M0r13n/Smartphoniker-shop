@@ -65,9 +65,10 @@ function hide(elem) {
  * @param {object}
  * @param {string}
  */
-function show(elem, display = false) {
-    if (display) {
-        elem.style.display = display;
+function show(elem, displayattr = false) {
+    console.log(displayattr);
+    if (displayattr) {
+        elem.style.display = displayattr;
         return;
     }
     elem.style.display = '';
@@ -311,6 +312,16 @@ const formsJS = (formName) => {
     } ,true);
 }
 
+const orderJS = () => {
+    $('ShippingLabel').addEventListener('change', () => {
+        $('Orderselect').classList.toggle('hide');
+        $('Orderselect').getElementsByTagName('option')[1].selected = 'selected';
+        show($('Labelcost'), 'flex');
+    });
+
+
+}
+
 const main = () => {
     /* mobile Navigation */
     $('menu').addEventListener('click', () => {
@@ -333,6 +344,10 @@ const main = () => {
 
         case '/register':
             formsJS('Customer');
+            break;
+
+        case "/order":
+            orderJS();
             break;
 
         default:

@@ -174,7 +174,7 @@ option {
 }
 
 .hide {
-  display: none;
+  display: none !important;
 }
 
 header .header {
@@ -1598,6 +1598,10 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   margin-bottom: .4em;
 }
 
+.order__item:last-child {
+  display: none;
+}
+
 .order__text {
   font-weight: 300;
   color: #424242;
@@ -1631,6 +1635,13 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   width: 90%;
   height: 90%;
   border-radius: 2px;
+}
+
+@media screen and (min-width: 900px) and (max-width: 1250px) {
+  .order__input:checked ~ label.order__label span.order__checkbox span.order__innercheckbox {
+    position: relative;
+    top: .5px;
+  }
 }
 
 .order__checkbox {

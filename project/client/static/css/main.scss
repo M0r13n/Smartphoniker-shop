@@ -211,7 +211,7 @@ option {
 } // done
 
 .hide {
-    display: none;
+    display: none !important;
 } // done
 
 
@@ -1561,6 +1561,10 @@ footer {
         &:not(:last-child) {
             margin-bottom: .4em;
         }
+
+        &:last-child {
+            display: none;
+        }
     }
 
     &__text {
@@ -1600,6 +1604,11 @@ footer {
             width: 90%;
             height: 90%;
             border-radius: 2px;
+
+            @media screen and (min-width: $large) and (max-width: $xlarge) {
+                position: relative;
+                top: .5px;
+            }
         }
     }
 
