@@ -93,11 +93,22 @@
                             Ich wünsche ein kostenloses Versandlabel um mein Gerät zu versenden.
                         </label>
                     </div>
+                    <div id="Orderselect" class="order__select">
+                        <div class="order__text">Shop für Reparatur wählen: </div>
+                        <div class="order__selectwrapper select-wrapper">
+                            <select name="shop" id="shop">
+                                <option value=""></option>
+                                {% for option in form.shop %}
+                                    <option value="{{ option.id }}">{{ option.label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
 
-        {{ form.shop() }}
+        
 
         <div class="container container--small">
             <hr class="divider">
@@ -129,7 +140,7 @@
                         <hr class="order__line">
                     </div>
                     <div class="order__total"><span id="totalCost">{{ total_cost_including_tax_and_discount }}</span> EUR</div>
-                    <div class="order__text order__text--taxes">inkl. {{ taxes }}EUR MwSt.</div>
+                    <div class="order__text order__text--taxes">inkl. {{ taxes }} EUR MwSt.</div>
                     <div class="order__buttons">
                         <button class="order__button order__button--primary" type="submit">Auftrag abschicken</button>
                         <button class="order__button order__button--secondary" name="{{ form.kva_button.name }}" value="{{ form.kva_button.name }}" type="submit">kostenloser Kostenvoranschlag</button>

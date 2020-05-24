@@ -82,6 +82,42 @@ h1, h2, h3, p {
     margin: 0;
 } // done
 
+select {
+    @include color(primary, true);
+    @include color(w);
+    @include shadow(0.26);
+    appearance: none;
+    border: none;
+    width: 100%;
+    height: 40px;
+    max-width: 200px;
+    padding-left: 10px;
+    font-family: Roboto, sans-serif;
+    font-size: 1em;
+    border-radius: 2px;
+    outline: none;
+    position: relative;   
+}
+
+option {
+    @include font(light);
+}
+
+.select-wrapper {
+    position: relative;
+
+    &::before {
+        @include color(w);
+        z-index: 100;
+        position: absolute;
+        content: "▾";
+        font-size: 1.8em;
+        left: 168px;
+        top: 0px;
+        pointer-events: none;
+    }
+}
+
 .heading {
     @include font(bold);
     font-size: 2em;
@@ -137,7 +173,7 @@ h1, h2, h3, p {
     border-radius: 2px;
 
     &:hover {
-        transform: scale(0.95);
+        transform: scale(0.98);
     }
 } // done
 
@@ -1586,12 +1622,14 @@ footer {
     }
 
     &__divider {
-        @extend .divider;
-
-        @media screen and (min-width: $xlarge) {
-            width: 25%;
+        @media screen and (min-width: $medium) {
+            width: 50%;
             margin: 0 0 0 auto;
         }
+    }
+
+    &__line {
+        @extend .divider;
     }
 
     &__total {
@@ -1651,6 +1689,14 @@ footer {
             width: 30%;
             margin-top: 0 !important;
         }
+    }
+
+    &__select {
+        margin-top: 1.5em;
+    }
+
+    &__selectwrapper {
+        margin-top: .5em;
     }
 }
 
