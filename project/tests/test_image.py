@@ -25,6 +25,8 @@ class TestImage:
     def test_default_images_can_be_set(self, db, sample_repair, sample_device, sample_manufacturer, sample_image):
         sample_image.repair_default = Default.true
         sample_image.save()
+
+        assert Image.query.filter(Image.repair_default == Default.true).first()  # noqa
         assert sample_repair.get_image_path() is not None
         assert sample_repair.get_image() is sample_image
         assert sample_device.get_image_path() is None

@@ -22,8 +22,8 @@ class Repair(db.Model, CRUDMixin, ImageMixin):
 
     def _get_image_name_for_class(self):
         from project.server.models.image import Image, Default
-        if self.device.image is None:
-            if self.device.is_tablet:
-                return Image.query.filter(Image.name == "default_tablet_other.svg").first()
-            return Image.query.filter(Image.name == "default_phone_other.svg").first()
-        return Image.query.filter(Image.repair_default == Default.true).first()  # noqa
+        if self.device.is_tablet:
+            img = Image.query.filter(Image.name == "default_tablet_other.svg").first()
+        else:
+            img = Image.query.filter(Image.name == "default_phone_other.svg").first()
+        return img or Image.query.filter(Image.repair_default == Default.true).first()
