@@ -23,7 +23,7 @@ class Color(db.Model, CRUDMixin):
         back_populates="colors")
 
     def __repr__(self):
-        return f"<{self.name} : {self.color_code}>"
+        return self.internal_name
 
 
 class Device(db.Model, CRUDMixin, ImageMixin):
