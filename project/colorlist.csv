@@ -1,0 +1,39 @@
+Name,ColorCode,internal_name
+Weiß,"rgb(255,255,255)",White
+Schwarz,"rgb(0,0,0)",black
+Rot,"rgb(231,52,39)",red
+Grün,"rgb(42,97,43)",green
+Blau,"rgb(55,91,223)",blue
+Violett,"rgb(95,71,137)",violett
+Gold,"rgb(245,216,192)",gold
+Silber,"rgb(149,152,157)",silver
+Midnight Green,"rgb(80,88,81)",apple_midnight-green
+Silber,"rgb(235,235,228)",apple_silver
+Spacegrey,"rgb(230,199,194)",apple_light-spacegrey
+Spacegrey,"rgb(83,81,80)",apple_spacegrey
+Purple,"rgb(208,205,217)",apple_pastel-purple
+Yellow,"rgb(251,229,143)",apple_pastel-yellow
+Mint,"rgb(184,223,206)",apple_pastel-mint
+Product Red,"rgb(171,39,51)",apple_productred
+Lightblue,"rgb(98,173,225)",apple_lightblue
+Coral,"rgb(238,118,98)",apple_coral
+Yellow,"rgb(243,208,96)",apple_yellow
+Rose,"rgb(230,199,194)",apple_rose
+Orchid Grey,"rgb(106,104,125)",sam_orchid-grey
+Coral Blue,"rgb(122,156,198)",sam_coral-blue
+Arctic Silver,"rgb(174,175,179)",sam_arctic-silver
+Maple Gold,"rgb(166,148,128)",sam_maple-gold
+Titanium Silver,"rgb(110,110,111)",sam_titanium-silver
+Cloud Blue,"rgb(189,210,225)",sam_cloud-blue
+Cloud Pink,"rgb(221,193,195)",sam_cloud-pink
+Prism Green,"rgb(108,157,163)",sam_prism-green
+Prism Blue,"rgb(81,119,156)",sam_prism-blue
+Prism Silver,"rgb(130,153,172)",sam_prism-silver
+Polaris Blue,"rgb(55,91,223)",sam_polaris-blue
+Lilac Purple,"rgb(60,37,64)",sam_lilac-purple
+Prism White,"rgb(218,237,240)",sam_prism-white
+Aura Pink,"rgb(217,124,144)",sam_aura-pink
+Aure Red,"rgb(170,45,58)",sam_aura-red
+Aura Glow,"rgb(86,192,198)",sam_aura-glow
+Prism Crush Blue,"rgb(55,91,223)",sam_prism-crush-blue
+Coral,"rgb(240,134,132)",sam_coral
