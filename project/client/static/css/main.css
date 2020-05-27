@@ -913,6 +913,14 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   }
 }
 
+.testimonial__link {
+  max-width: 100%;
+}
+
+.testimonial__img {
+  max-width: 100%;
+}
+
 .faq-section {
   padding-top: 0;
   width: 100%;

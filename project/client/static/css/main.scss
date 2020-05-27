@@ -854,6 +854,14 @@ footer {
         @extend .subheading;
     }
 
+    &__link {
+        max-width: 100%;
+    }
+
+    &__img {
+        max-width: 100%;
+    }
+
     &__content {
         @extend .content;
     }
