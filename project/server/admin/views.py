@@ -145,6 +145,7 @@ class SubmittedOrderView(OrderView):
 
 class PendingOrderView(OrderView):
     """ Not submitted orders """
+    list_template = "admin/order/pending.html"
     can_delete = True
 
     column_list = ('timestamp', 'color', 'customer', 'repairs', 'problem_description')

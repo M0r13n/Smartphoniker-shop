@@ -1,0 +1,6 @@
+{% extends 'admin/model/list.html' %}
+{% from "admin/_macros.html" import render_message %}
+{% block body %}
+    {{ render_message("Dies sind NICHT abgeschickte Bestellungen. Unter keinen Umständen zu bearbeiten! ", 'danger') }}
+    {{ super() }}
+{% endblock %}

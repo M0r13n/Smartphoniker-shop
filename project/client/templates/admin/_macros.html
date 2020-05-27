@@ -50,3 +50,7 @@
         <button type="submit" class="{{ btn_class }}">{{ action_text }} </button>
     </form>
 {%- endmacro %}
+
+{% macro render_message(message, category='info') %}
+    <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+{% endmacro %}
