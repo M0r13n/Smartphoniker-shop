@@ -11,6 +11,7 @@ from project.common.tricoma_api import TricomaAPI
 from project.common.tricoma_client import TricomaClient
 
 # instantiate the extensions
+
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 alchemydumps = AlchemyDumps()

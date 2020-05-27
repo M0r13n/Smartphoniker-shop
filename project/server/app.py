@@ -3,7 +3,9 @@
 
 import os
 
+import sentry_sdk
 from flask import Flask, render_template
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api, alchemydumps
 
@@ -66,6 +68,9 @@ def init_extensions(app):
     init_celery(app)
     alchemydumps.init_app(app, db)
 
+    # finally set up sentry
+    init_sentry(app)
+
 
 def init_login(app):
     from project.server.models import User
@@ -111,3 +116,15 @@ def init_celery(app=None):
 
     celery.Task = ContextTask
     return celery
+
+
+def init_sentry(app):
+    """ Enable remote logging to Sentry.io"""
+    if app.config.get('SENTRY_DSN'):
+        # Only init sentry if the DSN is set in the current environment
+        sentry_sdk.init(
+            app.config.get('SENTRY_DSN'),
+            integrations=[
+                FlaskIntegration()
+            ]
+        )

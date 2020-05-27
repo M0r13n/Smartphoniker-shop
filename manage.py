@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import csv
+import logging
 import os
 import subprocess
 import sys
@@ -12,8 +13,8 @@ from flask_alchemydumps.cli import alchemydumps
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 from project.server.app import create_app, db
-from project.server.models import User, Shop, Customer, Manufacturer, Repair, Image, DeviceSeries
-from project.server.models.device import Color, Device
+from project.server.models import User, Shop, Manufacturer, Image
+from project.server.models.device import Color
 from project.server.models.image import Default
 
 app = create_app()
@@ -223,6 +224,14 @@ def cov():
 def flake():
     """Runs flake8 on the project."""
     subprocess.run(["flake8", "project"])
+
+
+@cli.command()
+def test_sentry():
+    """ Raise an exception which should be displayed on sentry. Don't worry: This method always throws an exception :-P """
+    logger = logging.getLogger(__name__)
+    logger.error("I am a test log message")
+    raise ValueError("This should be visible on sentry.io")
 
 
 if __name__ == "__main__":

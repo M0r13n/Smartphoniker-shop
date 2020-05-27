@@ -18,6 +18,7 @@ class BaseConfig(object):
     BCRYPT_LOG_ROUNDS = 8
     SECRET_KEY = os.getenv("SECRET_KEY", "my_precious")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SENTRY_DSN = os.getenv("SENTRY_DSN")
     # set optional bootswatch theme
     # FLASK_ADMIN_SWATCH = 'Cyborg'
     REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
