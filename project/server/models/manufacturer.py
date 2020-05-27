@@ -14,7 +14,7 @@ class Manufacturer(db.Model, CRUDMixin, ImageMixin):
     series = db.relationship("DeviceSeries", back_populates="manufacturer")
 
     def __repr__(self):
-        return f"<Manufacturer: {self.name}>"
+        return self.name
 
     @property
     def devices(self):

@@ -16,4 +16,4 @@ class DeviceSeries(db.Model, CRUDMixin):
     devices = db.relationship("Device", back_populates="series")
 
     def __repr__(self):
-        return f"<Serie: {self.manufacturer.name} : {self.name}>"
+        return self.name

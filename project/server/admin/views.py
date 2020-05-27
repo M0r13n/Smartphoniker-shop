@@ -157,7 +157,10 @@ class DeviceView(AdminExportableModelView):
     """ Create and manage devices """
     form_excluded_columns = ['orders', 'repairs']
 
-    column_editable_list = ['series', 'image', 'is_tablet', 'name']
+    column_list = ('manufacturer', 'series', 'name', 'image', 'is_tablet', 'colors')
+    column_filters = ('series.name', 'series.manufacturer.name')
+    column_labels = {'series.name': 'Serie', 'series.manufacturer.name': 'Hersteller'}
+    column_editable_list = ['series', 'image', 'is_tablet', 'name', 'colors']
 
 
 class ColorView(AdminExportableModelView):

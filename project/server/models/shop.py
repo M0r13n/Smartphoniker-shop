@@ -12,4 +12,4 @@ class Shop(CRUDMixin, db.Model):
     orders = db.relationship("Order", back_populates="shop")
 
     def __repr__(self):
-        return f"<Shop {self.name}>"
+        return self.name

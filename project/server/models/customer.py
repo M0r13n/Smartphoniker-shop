@@ -26,7 +26,7 @@ class Customer(CRUDMixin, db.Model, SessionStoreMixin):
     orders = db.relationship("Order", back_populates="customer")
 
     def __repr__(self):
-        return f"<Customer {self.email}>"
+        return self.first_name + " " + self.last_name
 
     @classmethod
     def deserialize(cls, obj):

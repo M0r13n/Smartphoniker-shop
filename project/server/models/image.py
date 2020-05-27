@@ -29,7 +29,7 @@ class Image(db.Model, CRUDMixin):
     manufacturer_default = db.Column(db.Enum(Default), unique=True)
 
     def __repr__(self):
-        return f"<Image: {self.name}>"
+        return self.name
 
     def get_path(self) -> str:
         return url_for('static', filename=f"images/{self.path}")
