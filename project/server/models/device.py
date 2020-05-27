@@ -14,9 +14,9 @@ class Color(db.Model, CRUDMixin):
     __tablename__ = 'color'
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(128))
+    name = db.Column(db.String(128))  # public name that is displayed to user's
+    internal_name = db.Column(db.String(128), unique=True, index=True)
     color_code = db.Column(db.String(20))
-
     devices = db.relationship(
         "Device",
         secondary=color_device_table,
