@@ -36,7 +36,7 @@
                             {% if device.get_image() %}
                                 <img class="grid__image" src="{{ device.get_image_path() }}" alt="{{ device.name }} auswählen">
                             {% endif %}
-                            <div>{{ device.name }}</div>
+                            <div class="grid__image">{{ device.name }}</div>
                         </a>
                     </div>
                 {% endfor %}

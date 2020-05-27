@@ -365,11 +365,27 @@ const orderJS = () => {
     }, true); 
 }
 
+/**
+ * iterates over globalerrormessages
+ */
+const globalErrorJS = () => {
+    const closeButtons = byQuery('a.globalerror__close');
+
+    for (const button of closeButtons) {
+        button.addEventListener('click', function(evt) {
+            evt.preventDefault();
+            hide(this.parentNode);
+        });
+    }
+}
+
 const main = () => {
     /* mobile Navigation */
     $('menu').addEventListener('click', () => {
         $('nav').classList.toggle('header__list--in')
     }, false);
+
+    globalErrorJS();
 
     /* I know that switch statements have bad stigma, 
      * but I think they have great readability & are more maintanable
