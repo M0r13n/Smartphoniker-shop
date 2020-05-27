@@ -15,7 +15,7 @@ class Color(db.Model, CRUDMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(128))  # public name that is displayed to user's
-    internal_name = db.Column(db.String(128), index=True)  # internal name that we use to map colors to manufacturers
+    internal_name = db.Column(db.String(128), index=True, unique=True)  # internal name that we use to map colors to manufacturers
     color_code = db.Column(db.String(20))
     devices = db.relationship(
         "Device",

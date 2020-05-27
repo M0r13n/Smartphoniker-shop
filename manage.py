@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import csv
 import os
 import subprocess
 import sys
@@ -8,6 +9,7 @@ import click
 import coverage
 from flask.cli import FlaskGroup
 from flask_alchemydumps.cli import alchemydumps
+from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 from project.server.app import create_app, db
 from project.server.models import User, Shop, Customer, Manufacturer, Repair, Image, DeviceSeries
@@ -44,37 +46,6 @@ def create_sample_data():
     Shop.create(name="Itzehoe")
     Shop.create(name="Lübeck")
     Shop.create(name="Rendsburg")
-    Customer.create(first_name="Test", last_name="Kunde", street="Eine Straße 1", zip_code="11233", city="Kiel", tel="+49 113455665 45", email="leon.morten@gmail.com")
-    b = Color.create(name="Black", color_code="#000000")
-    w = Color.create(name="White", color_code="#FFFFFF")
-    a = Manufacturer.create(name="Apple", activated=True)
-    s = DeviceSeries.create(name="iPhone", manufacturer=a)
-    a1 = Device.create(name="iPhone 6S", colors=[b, w], series=s)
-    a2 = Device.create(name="iPhone 7", colors=[b, w], series=s)
-    Device.create(name="iPhone 6S Plus", colors=[b, w], series=s)
-    Device.create(name="iPhone 6S +", colors=[b, w], series=s)
-    Device.create(name="iPhone 9", colors=[b, w], series=s)
-    Device.create(name="iPhone SE", colors=[b, w], series=s)
-    Device.create(name="iPhone XS Max", colors=[b, w], series=s)
-    Device.create(name="iPhone XS", colors=[b, w], series=s)
-    Device.create(name="iPhone X", colors=[b, w], series=s)
-    Device.create(name="iPhone 11", colors=[b, w], series=s)
-    Device.create(name="iPhone Pro", colors=[b, w], series=s)
-
-    Repair.create(name="Display Reparatur", device=a1, price=69)
-    Repair.create(name="Akku Reparatur", device=a1, price=69)
-    Repair.create(name="Kleinteilreparatur", device=a1, price=69)
-    Repair.create(name="Display Reparatur", device=a2, price=69)
-
-    # Some tablets
-    tablet = DeviceSeries.create(name="iPad", manufacturer=a)
-    ip11 = Device.create(name="iPad Pro 11\"", colors=[b], series=tablet, is_tablet=True)
-    ip12 = Device.create(name="iPad Pro 12.9\"", colors=[b], series=tablet, is_tablet=True)
-
-    Repair.create(name="Display Reparatur", device=ip11, price=169)
-    Repair.create(name="Display Reparatur", device=ip12, price=69)
-    Repair.create(name="Akku Reparatur", device=ip11, price=169)
-    Repair.create(name="Akku Reparatur", device=ip12, price=69)
 
     # Manus
     Manufacturer.create(name="ASUS")
@@ -106,6 +77,7 @@ def create_sample_data():
 
     # load svgs
     load_images()
+    load_color_csv()
 
     # Set default image for devices
     device_default_img_name = "default_phone.svg"
@@ -140,6 +112,29 @@ def load_images():
                 i = Image.create(path=str(f.as_posix()), name=file)
                 assert os.path.exists(os.path.join(search_dir, i.path))
     print("Loaded", counter, "images into db.")
+
+
+def load_color_csv():
+    path = "data/colorlist.csv"
+    file = os.path.join(PROJECT_ROOT, path)
+    assert os.path.exists(file)
+    counter = 0
+    with open(file, "r") as csv_file:
+        colors = csv.reader(csv_file, delimiter=',')
+        for color_name, color_code, internal_name in colors:
+            try:
+                Color.create(name=color_name, color_code=color_code, internal_name=internal_name)
+                counter += 1
+            except (IntegrityError, InvalidRequestError):
+                print(internal_name, "already exists. Skipping.")
+                db.session.rollback()
+    print("Loaded", counter, "colors into db.")
+
+
+@cli.command()
+def load_color():
+    """ Load color from CSV """
+    load_color_csv()
 
 
 @cli.command()
