@@ -7,11 +7,13 @@ Views should ALWAYS extend ProtectedModelView !
 from flask import redirect, url_for, request, flash, abort
 from flask_admin import expose, helpers, AdminIndexView
 from flask_admin.contrib.sqla import ModelView as _ModelView
+from flask_admin.model.template import macro
 from flask_login import current_user, login_user, logout_user
 
 from project.server import flask_admin as admin, db
 from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries
 # Create customized model view class
+from .column_formatters import customer_formatter
 from .forms import LoginForm, ChangePasswordForm
 from ..models.device import Color
 
@@ -91,6 +93,8 @@ class ProtectedIndexView(AdminIndexView):
 class AdminExportableModelView(ProtectedModelView):
     """ This just enables the export option """
     can_export = True
+    can_view_details = True
+    details_modal = True
 
 
 class UserModelView(AdminExportableModelView):
@@ -126,10 +130,14 @@ class OrderView(AdminExportableModelView):
 
     column_hide_backrefs = False
 
+    # Create a direct href to customer details
+    column_formatters = dict(customer=customer_formatter)
+
 
 class SubmittedOrderView(OrderView):
     """ Submitted Orders """
-    column_list = ('timestamp', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description')
+    column_list = ('timestamp', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description', 'customer_wishes_shipping_label')
+    can_delete = False
 
     def get_query(self):
         return self.session.query(self.model).filter(self.model.complete == True).order_by(self.model.timestamp.desc())  # noqa
@@ -137,6 +145,7 @@ class SubmittedOrderView(OrderView):
 
 class PendingOrderView(OrderView):
     """ Not submitted orders """
+    can_delete = True
 
     column_list = ('timestamp', 'color', 'customer', 'repairs', 'problem_description')
 
