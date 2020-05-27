@@ -7,7 +7,7 @@ class Manufacturer(db.Model, CRUDMixin, ImageMixin):
     __tablename__ = "manufacturer"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True, index=True)
+    name = db.Column(db.String(64), unique=True, index=True, nullable=False)
     activated = db.Column(db.Boolean(), default=False)
 
     # Relations

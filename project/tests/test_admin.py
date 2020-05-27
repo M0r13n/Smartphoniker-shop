@@ -48,3 +48,28 @@ class TestAdmin:
     def test_admin_change_pw_protected(self, testapp):
         res = testapp.get(url_for('admin.change_password_view'), expect_errors=True)
         assert res.status_code == 403
+
+    def test_that_every_page_at_least_loads(self, user, some_devices, db, testapp):
+        res = testapp.get("/admin/login/")
+        form = res.forms[0]
+        form["email"] = user.email
+        form["password"] = "admin"
+        res = form.submit().follow()
+
+        endpoints = (
+            'customer.index_view',
+            'pending.index_view',
+            'orders.index_view',
+            'manufacturer.index_view',
+            'deviceseries.index_view',
+            'device.index_view',
+            'shop.index_view',
+            'repair.index_view',
+            'image.index_view'
+        )
+
+        for endpoint in endpoints:
+            url = url_for(endpoint)
+            print(url)
+            response = testapp.get(url)
+            assert response.status_code == 200

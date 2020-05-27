@@ -81,7 +81,7 @@ def sample_manufacturer():
 @pytest.fixture
 def sample_color():
     """Create a sample color"""
-    return Color.create(name="Black", color_code="#000000")
+    return Color.create(name="Black", color_code="#000000", internal_name="TEEESST")
 
 
 @pytest.fixture

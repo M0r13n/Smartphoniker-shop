@@ -135,8 +135,9 @@ class OrderView(AdminExportableModelView):
 
 class SubmittedOrderView(OrderView):
     """ Submitted Orders """
-    column_list = ('timestamp', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description', 'customer_wishes_shipping_label')
     can_delete = False
+
+    column_list = ('timestamp', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description', 'customer_wishes_shipping_label')
 
     def get_query(self):
         return self.session.query(self.model).filter(self.model.complete == True).order_by(self.model.timestamp.desc())  # noqa
@@ -186,26 +187,31 @@ class DeviceSeriesView(AdminExportableModelView):
 
 class RepairView(AdminExportableModelView):
     """ Repair View """
-    column_editable_list = ['device', 'name', 'image', 'price']
     form_excluded_columns = ['orders']
+
+    column_editable_list = ['device', 'name', 'image', 'price']
 
 
 class ImageView(AdminExportableModelView):
     """ Manage and view images  """
-    column_editable_list = ['name', 'device_default', 'tablet_default', 'repair_default', 'manufacturer_default']
     form_excluded_columns = ['path']
+
+    column_editable_list = ['name', 'device_default', 'tablet_default', 'repair_default', 'manufacturer_default']
 
 
 # Register ModelViews
 
-admin.add_view(CustomerListView(Customer, db.session))  # Customer
-admin.add_view(MailLogView(MailLog, db.session, name="Email Log"))  # Mails
-admin.add_view(ShopView(Shop, db.session))  # Shop
+admin.add_view(CustomerListView(Customer, db.session, name="Kunden"))  # Customer
 admin.add_view(SubmittedOrderView(Order, db.session, name="Aufträge", endpoint="orders"))  # Orders
 admin.add_view(PendingOrderView(Order, db.session, name="Nicht abgeschlossene Aufträge", endpoint="pending"))  # Orders
-admin.add_view(ColorView(Color, db.session, name="Farben"))  # Colors
-admin.add_view(DeviceView(Device, db.session, name="Geräte"))  # Devices
+
 admin.add_view(ManufacturerView(Manufacturer, db.session, name="Hersteller"))  # Manufacturers
 admin.add_view(DeviceSeriesView(DeviceSeries, db.session, name="Serien"))  # Manufacturers
+admin.add_view(DeviceView(Device, db.session, name="Geräte"))  # Devices
 admin.add_view(RepairView(Repair, db.session, name="Reparaturen"))  # Repairs
+
+admin.add_view(ShopView(Shop, db.session, name="Shop"))  # Shop
+admin.add_view(ColorView(Color, db.session, name="Farben"))  # Colors
 admin.add_view(ImageView(Image, db.session, name="Bilder"))  # Images
+
+admin.add_view(MailLogView(MailLog, db.session, name="Email Log"))  # Mails

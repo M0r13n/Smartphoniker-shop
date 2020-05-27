@@ -7,7 +7,7 @@ class DeviceSeries(db.Model, CRUDMixin):
     __tablename__ = "device_series"
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64), unique=True, index=True)
+    name = db.Column(db.String(64), unique=True, index=True, nullable=False)
 
     # Relations
     manufacturer_id = db.Column(db.Integer, db.ForeignKey('manufacturer.id'), nullable=False)
