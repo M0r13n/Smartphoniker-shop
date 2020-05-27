@@ -7,7 +7,6 @@ Views should ALWAYS extend ProtectedModelView !
 from flask import redirect, url_for, request, flash, abort
 from flask_admin import expose, helpers, AdminIndexView
 from flask_admin.contrib.sqla import ModelView as _ModelView
-from flask_admin.model.template import macro
 from flask_login import current_user, login_user, logout_user
 
 from project.server import flask_admin as admin, db
