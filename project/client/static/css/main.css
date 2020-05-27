@@ -1181,8 +1181,14 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 }
 
 .grid__item--repair {
-  height: 380px;
+  height: 440px;
   max-width: 100%;
+}
+
+@media screen and (min-width: 800px) {
+  .grid__item--repair {
+    height: 420px;
+  }
 }
 
 @media screen and (min-width: 1250px) {
@@ -1271,6 +1277,8 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   color: black;
   margin-top: 1em;
   font-size: 1.2em;
+  text-align: center;
+  height: 20px;
 }
 
 @media screen and (max-width: 650px) {
