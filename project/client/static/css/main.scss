@@ -854,6 +854,15 @@ footer {
         @extend .subheading;
     }
 
+    &__link {
+        display: block;
+        max-width: 100%;
+    }
+
+    &__img {
+        max-width: 100%;
+    }
+
     &__content {
         @extend .content;
     }
@@ -1159,8 +1168,12 @@ footer {
         }
 
         &--repair {
-            height: 380px;
+            height: 440px;
             max-width: 100%;
+
+            @media screen and (min-width: $medium) {
+                height: 420px;
+            }
 
             @media screen and (min-width: $xlarge) {
                 max-width: 250px;
@@ -1243,6 +1256,8 @@ footer {
         @include color(b);
         margin-top: 1em;
         font-size: 1.2em;
+        text-align: center;
+        height: 20px;
 
         @media screen and (max-width: $small) {
             font-size: 1em;
