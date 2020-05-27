@@ -914,6 +914,7 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 }
 
 .testimonial__link {
+  display: block;
   max-width: 100%;
 }
 
