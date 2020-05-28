@@ -114,7 +114,7 @@ option {
   font-size: 1.2em;
 }
 
-.cta, .hero__cta, .bestseller__cta, .search__button, .grid__button, .price__button, .order__button, .customer__button, .success__button, .error__button {
+.cta, .hero__cta, .bestseller__cta, .search__button, .grid__button, .grid__back, .price__button, .order__button, .customer__button, .success__button, .error__button {
   font-weight: 400;
   color: white;
   background-color: #FF6C00;
@@ -137,7 +137,7 @@ option {
   border-radius: 2px;
 }
 
-.cta:hover, .hero__cta:hover, .bestseller__cta:hover, .search__button:hover, .grid__button:hover, .price__button:hover, .order__button:hover, .customer__button:hover, .success__button:hover, .error__button:hover {
+.cta:hover, .hero__cta:hover, .bestseller__cta:hover, .search__button:hover, .grid__button:hover, .grid__back:hover, .price__button:hover, .order__button:hover, .customer__button:hover, .success__button:hover, .error__button:hover {
   -webkit-transform: scale(0.98);
           transform: scale(0.98);
 }
@@ -1221,6 +1221,15 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   transition: outline .3s ease;
 }
 
+.grid__link--inline {
+  color: #FF6C00;
+  display: inline;
+}
+
+.grid__link--inline:hover {
+  text-decoration: underline;
+}
+
 .grid__image {
   display: block;
   width: 60%;
@@ -1274,6 +1283,17 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 
 .grid__button:after {
   content: "auswählen";
+}
+
+.grid__nodevices {
+  font-weight: 300;
+}
+
+.grid__back {
+  max-width: 250px;
+  width: 100%;
+  margin: 1em auto 0 0;
+  height: 40px;
 }
 
 .grid__title {

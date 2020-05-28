@@ -1194,6 +1194,16 @@ footer {
         flex-wrap: wrap;
         outline: 2px solid transparent;
         transition: outline .3s ease;
+
+        &--inline {
+            @include font(medium);
+            @include color(primary);
+            display: inline;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 
     &__image {
@@ -1252,6 +1262,18 @@ footer {
         &:after {
             content: "auswählen";
         }
+    }
+
+    &__nodevices {
+        @include font(light);
+    }
+
+    &__back {
+        @extend .cta;
+        max-width: 250px;
+        width: 100%;
+        margin: 1em auto 0 0;
+        height: 40px;
     }
 
     &__title {
