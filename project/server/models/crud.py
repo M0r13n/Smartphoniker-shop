@@ -27,4 +27,4 @@ class CRUDMixin(object):
         """
         db.session.delete(self)
         db.session.commit()
-        return self
+        return None

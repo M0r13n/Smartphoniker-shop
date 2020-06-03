@@ -38,6 +38,10 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
     color_id = db.Column(db.Integer, db.ForeignKey('color.id'), nullable=False)
     color = db.relationship("Color")
 
+    # Set to NULL on delete
+    referral_partner_id = db.Column(db.Integer, db.ForeignKey('referral_partner.id', ondelete='SET NULL'), nullable=True)
+    referral_partner = db.relationship("ReferralPartner")
+
     # Repairs
     _repairs = db.relationship("OrderRepairAssociation", back_populates="order")
 
@@ -113,3 +117,7 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
 
     def get_repairs(self) -> typing.List:
         return [ora.repair for ora in self._repairs]
+
+    def set_complete(self) -> None:
+        self.complete = True
+        self.save()
