@@ -1,9 +1,9 @@
 """
 This is the place for all custom column formatters
 """
-from flask import Markup, url_for
+from flask import Markup, url_for, request
 
-from project.server.models import Customer
+from project.server.models import Customer, ReferralPartner
 
 
 def customer_formatter(view, context, model: Customer, name):
@@ -17,3 +17,10 @@ def customer_formatter(view, context, model: Customer, name):
         return Markup(m_str)
     else:
         return "N/A"
+
+
+def ref_formatter(view, context, model: ReferralPartner, name):
+    if request:
+        root = request.url_root.rstrip('/')
+        full_link = root + model.ref_link
+        return full_link

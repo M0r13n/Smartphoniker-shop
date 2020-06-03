@@ -6,13 +6,14 @@ Views should ALWAYS extend ProtectedModelView !
 """
 from flask import redirect, url_for, request, flash, abort
 from flask_admin import expose, helpers, AdminIndexView
+from flask_admin.actions import action
 from flask_admin.contrib.sqla import ModelView as _ModelView
 from flask_login import current_user, login_user, logout_user
 
 from project.server import flask_admin as admin, db
-from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries
+from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries, ReferralPartner
 # Create customized model view class
-from .column_formatters import customer_formatter
+from .column_formatters import customer_formatter, ref_formatter
 from .forms import LoginForm, ChangePasswordForm
 from ..models.device import Color
 
@@ -199,6 +200,27 @@ class ImageView(AdminExportableModelView):
     column_editable_list = ['name', 'device_default', 'tablet_default', 'repair_default', 'manufacturer_default']
 
 
+class ReferralManagementView(AdminExportableModelView):
+    """ Manage referral links and programs """
+    form_excluded_columns = ['uuid', 'referrals']
+
+    column_list = ('name', 'uuid', 'ref_link', 'total_referrals', 'un_billed_referral_count')
+    column_labels = {'ref_link': 'Referral-Link', 'total_referrals': 'Referrals (absolut)', 'un_billed_referral_count': 'referrals (offen)'}
+
+    # This creates a check mark that will mark all referrals as billed
+
+    @action('bill', 'Abrechnen', 'Bist du sicher, dass alle ausgewählten Partner auf \'abgrechnet\' gesetzt werden sollen?')
+    def action_bill(self, ids):
+        for i in ids:
+            p = ReferralPartner.query.get_or_404(i)
+            p.bill()
+        flash("Es wurden alle Referrals auf abgrechnet gesetzt!")
+        return redirect(url_for('referralpartner.index_view', ), code=302)
+
+    # Create a direct href to customer details
+    column_formatters = dict(ref_link=ref_formatter)
+
+
 # Register ModelViews
 
 admin.add_view(CustomerListView(Customer, db.session, name="Kunden"))  # Customer
@@ -215,3 +237,5 @@ admin.add_view(ColorView(Color, db.session, name="Farben"))  # Colors
 admin.add_view(ImageView(Image, db.session, name="Bilder"))  # Images
 
 admin.add_view(MailLogView(MailLog, db.session, name="Email Log"))  # Mails
+
+admin.add_view(ReferralManagementView(ReferralPartner, db.session, name="Referral Programm"))
