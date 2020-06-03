@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="78" height="68" viewBox="0 0 78 68">
+  <g id="Gruppe_173" data-name="Gruppe 173" transform="translate(-34 -348)">
+    <g id="Polygon_4" data-name="Polygon 4" transform="translate(34 348)" fill="#fff" stroke-linecap="round">
+      <path d="M 74.97929382324219 28 L 3.020703792572021 28 L 38.99999237060547 1.246159434318542 L 74.97930145263672 28 C 74.97930145263672 28 74.97929382324219 28 74.97929382324219 28 Z" stroke="none"/>
+      <path d="M 39 2.492328643798828 L 6.041419982910156 26.99999237060547 L 71.95861053466797 27.00000381469727 L 39 2.492328643798828 M 39 0.2461624145507812 C 39.20979690551758 0.2461624145507812 39.41959762573242 0.3120098114013672 39.59670257568359 0.4437046051025391 L 75.57600402832031 27.19753646850586 C 76.34884643554688 27.77222633361816 75.94239044189453 29.00000381469727 74.97929382324219 29.00000381469727 L 3.020706176757812 28.99999237060547 C 2.057601928710938 29.00000381469727 1.651145935058594 27.77222633361816 2.424003601074219 27.19753646850586 L 38.40329360961914 0.4437046051025391 C 38.58039855957031 0.3120098114013672 38.79019927978516 0.2461624145507812 39 0.2461624145507812 Z" stroke="none" fill="#707070"/>
+    </g>
+    <g id="Rechteck_42" data-name="Rechteck 42" transform="translate(47 358)" fill="#fff" stroke="#707070" stroke-width="2">
+      <rect width="53" height="20" stroke="none"/>
+      <rect x="1" y="1" width="51" height="18" fill="none"/>
+    </g>
+    <text id="_5_" data-name="5€" transform="translate(66 372)" fill="#ff6c00" font-size="12" font-family="HelveticaNeue-Bold, Helvetica Neue" font-weight="700"><tspan x="0" y="0">5€</tspan></text>
+    <g id="Rechteck_41" data-name="Rechteck 41" transform="translate(110 416) rotate(180)" fill="#fff" stroke="#707070" stroke-width="2">
+      <rect width="74" height="40" stroke="none"/>
+      <rect x="1" y="1" width="72" height="38" fill="none"/>
+    </g>
+  </g>
+</svg>

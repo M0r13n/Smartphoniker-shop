@@ -20,7 +20,7 @@
         <div class="success__card">
             <img class="success__image" src="{{ url_for('static', filename='images/coupon.svg') }}" alt="5 Euro Gutschein Symbol">
             <p class="success__text success__text--card">Empfehlen Sie uns weiter und sichern sich einen 5 Euro Gutschein für Ihre nächste Bestellung.</p>
-            <button class="success__button">Smartphoniker empfehlen</button>
+            <a class="success__button" href="{{ url_for('.faq', q=40) }}">Smartphoniker empfehlen</a>
         </div>
     </section>
 </div>
