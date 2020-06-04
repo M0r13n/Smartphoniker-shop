@@ -37,9 +37,9 @@ class TestReferral:
 
     def test_order_id_unique(self, sample_order, sample_partner):
         sample_order.set_complete()
-        ref = Referral.create(partner=sample_partner, order=sample_order)
+        Referral.create(partner=sample_partner, order=sample_order)
         try:
-            another_ref = Referral.create(partner=sample_partner, order=sample_order)
+            Referral.create(partner=sample_partner, order=sample_order)
             assert False
         except IntegrityError:
             return True

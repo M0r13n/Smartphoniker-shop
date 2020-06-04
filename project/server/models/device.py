@@ -95,7 +95,7 @@ class Device(db.Model, CRUDMixin, ImageMixin):
         return self.series.manufacturer
 
     def __repr__(self):
-        return self.name
+        return self.name or "n.a"
 
     def _get_image_name_for_class(self):
         from project.server.models.image import Image, Default

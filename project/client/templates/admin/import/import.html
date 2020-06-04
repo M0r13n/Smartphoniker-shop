@@ -1,0 +1,19 @@
+{% extends 'admin/master.html' %}
+{% from 'admin/_macros.html' import render_field %}
+
+{% block body %}
+    {{ super() }}
+    <div class="jumbotron mt-3">
+        <h1>Reparaturen Upload</h1>
+        <p class="lead">Du kannst eine .CSV Datei mit allen Reparaturen hochladen. Es werden nur neue Reparaturen erstellt. Duplikate werden übersprungen.</p>
+        <a href="{{ url_for('.sample_csv') }}" download="sample_csv.csv">Beispiel CSV</a>
+        <br>
+        <br>
+        <form method="POST" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            {{ render_field(form.repair_file) }}
+            <br>
+            <input type="submit" class="btn btn-primary">
+        </form>
+    </div>
+{% endblock %}

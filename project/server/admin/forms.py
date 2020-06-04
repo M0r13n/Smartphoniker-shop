@@ -1,7 +1,8 @@
 from flask_login import current_user
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileRequired, FileAllowed
 from wtforms import validators
-from wtforms.fields import StringField, PasswordField
+from wtforms.fields import StringField, PasswordField, FileField
 
 from project.server import db
 from project.server.models import User
@@ -44,3 +45,12 @@ class ChangePasswordForm(FlaskForm):
     def validate_old_password(self, field):
         if not current_user.verify_password(field.data):
             raise validators.ValidationError('Password is wrong')
+
+
+class ImportRepairForm(FlaskForm):
+    repair_file = FileField(
+        validators=[
+            FileRequired(),
+            FileAllowed(['csv'], 'CSV only!')
+        ]
+    )

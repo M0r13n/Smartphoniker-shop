@@ -4,8 +4,8 @@ This is place for all admin views.
 Views should ALWAYS extend ProtectedModelView !
 
 """
-from flask import redirect, url_for, request, flash, abort
-from flask_admin import expose, helpers, AdminIndexView
+from flask import redirect, url_for, request, flash, abort, send_from_directory
+from flask_admin import expose, helpers, AdminIndexView, BaseView
 from flask_admin.actions import action
 from flask_admin.contrib.sqla import ModelView as _ModelView
 from flask_login import current_user, login_user, logout_user
@@ -14,11 +14,35 @@ from project.server import flask_admin as admin, db
 from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries, ReferralPartner
 # Create customized model view class
 from .column_formatters import customer_formatter, ref_formatter
-from .forms import LoginForm, ChangePasswordForm
+from .forms import LoginForm, ChangePasswordForm, ImportRepairForm
 from ..models.device import Color
+from ...common.import_repair import import_repairs
 
 
 class ProtectedModelView(_ModelView):
+
+    def is_accessible(self):
+        """ All admin views require authentication """
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        """
+        Redirect to login page if user doesn't have access
+        """
+        return redirect(url_for('admin.login_view', next=request.url))
+
+    def _handle_view(self, name, **kwargs):
+        """
+        Override builtin _handle_view in order to redirect users when a view is not accessible.
+        """
+        if not self.is_accessible():
+            if current_user.is_authenticated:
+                abort(403)
+            else:
+                return redirect(url_for('admin.login_view', next=request.url))
+
+
+class ProtectedBaseView(BaseView):
 
     def is_accessible(self):
         """ All admin views require authentication """
@@ -221,8 +245,29 @@ class ReferralManagementView(AdminExportableModelView):
     column_formatters = dict(ref_link=ref_formatter)
 
 
-# Register ModelViews
+class ImportView(ProtectedBaseView):
+    @expose('/', methods=['GET', 'POST'])
+    def index(self):
+        form = ImportRepairForm()
+        if form.validate_on_submit():
+            f = request.files[form.repair_file.name]
+            # store the file contents as a string
+            fstring = f.read().decode('utf-8')
+            count, err_msg = import_repairs(fstring)
+            if not count:
+                flash(err_msg, "danger")
+            else:
+                flash(f"Import erfolgreich. Es wurden {count} Reparatruren erstellt")
 
+        self._template_args['form'] = form
+        return self.render('admin/import/import.html')
+
+    @expose('/sample', methods=['GET'])
+    def sample_csv(self):
+        return send_from_directory('../data/', 'sample_csv.csv')
+
+
+# Register ModelViews
 admin.add_view(CustomerListView(Customer, db.session, name="Kunden"))  # Customer
 admin.add_view(SubmittedOrderView(Order, db.session, name="Aufträge", endpoint="orders"))  # Orders
 admin.add_view(PendingOrderView(Order, db.session, name="Nicht abgeschlossene Aufträge", endpoint="pending"))  # Orders
@@ -239,3 +284,4 @@ admin.add_view(ImageView(Image, db.session, name="Bilder"))  # Images
 admin.add_view(MailLogView(MailLog, db.session, name="Email Log"))  # Mails
 
 admin.add_view(ReferralManagementView(ReferralPartner, db.session, name="Referral Programm"))
+admin.add_view(ImportView(name="Import"))  # Import View
