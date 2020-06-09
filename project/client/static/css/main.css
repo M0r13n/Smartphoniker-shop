@@ -901,6 +901,7 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 
 .brands__img {
   height: 4em;
+  max-width: 95%;
 }
 
 .testimonial {
