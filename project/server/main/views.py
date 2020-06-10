@@ -191,6 +191,8 @@ def send_mails(kva: bool, shipping: bool):
         zip=customer.zip_code,
         city=customer.city,
         kva=kva,
+        shop=order_dto.shop,
+        device=order_dto.device,
         repairs=order_dto.repairs,
         discount=order_dto.discount,
         total_price=order_dto.total_cost_including_tax_and_discount,
