@@ -208,7 +208,7 @@ const totalJS = () => {
             let total = preDiscount - cheapest + (cheapest * 0.8);
             $('Total').innerHTML = '<s>' + toInt(preDiscount) + '</s> ' + toInt(total);
         } else {
-            $('Total').innerHTML = checkedRepairPrices[0] ?? 0;
+            $('Total').innerHTML = checkedRepairPrices[0] || 0;
         }
     }
     
