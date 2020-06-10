@@ -20,7 +20,13 @@
     <meta name="msapplication-config" content="{{ url_for('static', filename='favicon/browserconfig.xml') }}">
     <meta name="theme-color" content="#ffffff">
     <!-- styles -->
-    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" media="screen">
+    {% if config['DEBUG'] %}
+        {# Dev #}
+        <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" media="screen">
+    {% else %}
+        {# Prod #}
+        <link href="{{ url_for('static', filename='css/main.min.css') }}" rel="stylesheet" media="screen">
+    {% endif %}
     {% block css %}{% endblock %}
 </head>
 
@@ -28,17 +34,17 @@
 
 {% include 'header.html' %}
 
-<main>    
+<main>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <div class="globalerror">
-            {% for category, message in messages %}
-            <div class="globalerror__box globalerror__box--{{ category }}">
-                <a class="globalerror__close" title="Close" href="#" data-dismiss="alert">&times;</a>
-                {{ message }}
+            <div class="globalerror">
+                {% for category, message in messages %}
+                    <div class="globalerror__box globalerror__box--{{ category }}">
+                        <a class="globalerror__close" title="Close" href="#" data-dismiss="alert">&times;</a>
+                        {{ message }}
+                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
         {% endif %}
     {% endwith %}
     <!-- child template -->
@@ -48,6 +54,12 @@
 {% include 'footer.html' %}
 
 <!-- scripts -->
-<script src="{{ url_for('static', filename='scripts/script.js') }}" type="text/javascript"></script>
+{% if config['DEBUG'] %}
+    {# Dev #}
+    <script src="{{ url_for('static', filename='scripts/script.js') }}" type="text/javascript"></script>
+{% else %}
+    {# Prod #}
+    <script src="{{ url_for('static', filename='scripts/script.min.js') }}" type="text/javascript"></script>
+{% endif %}
 </body>
 </html>
