@@ -61,6 +61,13 @@ $xxxlarge: 2560px;
     //outline: .5px dashed red;
 }
 
+.preload * {
+    -webkit-transition: none !important;
+    -moz-transition: none !important;
+    -ms-transition: none !important;
+    -o-transition: none !important;
+}
+
 body {
     font-size: 16px;
     margin: 0;
@@ -838,6 +845,7 @@ footer {
 
     &__img {
         height: 4em;
+        max-width: 95%;
     }
 } // done
 

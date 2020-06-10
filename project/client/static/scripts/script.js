@@ -273,7 +273,6 @@ const selectionValidation = (names) => {
         } else {
             hide($(name));
         }
-        console.log(checked)
         // pushes to array
         validated.push(checked);
     }
@@ -380,9 +379,12 @@ const globalErrorJS = () => {
 }
 
 const main = () => {
+    window.onload = () => {
+        byQuery('body')[0].classList.remove('preload');
+    }
     /* mobile Navigation */
     $('menu').addEventListener('click', () => {
-        $('nav').classList.toggle('header__list--in')
+        $('nav').classList.toggle('header__list--in');
     }, false);
 
     globalErrorJS();
