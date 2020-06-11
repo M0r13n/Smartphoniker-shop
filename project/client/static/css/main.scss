@@ -484,10 +484,6 @@ footer {
         }        
     }
 
-    &--wide {
-        width: 100%;
-    }
-
     &--heroimage {
         min-height: 519px;
 
@@ -1863,6 +1859,29 @@ footer {
     }
 }
 
+// -----------------------------------------------
+// -----------------  Customer  ------------------
+// -----------------------------------------------
+
+.references {
+    @extend .section;
+
+    &__heading {
+        @extend .subheading;
+    }
+
+    &__content {
+        @extend .content;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 180px));
+        grid-gap: 2em;
+        justify-items: center;
+    }
+
+    &__image {
+        max-width: 100%;
+    }
+}
 
 // -----------------------------------------------
 // -----------------  Success  -------------------

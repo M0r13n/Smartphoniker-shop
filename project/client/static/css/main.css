@@ -92,26 +92,26 @@ option {
   }
 }
 
-.subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading, .error__heading {
+.subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .references__heading, .success__heading, .error__heading {
   font-weight: 400;
   font-size: calc(2em * .85);
   margin-bottom: .5em;
 }
 
 @media screen and (min-width: 900px) {
-  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading, .error__heading {
+  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .references__heading, .success__heading, .error__heading {
     font-size: calc(2.2em * .7);
   }
 }
 
 @media screen and (min-width: 1250px) {
-  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading, .error__heading {
+  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .references__heading, .success__heading, .error__heading {
     font-size: calc(2.5em * .7);
   }
 }
 
 @media screen and (min-width: 2560px) {
-  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .success__heading, .error__heading {
+  .subheading, .bestseller__heading, .brands__heading, .testimonial__heading, .faq-section__heading, .datagb__heading, .search__heading, .faq__heading, .grid__heading, .color__heading, .form__heading, .order__heading, .customer__heading, .references__heading, .success__heading, .error__heading {
     font-size: calc(3.5em * .7);
   }
 }
@@ -149,12 +149,12 @@ option {
           transform: scale(0.98);
 }
 
-.section, .hero, .bestseller, .brands, .testimonial, .faq-section, .datagb, .search, .faq, .grid, .color, .form, .order, .customer, .success, .error {
+.section, .hero, .bestseller, .brands, .testimonial, .faq-section, .datagb, .search, .faq, .grid, .color, .form, .order, .customer, .references, .success, .error {
   padding: 3em 0;
   text-align: left;
 }
 
-.content, .bestseller__content, .brands__content, .testimonial__content, .faq-section__content, .search__content, .faq__content, .grid__content, .color__content, .form__content, .order__content, .customer__content, .success__content {
+.content, .bestseller__content, .brands__content, .testimonial__content, .faq-section__content, .search__content, .faq__content, .grid__content, .color__content, .form__content, .order__content, .customer__content, .references__content, .success__content {
   margin: 0 auto;
   width: calc(100% - 20px);
 }
@@ -507,10 +507,6 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
     padding-left: 12em;
     padding-right: 12em;
   }
-}
-
-.container--wide  {
-  width: 100%;
 }
 
 .container--heroimage {
@@ -1878,6 +1874,19 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 
 .customer__text:not(:last-of-type) {
   margin-bottom: 1em;
+}
+
+.references__content {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(100px, 180px))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(100px, 180px));
+  grid-gap: 2em;
+  justify-items: center;
+}
+
+.references__image {
+  max-width: 100%;
 }
 
 .success--card {
