@@ -1881,12 +1881,22 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   display: grid;
   -ms-grid-columns: (minmax(100px, 180px))[auto-fit];
       grid-template-columns: repeat(auto-fit, minmax(100px, 180px));
-  grid-gap: 2em;
-  justify-items: center;
+  grid-gap: 3em;
+  -webkit-box-pack: stretch;
+      -ms-flex-pack: stretch;
+          justify-content: stretch;
+}
+
+@media screen and (max-width: 750px) {
+  .references__content {
+    justify-items: center;
+    -ms-grid-columns: 1fr;
+        grid-template-columns: 1fr;
+  }
 }
 
 .references__image {
-  max-width: 100%;
+  max-width: 90%;
 }
 
 .success--card {

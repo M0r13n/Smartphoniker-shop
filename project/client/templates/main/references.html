@@ -2,13 +2,28 @@
 {% block content %}
     <div class="container container--small">
         <section class="hero hero--nocontent">
-            <h1 class="hero__heading">Referenzen</h1>
+            <h1 class="hero__heading">Partner & Referenzen</h1>
         </section>
     </div>
 
     <div class="container container--small">
         <section class="references">
             <h2 class="references__heading">Unsere Partner</h3>
+                <div class="references__content">
+                        <img class="references__image" src="{{ url_for('static', filename='images/partner/derechtenorden.png') }}" alt="Der echte Norden">
+                        <img class="references__image" src="{{ url_for('static', filename='images/partner/vivaconagua.png') }}" alt="Viva Con Agua">
+                        <img class="references__image" src="{{ url_for('static', filename='images/partner/wertgarantie.jpg') }}" alt="Wertgarantie">
+                </div>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
+
+    <div class="container container--small">
+        <section class="references">
+            <h2 class="references__heading">Referenzen</h3>
                 <div class="references__content">
                     {# for .. in ... #}
                         <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">

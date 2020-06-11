@@ -1874,12 +1874,17 @@ footer {
         @extend .content;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(100px, 180px));
-        grid-gap: 2em;
-        justify-items: center;
+        grid-gap: 3em;
+        justify-content: stretch;
+
+        @media screen and (max-width: $small-medium) {
+            justify-items: center;
+            grid-template-columns: 1fr;
+        }
     }
 
     &__image {
-        max-width: 100%;
+        max-width: 90%;
     }
 }
 
