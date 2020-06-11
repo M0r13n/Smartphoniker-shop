@@ -484,10 +484,6 @@ footer {
         }        
     }
 
-    &--wide {
-        width: 100%;
-    }
-
     &--heroimage {
         min-height: 519px;
 
@@ -1615,7 +1611,7 @@ footer {
 
         &--taxes {
             text-align: right;
-            font-size: -.9em;
+            font-size: .9em;
         }
     }
 
