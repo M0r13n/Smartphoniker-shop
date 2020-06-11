@@ -1,0 +1,30 @@
+{% extends "_base.html" %}
+{% block content %}
+    <div class="container container--small">
+        <section class="hero hero--nocontent">
+            <h1 class="hero__heading">Referenzen</h1>
+        </section>
+    </div>
+
+    <div class="container container--small">
+        <section class="references">
+            <h2 class="references__heading">Unsere Partner</h3>
+                <div class="references__content">
+                    {# for .. in ... #}
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
+                    {# endfor #}
+                </div>
+        </section>
+    </div>
+{% endblock %}
