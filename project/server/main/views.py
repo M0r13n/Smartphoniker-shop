@@ -159,6 +159,13 @@ def success():
     """ Render successful order page """
     return render_template('main/success.html')
 
+@main_blueprint.route("/referenzen")
+def references():
+    """ Render references page """
+    # TODO maybe we can do something like this for the references
+    # images = os.listdir(os.path.join(app.static_folder, "images/references"))
+    return render_template('main/references.html')
+
 
 @main_blueprint.route("/api/search/<string:device_name>/")
 def search_api(device_name):
