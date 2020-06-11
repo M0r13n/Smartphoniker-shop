@@ -252,7 +252,7 @@ class ImportView(ProtectedBaseView):
         if form.validate_on_submit():
             f = request.files[form.repair_file.name]
             # store the file contents as a string
-            fstring = f.read().decode('utf-8')
+            fstring = f.read().decode('iso-8859-1')
             count, err_msg = import_repairs(fstring)
             if not count:
                 flash(err_msg, "danger")

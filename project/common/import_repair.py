@@ -7,6 +7,7 @@ from io import StringIO
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
 
+from project.server import db
 from project.server.models import Manufacturer, DeviceSeries, Device, Color, Repair
 
 logger = logging.getLogger(__name__)
@@ -21,26 +22,28 @@ def import_repairs(repair_file_content: str) -> typing.Tuple[int, str]:
         return False, "Es werden genau 6 Spalten benötigt. Herstelle,Serie,Gerät,Farbe,Reparatur,Preis (in €)"
 
     counter = 0
-    for manufacturer, series, device, color, repair, price_str in csv_reader:
+    for manufacturer, series, device, color_string, repair, price_str in csv_reader:
         try:
             manufacturer = manufacturer_create_or_get(manufacturer)
             series = series_create_or_get(manufacturer, series)
             device = device_create_or_get(series, device)
-            color = get_color(color)
+            color = get_color(color_string)
             price = str_to_dec(price_str)
 
-            if not color:
+            if not color and color_string:
                 return False, f"Farbe {color} existiert nicht im System. Bitte wähle eine existierende! Achte darauf, dass der internal_name als Name erwartet wird."
 
-            if not price:
+            if price is None:
                 return False, f"Der Preis '{price_str}' scheint kein valider Preis zu sein."
 
             repair = create_new_or_skip_existing(repair, device, price)
             if repair:
                 counter += 1
         except (IntegrityError, FlushError,) as e:
-            logging.error(e)
-            return False, "Fehler"
+            logger.error(e)
+            print(e)
+            db.session.rollback()
+            continue
     if counter == 0:
         return 0, "Keine neuen Reparturen gefunden"
     return counter, ""
@@ -69,10 +72,10 @@ def manufacturer_create_or_get(manufacturer: str) -> Manufacturer:
     return manu
 
 
-def series_create_or_get(manufacturer: Manufacturer, series: str) -> DeviceSeries:
-    series = DeviceSeries.query.filter(DeviceSeries.name == series).first()
+def series_create_or_get(manufacturer: Manufacturer, series_name: str) -> DeviceSeries:
+    series = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
     if not series:
-        series = DeviceSeries.create(manufacturer=manufacturer, name=series)
+        series = DeviceSeries.create(manufacturer=manufacturer, name=series_name)
     return series
 
 
