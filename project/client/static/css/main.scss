@@ -1873,11 +1873,11 @@ footer {
     &__content {
         @extend .content;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 180px));
+        grid-template-columns: repeat(auto-fit, minmax(100px, 170px));
         grid-gap: 3em;
         justify-content: stretch;
 
-        @media screen and (max-width: $small-medium) {
+        @media screen and (max-width: $medium) {
             justify-items: center;
             grid-template-columns: 1fr;
         }

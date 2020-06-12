@@ -1879,15 +1879,15 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 .references__content {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (minmax(100px, 180px))[auto-fit];
-      grid-template-columns: repeat(auto-fit, minmax(100px, 180px));
+  -ms-grid-columns: (minmax(100px, 170px))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(100px, 170px));
   grid-gap: 3em;
   -webkit-box-pack: stretch;
       -ms-flex-pack: stretch;
           justify-content: stretch;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 800px) {
   .references__content {
     justify-items: center;
     -ms-grid-columns: 1fr;
