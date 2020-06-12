@@ -1,4 +1,7 @@
 {% extends "_base.html" %}
+{% macro render_referenceimg(src, alt) %}
+    <img class="references__image" src="{{ url_for('static', filename='images/references/' + src) }}" alt="{{ alt }}">
+{% endmacro %}
 {% block content %}
     <div class="container container--small">
         <section class="hero hero--nocontent">
@@ -25,20 +28,27 @@
         <section class="references">
             <h2 class="references__heading">Referenzen</h3>
                 <div class="references__content">
-                    {# for .. in ... #}
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                        <img class="references__image" src="{{ url_for('static', filename='images/references/veganleben.png') }}" alt="{# image #}">
-                    {# endfor #}
+                    {{ render_referenceimg('backringnord.jpg', 'Backring Nord') }}
+                    {{ render_referenceimg('bartelslangness.jpg', 'Bartels Langness') }}
+                    {{ render_referenceimg('belacc.jpg', 'Bela CC') }}
+                    {{ render_referenceimg('biogreno.png', 'Biogreno') }}
+                    {{ render_referenceimg('coop.png', 'Coop') }}
+                    {{ render_referenceimg('famila.jpg', 'Famila') }}
+                    {{ render_referenceimg('futterhaus.jpg', 'Futterhaus') }}
+                    {{ render_referenceimg('fz.jpg', 'FZ') }}
+                    {{ render_referenceimg('hofgut.png', 'Hofgut') }}
+                    {{ render_referenceimg('ihredrogerie.jpg', 'Ihre Drogerie') }}
+                    {{ render_referenceimg('logipet.jpg', 'Logipet') }}
+                    {{ render_referenceimg('markant.jpg', 'Markant') }}
+                    {{ render_referenceimg('matuczak.jpg', 'Matuczak') }}
+                    {{ render_referenceimg('montigny.jpg', 'Montigny') }}
+                    {{ render_referenceimg('nahfrisch.jpg', 'Nah & Frisch') }}
+                    {{ render_referenceimg('schneekloth.jpg', 'Schneekloth') }}
+                    {{ render_referenceimg('steiskal.jpg', 'Steiskal') }}
+                    {{ render_referenceimg('swschwentinental.jpg', 'Stadtwerke Schwentinental') }}
+                    {{ render_referenceimg('vater.png', 'Vater') }}
+                    {{ render_referenceimg('veganleben.png', 'Vegan Leben') }}
+                    {{ render_referenceimg('voss.jpg', 'Voss') }}
                 </div>
         </section>
     </div>
