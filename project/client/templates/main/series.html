@@ -1,4 +1,15 @@
 {% extends "_base.html" %}
+{% block meta %}
+    {% set name_string = series_names|join(", ") %}
+    <meta name="description" content="{{ name_string }} Reparatur  in Kiel, Schwentinental, Lübeck bei ▷ Smartphoniker ✓alle Modelle ✓beste Qualität ✓schneller Service ✓ohne Termin ✆ kostenlose Beratung.">
+    <meta property="og:title" content="{{ name_string }} Smartphone Reparatur Kiel, Schwentinental, Lübeck | Smartphoniker">
+    <meta property="og:description" content="{{ name_string }} Reparatur bei ▷ Smartphoniker ✓alle Modelle ✓beste Qualität ✓schneller Service ✓ohne Termin ✆ kostenlose Beratung.">
+    <meta property="og:site_name" content="Smartphoniker - Ihr Service Partner für Smartphone, Tablet oder PC">
+
+    <meta name="twitter:description" content="{{ name_string }} Reparatur bei ▷ Smartphoniker ✓alle Modelle ✓beste Qualität ✓schneller Service ✓ohne Termin ✆ kostenlose Beratung.">
+    <meta name="twitter:title" content="{{ name_string }} Reparatur Kiel, Schwentinental, Lübeck | Smartphoniker">
+{% endblock %}
+
 {% block content %}
     <div class="container container--small">
         <section class="hero">

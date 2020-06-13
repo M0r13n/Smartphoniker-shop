@@ -32,7 +32,7 @@ def manufacturer():
     """ Render a list of all manufacturers as a starting point """
     all_manufacturers: [Manufacturer] = Manufacturer.query.filter(Manufacturer.activated == True).all()  # noqa
     all_manufacturers_with_repairs = filter(lambda manu: len(manu.series) > 0, all_manufacturers)
-    return render_template("main/manufacturer.html", manufacturers=all_manufacturers_with_repairs)
+    return render_template("main/manufacturer.html", manufacturers=all_manufacturers_with_repairs, manufacturer_names=[manu.name for manu in all_manufacturers_with_repairs])
 
 
 @main_blueprint.route("/<string:manufacturer_name>/series")
@@ -41,7 +41,7 @@ def series(manufacturer_name):
     _manufacturer = Manufacturer.query.filter(Manufacturer.name == manufacturer_name).first()
     if not _manufacturer:
         abort(404)
-    return render_template("main/series.html", series=_manufacturer.series, manufacturer=manufacturer_name)
+    return render_template("main/series.html", series=_manufacturer.series, manufacturer=manufacturer_name, series_names=[s.name for s in _manufacturer.series])
 
 
 @main_blueprint.route("/<string:manufacturer_name>/<string:series_name>")
@@ -52,7 +52,7 @@ def all_devices_of_series(manufacturer_name, series_name):
     if not _manufacturer or not _series:
         abort(404)
     _devices = list(filter(lambda device: len(device.repairs) > 0, _series.devices))  # display only devices that have at least one repair
-    return render_template("main/devices.html", devices=_devices, manufacturer=manufacturer_name, series=series_name)
+    return render_template("main/devices.html", devices=_devices, manufacturer=manufacturer_name, series=series_name, device_names=[d.name for d in _devices])
 
 
 @main_blueprint.route("/<string:manufacturer_name>/<string:series_name>/<string:device_name>/", methods=['GET', 'POST'])
@@ -75,7 +75,7 @@ def model(manufacturer_name, series_name, device_name):
         order.save_to_session()
         return redirect(url_for('main.register_customer'))
 
-    return render_template("main/modell.html", device=_device, repair_form=repair_form, manufacturer=manufacturer_name, series=series_name)
+    return render_template("main/modell.html", device=_device, repair_form=repair_form, manufacturer=manufacturer_name, series=series_name, repair_names=[f"{rep.device.name} {rep.name}" for rep in _device.repairs])
 
 
 @main_blueprint.route("/register", methods=['GET', 'POST'])

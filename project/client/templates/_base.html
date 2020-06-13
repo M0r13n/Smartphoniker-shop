@@ -4,10 +4,23 @@
     <meta charset="utf-8">
     <title>PricePicker{% block title %}{% endblock %}</title>
     <!-- meta -->
-    <meta name="description" content="Smartphone- und Tabletreparatur schnell und günstig online buchen. ➤ Jetzt Reparatur bei Smartphoniker beauftragen!">
-    <meta name="keywords" content="Handyreparatur, Smartphone, iPhone, Apple, Samsung, Sony, Display, Akku, Kiel, Smartphoniker, iPad, online, Versand, Garantie">
     <meta name="author" content="Leon Morten Richter; Tobias Poertner">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <meta name="keywords" content="Handyreparatur, Smartphone, iPhone, Apple, Samsung, Sony, Display, Akku, Kiel, Smartphoniker, iPad, online, Versand, Garantie">
+    <meta property="og:locale" content="de_DE">
+
+    {% block meta %}
+        {# Default Description and Title meta tags #}
+        <meta name="description" content="Smartphone Reparatur bei ▷ Smartphoniker ✓alle Modelle ✓beste Qualität ✓schneller Service ✓ohne Termin ✆ kostenlose Beratung.">
+        <meta property="og:title" content="Smartphone Reparatur Kiel, Schwentinental, Lübeck | Smartphoniker">
+        <meta property="og:description" content="Smartphone Reparatur bei ▷ Smartphoniker ✓alle Modelle ✓beste Qualität ✓schneller Service ✓ohne Termin ✆ kostenlose Beratung.">
+        <meta property="og:site_name" content="Smartphoniker - Ihr Service Partner für Smartphone, Tablet oder PC">
+
+        <meta name="twitter:description" content="Smartphone Reparatur bei ▷ Smartphoniker ✓alle Modelle ✓beste Qualität ✓schneller Service ✓ohne Termin ✆ kostenlose Beratung.">
+        <meta name="twitter:title" content="Smartphone Reparatur Kiel, Schwentinental, Lübeck | Smartphoniker">
+    {% endblock %}
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon/favicon.svg') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon/favicon.ico') }}">
