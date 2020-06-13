@@ -3,6 +3,7 @@ from uuid import UUID
 
 from sqlalchemy.exc import IntegrityError
 
+from project.common.referral import is_referred_user, create_referral
 from project.server.models import Order
 from project.server.models.referral_program import ReferralPartner, Referral
 
@@ -69,3 +70,25 @@ class TestReferral:
         # completed orders are included
         assert sample_partner.referrals_between(datetime.now() - timedelta(days=24), datetime.now()).all() == [ref]
         assert sample_partner.referrals_between(datetime.now() - timedelta(days=24), datetime.now() - timedelta(days=1)).all() == []
+
+    def test_is_referred_user(self, db, app, sample_partner, testapp):
+        url = '/?ref_id=' + str(sample_partner.uuid)
+        response = testapp.get(url)
+        assert is_referred_user(request_args=response.request.params)
+
+    def test_is_not_referred_user(self, db, app, sample_partner, testapp):
+        url = '/'
+        response = testapp.get(url)
+        assert not is_referred_user(request_args=response.request.params)
+
+    def test_is_ref_user_args(self):
+        assert is_referred_user(dict(ref_id=123))
+        assert is_referred_user(dict(test=12, ref_id=123))
+        assert not is_referred_user(dict(test=12))
+
+    def test_create_referral_method(self, db, app, sample_partner, sample_order, testapp):
+        sample_order.set_complete()
+        assert create_referral("1243", sample_order) is None
+        assert create_referral(None, sample_order) is None
+        assert create_referral(sample_partner.uuid, sample_order) is not None
+        assert len(sample_partner.referrals) == 1

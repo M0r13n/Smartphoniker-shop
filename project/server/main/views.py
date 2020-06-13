@@ -1,9 +1,11 @@
 # project/server/main/views.py
+import logging
 import typing
 
-from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash
+from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash, request, session
 
 from project.common.email.message import make_html_mail
+from project.common.referral import is_referred_user, REF_ID_KW, save_referral_to_session, create_referral, get_referral_from_session
 from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
 from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
 from project.server.models.queries import get_bestsellers
@@ -11,6 +13,8 @@ from project.server.utils.mail import send_email
 from project.tasks.tricoma import register_customer as tricoma_register
 
 main_blueprint = Blueprint("main", __name__)
+
+logger = logging.getLogger(__name__)
 
 
 @main_blueprint.route("/")
@@ -106,10 +110,12 @@ def order_overview():
     order.customer = customer
     form = FinalSubmitForm()
     if form.validate_on_submit():
+        # ORDER SUBMITTED
         form.populate_order(order)
         order.save()
         # send confirmation mail to customer and notify shop
         send_mails(form.kva_button.data, form.shipping_label.data)
+        create_referral(get_referral_from_session(), order)
         return redirect(url_for('main.success'))
 
     return render_template(
@@ -161,6 +167,7 @@ def search(device_name):
 @main_blueprint.route("/success")
 def success():
     """ Render successful order page """
+    session.clear()
     return render_template('main/success.html')
 
 
@@ -179,6 +186,13 @@ def search_api(device_name):
         'array': [device.name for device in found_devices_array],
         'levenshtein': [device.name for device in found_devices_levenshtein],
     })
+
+
+@main_blueprint.before_request
+def check_referral():
+    """ Check if the customer is a new customer who was redirected by a ref link. """
+    if is_referred_user(request.args):
+        save_referral_to_session(request.args[REF_ID_KW])
 
 
 def send_mails(kva: bool, shipping: bool):
