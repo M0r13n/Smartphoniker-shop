@@ -8,6 +8,7 @@ from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, Fi
 from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
 from project.server.models.queries import get_bestsellers
 from project.server.utils.mail import send_email
+from project.tasks.tricoma import register_customer as tricoma_register
 
 main_blueprint = Blueprint("main", __name__)
 
@@ -82,6 +83,8 @@ def register_customer():
         customer_data_form.populate_obj(customer)
         customer.save()
         customer.save_to_session()
+        # also register customer in tricoma
+        register_tricoma_if_enabled(customer)
         return redirect(url_for('main.order_overview'))
 
     return render_template("main/customer.html", customer_data_form=customer_data_form)
@@ -105,6 +108,7 @@ def order_overview():
     if form.validate_on_submit():
         form.populate_order(order)
         order.save()
+        # send confirmation mail to customer and notify shop
         send_mails(form.kva_button.data, form.shipping_label.data)
         return redirect(url_for('main.success'))
 
@@ -207,3 +211,13 @@ def send_mails(kva: bool, shipping: bool):
     confirmation = make_html_mail(to_list=[customer.email], from_address=current_app.config['MAIL_DEFAULT_SENDER'],
                                   subject="Ihre Anfrage bei Smartphoniker", html_body=render_template("mails/confirmation.html"))
     send_email(confirmation)
+
+
+def register_tricoma_if_enabled(customer: Customer):
+    """ Register the customer on tricoma if TRICOMA_API_URL and is set """
+    conf = current_app.config
+    if conf.get("TRICOMA_API_URL") and conf.get("REGISTER_CUSTOMER_IN_TRICOMA"):
+        try:
+            tricoma_register.apply_async(args=(customer.serialize(),))
+        except Exception as e:
+            current_app.logger.error(e)

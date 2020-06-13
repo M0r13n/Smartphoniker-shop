@@ -30,6 +30,7 @@ class BaseConfig(object):
     TRICOMA_USERNAME = os.getenv("TRICOMA_USERNAME")
     TRICOMA_PASSWORD = os.getenv("TRICOMA_PASSWORD")
     TRICOMA_API_URL = os.getenv("TRICOMA_API_URL")
+    REGISTER_CUSTOMER_IN_TRICOMA = os.getenv("REGISTER_CUSTOMER_IN_TRICOMA", False)
 
     # Mail
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
