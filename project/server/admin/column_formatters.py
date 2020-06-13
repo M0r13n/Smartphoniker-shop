@@ -3,7 +3,7 @@ This is the place for all custom column formatters
 """
 from flask import Markup, url_for, request
 
-from project.server.models import Customer, ReferralPartner
+from project.server.models import Customer, ReferralPartner, Repair
 
 
 def customer_formatter(view, context, model: Customer, name):
@@ -15,6 +15,18 @@ def customer_formatter(view, context, model: Customer, name):
             model.customer.last_name
         )
         return Markup(m_str)
+    else:
+        return "N/A"
+
+
+def link_to_device_formatter(view, context, repair: Repair, name):
+    """ Create a clickable name for devices """
+    if repair and repair.device and repair.device.name:
+        href = "<a href='%s'>%s</a>" % (
+            url_for('device.details_view', id=repair.device.id),
+            repair.device.name
+        )
+        return Markup(href)
     else:
         return "N/A"
 

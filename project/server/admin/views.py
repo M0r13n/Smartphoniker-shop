@@ -13,7 +13,7 @@ from flask_login import current_user, login_user, logout_user
 from project.server import flask_admin as admin, db
 from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries, ReferralPartner
 # Create customized model view class
-from .column_formatters import customer_formatter, ref_formatter
+from .column_formatters import customer_formatter, ref_formatter, link_to_device_formatter
 from .forms import LoginForm, ChangePasswordForm, ImportRepairForm
 from ..models.device import Color
 from ...common.import_repair import import_repairs
@@ -214,7 +214,13 @@ class RepairView(AdminExportableModelView):
     """ Repair View """
     form_excluded_columns = ['orders']
 
-    column_editable_list = ['device', 'name', 'image', 'price']
+    column_sortable_list = ['device.name', 'name', 'image', 'price']
+    column_editable_list = ['device', 'name', 'price', 'image']
+    column_list = ['device.name', 'name', 'price', 'image']
+    column_labels = {'device.name': 'Gerät'}
+    column_filters = ('device.name', 'name', 'price')
+
+    column_formatters = {'device.name': link_to_device_formatter}
 
 
 class ImageView(AdminExportableModelView):
