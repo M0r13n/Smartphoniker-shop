@@ -18,5 +18,5 @@ class TestSitemap:
         tags = soup.find_all("sitemap")
         for sitemap in tags:
             url = sitemap.findNext("loc").text
-            r = testapp.get("/sitemap.xml")
+            r = testapp.get(url)
             assert r.status_code == 200
