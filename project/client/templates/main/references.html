@@ -1,4 +1,14 @@
 {% extends "_base.html" %}
+{% block meta %}
+    {# Default Description and Title meta tags #}
+    <meta name="description" content="Smartphone Reparatur bei ▷ Smartphoniker. Qualität vom Profi. Überzeugen Sie sich von unseren Referenzen.">
+    <meta property="og:title" content="Überzeugen Sie sich von unseren Referenzen | Smartphoniker">
+    <meta property="og:description" content="Smartphone Reparatur bei ▷ Smartphoniker. Qualität vom Profi. Überzeugen Sie sich von unseren Referenzen.">
+    <meta property="og:site_name" content="Smartphoniker - Ihr Service Partner für Smartphone, Tablet oder PC">
+
+    <meta name="twitter:description" content="Smartphone Reparatur bei ▷ Smartphoniker. Qualität vom Profi. Überzeugen Sie sich von unseren Referenzen.">
+    <meta name="twitter:title" content="Überzeugen Sie sich von unseren Referenzen | Smartphoniker">
+{% endblock %}
 {% macro render_referenceimg(src, alt) %}
     <img class="references__image" src="{{ url_for('static', filename='images/references/' + src) }}" alt="{{ alt }}">
 {% endmacro %}
@@ -11,12 +21,12 @@
 
     <div class="container container--small">
         <section class="references">
-            <h2 class="references__heading">Unsere Partner</h3>
-                <div class="references__content">
-                        <img class="references__image" src="{{ url_for('static', filename='images/partner/derechtenorden.png') }}" alt="Der echte Norden">
-                        <img class="references__image" src="{{ url_for('static', filename='images/partner/vivaconagua.png') }}" alt="Viva Con Agua">
-                        <img class="references__image" src="{{ url_for('static', filename='images/partner/wertgarantie.jpg') }}" alt="Wertgarantie">
-                </div>
+            <h2 class="references__heading">Unsere Partner</h2>
+            <div class="references__content">
+                <img class="references__image" src="{{ url_for('static', filename='images/partner/derechtenorden.png') }}" alt="Der echte Norden">
+                <img class="references__image" src="{{ url_for('static', filename='images/partner/vivaconagua.png') }}" alt="Viva Con Agua">
+                <img class="references__image" src="{{ url_for('static', filename='images/partner/wertgarantie.jpg') }}" alt="Wertgarantie">
+            </div>
         </section>
     </div>
 
@@ -26,30 +36,30 @@
 
     <div class="container container--small">
         <section class="references">
-            <h2 class="references__heading">Referenzen</h3>
-                <div class="references__content">
-                    {{ render_referenceimg('backringnord.jpg', 'Backring Nord') }}
-                    {{ render_referenceimg('bartelslangness.jpg', 'Bartels Langness') }}
-                    {{ render_referenceimg('belacc.jpg', 'Bela CC') }}
-                    {{ render_referenceimg('biogreno.png', 'Biogreno') }}
-                    {{ render_referenceimg('coop.png', 'Coop') }}
-                    {{ render_referenceimg('famila.jpg', 'Famila') }}
-                    {{ render_referenceimg('futterhaus.jpg', 'Futterhaus') }}
-                    {{ render_referenceimg('fz.jpg', 'FZ') }}
-                    {{ render_referenceimg('hofgut.png', 'Hofgut') }}
-                    {{ render_referenceimg('ihredrogerie.jpg', 'Ihre Drogerie') }}
-                    {{ render_referenceimg('logipet.jpg', 'Logipet') }}
-                    {{ render_referenceimg('markant.jpg', 'Markant') }}
-                    {{ render_referenceimg('matuczak.jpg', 'Matuczak') }}
-                    {{ render_referenceimg('montigny.jpg', 'Montigny') }}
-                    {{ render_referenceimg('nahfrisch.jpg', 'Nah & Frisch') }}
-                    {{ render_referenceimg('schneekloth.jpg', 'Schneekloth') }}
-                    {{ render_referenceimg('steiskal.jpg', 'Steiskal') }}
-                    {{ render_referenceimg('swschwentinental.jpg', 'Stadtwerke Schwentinental') }}
-                    {{ render_referenceimg('vater.png', 'Vater') }}
-                    {{ render_referenceimg('veganleben.png', 'Vegan Leben') }}
-                    {{ render_referenceimg('voss.jpg', 'Voss') }}
-                </div>
+            <h2 class="references__heading">Referenzen</h2>
+            <div class="references__content">
+                {{ render_referenceimg('backringnord.jpg', 'Backring Nord') }}
+                {{ render_referenceimg('bartelslangness.jpg', 'Bartels Langness') }}
+                {{ render_referenceimg('belacc.jpg', 'Bela CC') }}
+                {{ render_referenceimg('biogreno.png', 'Biogreno') }}
+                {{ render_referenceimg('coop.png', 'Coop') }}
+                {{ render_referenceimg('famila.jpg', 'Famila') }}
+                {{ render_referenceimg('futterhaus.jpg', 'Futterhaus') }}
+                {{ render_referenceimg('fz.jpg', 'FZ') }}
+                {{ render_referenceimg('hofgut.png', 'Hofgut') }}
+                {{ render_referenceimg('ihredrogerie.jpg', 'Ihre Drogerie') }}
+                {{ render_referenceimg('logipet.jpg', 'Logipet') }}
+                {{ render_referenceimg('markant.jpg', 'Markant') }}
+                {{ render_referenceimg('matuczak.jpg', 'Matuczak') }}
+                {{ render_referenceimg('montigny.jpg', 'Montigny') }}
+                {{ render_referenceimg('nahfrisch.jpg', 'Nah & Frisch') }}
+                {{ render_referenceimg('schneekloth.jpg', 'Schneekloth') }}
+                {{ render_referenceimg('steiskal.jpg', 'Steiskal') }}
+                {{ render_referenceimg('swschwentinental.jpg', 'Stadtwerke Schwentinental') }}
+                {{ render_referenceimg('vater.png', 'Vater') }}
+                {{ render_referenceimg('veganleben.png', 'Vegan Leben') }}
+                {{ render_referenceimg('voss.jpg', 'Voss') }}
+            </div>
         </section>
     </div>
 {% endblock %}

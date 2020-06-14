@@ -1,11 +1,13 @@
 from flask import Blueprint, send_from_directory, request
 from flask_sitemap import Sitemap
 
+from project.server.models import Manufacturer
+
 
 class SitemapBlueprint(Blueprint):
-    '''
-    Contain all the logic for generating a sitemap.xml
-    '''
+    """
+    Contains all the logic for generating a sitemap.xml
+    """
     STATIC_ROUTES = [
         'main.home',
         'main.manufacturer',
@@ -13,18 +15,18 @@ class SitemapBlueprint(Blueprint):
         'main.datenschutz',
         'main.faq',
         'main.impressum',
+        'main.references',
     ]
 
-    # OTHER_ROUTES = [
-    #    ('brigade.free_software_show', {"software": "bizspark"}),
-    #    ('brigade.free_software_show', {"software": "twilio"}),
-    #    ('brigade.free_software_show', {"software": "slack"}),
-    #    ('brigade.free_software_show', {"software": "carto"}),
-    #    ('brigade.free_software_show', {"software": "github"}),
-    # ]
+    OTHER_ROUTES = [
+        ('main.series', {'manufacturer_name': 'Apple'}),
+        ('main.series', {'manufacturer_name': 'Samsung'}),
+        ('main.series', {'manufacturer_name': 'Huawei'}),
+        ('main.series', {'manufacturer_name': 'Sony'}),
+        ('main.series', {'manufacturer_name': 'Google'}),
+        ('main.series', {'manufacturer_name': 'Xiaomi'}),
+    ]
 
-    # NOTE: This is configured to output https URLs via the SITEMAP_URL_SCHEME
-    # environment variable.
     def register(self, app, options, first_registration=False):
         sitemap = Sitemap(app=app)
 
@@ -34,22 +36,27 @@ class SitemapBlueprint(Blueprint):
 
         @sitemap.register_generator
         def index():
-            # (route, options, lastmod, changefreq, priority)
+            # all routes without params
             for route in self.STATIC_ROUTES:
-                yield (route, {}, None, 'monthly', '0.5')
+                # (route, options, lastmod, changefreq, priority)
+                yield route, {}
 
-    """     brigades = get_brigades()
-         for brigade in brigades:
-             last_updated = datetime.fromtimestamp(brigade['properties']['last_updated'])
+            for route, params in self.OTHER_ROUTES:
+                yield route, params
 
-             for route in self.PER_BRIGADE_ROUTES:
-                 yield (
-                     route,
-                     {'brigadeid': brigade['id']},
-                     last_updated.strftime("%Y-%m-%d"),
-                     'weekly',
-                     '1.0'
-                 )"""
+            # models
+            all_manufacturers: [Manufacturer] = Manufacturer.query.filter(Manufacturer.activated == True).all()  # noqa
+            for manufacturer in all_manufacturers:
+                for series in manufacturer.series:
+                    for device in series.devices:
+                        # last_updated = datetime.fromtimestamp(brigade['properties']['last_updated'])
+                        params = {
+                            'manufacturer_name': manufacturer.name,
+                            'series_name': series.name,
+                            'device_name': device.name,
+
+                        }
+                        yield 'main.model', params
 
 
 sitemap_blueprint = SitemapBlueprint('sitemap', __name__)
