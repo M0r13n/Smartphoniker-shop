@@ -53,7 +53,7 @@
                 {% endfor %}
             </div>
             {% if not devices|length %}
-                <p class="grid__nodevices">Aktuell bieten wir keine Festpreise für Reparaturen dieser Serie an. Melden Sie sich gerne bei unserem <a class="grid__link grid__link--inline" href="">Kundenservice</a>, wenn Sie an einer Reparatur interessiert sind.</p>
+                <p class="grid__nodevices">Aktuell bieten wir keine Festpreise für Reparaturen dieser Serie an. Melden Sie sich gerne bei unserem <a class="grid__link grid__link--inline" href="{{ url_for('main.faq', q='38') }}">Kundenservice</a>, wenn Sie an einer Reparatur interessiert sind.</p>
                 <a class="grid__back" href="{{ url_for('main.series', manufacturer_name=manufacturer) }}">zurück zu den Serien</a>
             {% endif %}
 
