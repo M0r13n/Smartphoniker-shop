@@ -38,9 +38,8 @@
                 {% endfor %}
             </div>
             {% if not series|length %}
-                {# No repairs #}
-                {# TODO stylen #}
-                <h3>Aktuell bieten wir keine Reparatruen für diesen Hersteller an + Zurück buttun</h3>
+                <p class="grid__nodevices">Aktuell bieten wir keine Festpreise für Reparaturen dieses Herstellers an. Melden Sie sich gerne bei unserem <a class="grid__link grid__link--inline" href="{{ url_for('main.faq', q='38') }}">Kundenservice</a>, wenn Sie an einer Reparatur interessiert sind.</p>
+                <a class="grid__back" href="{{ url_for('main.manufacturer') }}">zurück zu den Herstellern</a>
             {% endif %}
 
         </section>
