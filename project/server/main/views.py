@@ -51,7 +51,7 @@ def all_devices_of_series(manufacturer_name, series_name):
     _series = DeviceSeries.query.filter(DeviceSeries.name == series_name).first()
     if not _manufacturer or not _series:
         abort(404)
-    _devices = list(filter(lambda device: len(device.repairs) > 0, _series.devices))  # display only devices that have at least one repair
+    _devices = sorted(list(filter(lambda device: len(device.repairs) > 0, _series.devices)), key=lambda device: device.name)  # display only devices that have at least one repair
     return render_template("main/devices.html", devices=_devices, manufacturer=manufacturer_name, series=series_name, device_names=[d.name for d in _devices])
 
 

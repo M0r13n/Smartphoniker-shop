@@ -7,7 +7,7 @@ import sentry_sdk
 from flask import Flask, render_template
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api, alchemydumps
+from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api, alchemydumps, redis_client
 
 
 def create_app(script_info=None):
@@ -26,6 +26,9 @@ def create_app(script_info=None):
 
     # set up extensions
     init_extensions(app)
+
+    # setup admin after extensions are loaded
+    init_admin(app)
 
     # Views
     init_blueprints(app)
@@ -63,10 +66,10 @@ def init_extensions(app):
     migrate.init_app(app, db)
     tricoma_client.init_app(app)
     tricoma_api.init_app(app)
-    init_admin(app)
     init_login(app)
     init_celery(app)
     alchemydumps.init_app(app, db)
+    redis_client.init_app(app)
 
     # finally set up sentry
     init_sentry(app)

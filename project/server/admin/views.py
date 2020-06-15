@@ -7,6 +7,7 @@ Views should ALWAYS extend ProtectedModelView !
 from flask import redirect, url_for, request, flash, abort, send_from_directory, current_app
 from flask_admin import expose, helpers, AdminIndexView, BaseView
 from flask_admin.actions import action
+from flask_admin.contrib.rediscli import RedisCli
 from flask_admin.contrib.sqla import ModelView as _ModelView
 from flask_login import current_user, login_user, logout_user
 from sqlalchemy.exc import IntegrityError
@@ -17,31 +18,9 @@ from project.server.models import Customer, MailLog, Shop, Order, Device, Manufa
 # Create customized model view class
 from .column_formatters import customer_formatter, ref_formatter, link_to_device_formatter
 from .forms import LoginForm, ChangePasswordForm, ImportRepairForm
+from ..extensions import redis_client
 from ..models.device import Color
 from ...common.import_repair import import_repairs
-
-
-class ProtectedModelView(_ModelView):
-
-    def is_accessible(self):
-        """ All admin views require authentication """
-        return current_user.is_authenticated
-
-    def inaccessible_callback(self, name, **kwargs):
-        """
-        Redirect to login page if user doesn't have access
-        """
-        return redirect(url_for('admin.login_view', next=request.url))
-
-    def _handle_view(self, name, **kwargs):
-        """
-        Override builtin _handle_view in order to redirect users when a view is not accessible.
-        """
-        if not self.is_accessible():
-            if current_user.is_authenticated:
-                abort(403)
-            else:
-                return redirect(url_for('admin.login_view', next=request.url))
 
 
 class ProtectedBaseView(BaseView):
@@ -65,6 +44,16 @@ class ProtectedBaseView(BaseView):
                 abort(403)
             else:
                 return redirect(url_for('admin.login_view', next=request.url))
+
+
+class ProtectedModelView(_ModelView, ProtectedBaseView):
+    """ Secured Model View """
+    pass
+
+
+class RedisView(RedisCli, ProtectedBaseView):
+    """ Secured Redis View """
+    pass
 
 
 class ProtectedIndexView(AdminIndexView):
@@ -307,3 +296,5 @@ admin.add_view(MailLogView(MailLog, db.session, name="Email Log"))  # Mails
 
 admin.add_view(ReferralManagementView(ReferralPartner, db.session, name="Referral Programm"))
 admin.add_view(ImportView(name="Import"))  # Import View
+
+admin.add_view(RedisView(redis_client.redis, name="Redis Konsole"))  # Redis view
