@@ -12,10 +12,10 @@ class Repair(db.Model, CRUDMixin, ImageMixin):
     price = db.Column(db.DECIMAL(7, 2), default=0)
 
     # Relations
-    device_id = db.Column(db.Integer, db.ForeignKey('device.id'), nullable=False)
+    device_id = db.Column(db.Integer, db.ForeignKey('device.id'), nullable=True)
     device = db.relationship("Device")
 
-    orders = db.relationship("OrderRepairAssociation", back_populates="repair")
+    orders = db.relationship("OrderRepairAssociation", back_populates="repair", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"{self.device.name} {self.name}"

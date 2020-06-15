@@ -1,3 +1,5 @@
+import typing
+
 from sqlalchemy import Index, desc, func, any_, bindparam, asc
 
 from project.server import db
@@ -43,7 +45,7 @@ class Device(db.Model, CRUDMixin, ImageMixin):
         back_populates="devices"
     )
 
-    repairs = db.relationship("Repair", back_populates="device")
+    repairs = db.relationship("Repair", back_populates="device", cascade="all, delete-orphan")
 
     __table_args__ = (
         Index(
@@ -90,6 +92,24 @@ class Device(db.Model, CRUDMixin, ImageMixin):
         query = cls.query.order_by(asc(func.levenshtein(Device.name, q))).limit(limit)
         return query
 
+    @classmethod
+    def merge(cls, ids: typing.List[int]):
+        """ Merge a list of devices (id's) into a one. Heavily opinionated method."""
+        query = cls.query.filter(cls.id.in_(ids))
+        with cls.session():
+            # Copy basic data from the first device
+            merger = _create_from_first_device(query[0])
+            # Get the first non none image
+            merger.image = next(filter(lambda i: i is not None, map(lambda d: d.image, query.all())), None)
+            for device in query:
+                # merge relations
+                _merge_colors(merger, device.colors)
+                _merge_repairs(merger, device.repairs)
+                # dont forget to delete
+                device.delete()
+            merger.name = merger.name[:-1]
+            return merger
+
     @property
     def manufacturer(self):
         return self.series.manufacturer
@@ -102,3 +122,24 @@ class Device(db.Model, CRUDMixin, ImageMixin):
         if self.is_tablet:
             return Image.query.filter(Image.tablet_default == Default.true).first()  # noqa
         return Image.query.filter(Image.device_default == Default.true).first()  # noqa
+
+
+def _create_from_first_device(first: Device) -> Device:
+    name, is_tablet, series = first.name, first.is_tablet, first.series
+    merger = Device.create(name=name + "#", is_tablet=is_tablet, series=series)
+    return merger
+
+
+def _merge_colors(merger: Device, colors: typing.List) -> None:
+    for color in colors:
+        if color not in merger.colors:
+            merger.colors.append(color)
+
+
+def _merge_repairs(merger: Device, repairs: typing.List) -> None:
+    for repair in repairs:
+        if repair.name not in map(lambda d: d.name, merger.repairs):
+            rep = repair.clone()
+            rep.device = merger
+            rep.save()
+            repair.delete()

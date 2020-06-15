@@ -4,11 +4,13 @@ This is place for all admin views.
 Views should ALWAYS extend ProtectedModelView !
 
 """
-from flask import redirect, url_for, request, flash, abort, send_from_directory
+from flask import redirect, url_for, request, flash, abort, send_from_directory, current_app
 from flask_admin import expose, helpers, AdminIndexView, BaseView
 from flask_admin.actions import action
 from flask_admin.contrib.sqla import ModelView as _ModelView
 from flask_login import current_user, login_user, logout_user
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm.exc import FlushError
 
 from project.server import flask_admin as admin, db
 from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries, ReferralPartner
@@ -187,6 +189,20 @@ class DeviceView(AdminExportableModelView):
     column_filters = ('series.name', 'series.manufacturer.name')
     column_labels = {'series.name': 'Serie', 'series.manufacturer.name': 'Hersteller'}
     column_editable_list = ['series', 'image', 'is_tablet', 'name', 'colors']
+
+    @action('merge', 'Zusammenführen', 'Bist du sicher, dass du die gewählten Geräte mergen willst? ')
+    def action_approve(self, ids):
+        try:
+            merger = Device.merge(ids)
+        except (IntegrityError, FlushError)as e:
+            flash("Zusammenführen fehlgeschlagen", "danger")
+            current_app.logger.error(e)
+            return
+        except IndexError:
+            flash("Bitte wähle mindestens 1 Gerät aus.")
+            return
+        flash(f"Die Geräte wurden erfolgreich zu {merger.name} zusammengeführt. Bitte passe den Namen an und prüfe die Bilder.")
+        return redirect(url_for('device.edit_view', id=merger.id))
 
 
 class ColorView(AdminExportableModelView):
