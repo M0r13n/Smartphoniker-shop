@@ -7,7 +7,8 @@ import sentry_sdk
 from flask import Flask, render_template
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api, alchemydumps, redis_client
+from .config import TALISMAN_CONFIG
+from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api, alchemydumps, redis_client, talisman
 
 
 def create_app(script_info=None):
@@ -70,9 +71,13 @@ def init_extensions(app):
     init_celery(app)
     alchemydumps.init_app(app, db)
     redis_client.init_app(app)
-
+    init_talisman(app)
     # finally set up sentry
     init_sentry(app)
+
+
+def init_talisman(app):
+    talisman.init_app(app, **TALISMAN_CONFIG)
 
 
 def init_login(app):

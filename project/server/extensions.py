@@ -6,6 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
+from flask_talisman import Talisman
 
 from project.common.redis import FlaskRedis
 from project.common.tricoma_api import TricomaAPI
@@ -21,6 +22,8 @@ db = SQLAlchemy()
 celery = Celery()
 migrate = Migrate()
 flask_admin = Admin(name='admin', base_template='admin/admin_master.html', template_mode='bootstrap3')
+
+talisman = Talisman()
 
 redis_client = FlaskRedis()
 

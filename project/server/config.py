@@ -77,3 +77,10 @@ class ProductionConfig(BaseConfig):
     TESTING = False
     BCRYPT_LOG_ROUNDS = 13
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
+
+
+SELF = "'self'"
+NONE = "'none'"
+TALISMAN_CONFIG = dict(
+    content_security_policy=None  # CSP not implemented (yet?)
+)
