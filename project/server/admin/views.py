@@ -218,6 +218,10 @@ class DeviceSeriesView(AdminExportableModelView):
 class RepairView(AdminExportableModelView):
     """ Repair View """
     form_excluded_columns = ['orders']
+    form_widget_args = {
+        'image': {
+        }
+    }
 
     column_sortable_list = ['device.name', 'name', 'image', 'price']
     column_editable_list = ['device', 'name', 'price', 'image']

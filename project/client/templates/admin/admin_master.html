@@ -1,4 +1,15 @@
 {% extends 'admin/base.html' %}
+
+{% block head_css %}
+    {{ super() }}
+
+    <style>
+        /* Set the max height of Select2 dropdowns to approx 14 elements */
+        .select2-results {
+            max-height: 400px !important;
+        }
+    </style>
+{% endblock %}
 {% block brand %}
 {% endblock %}
 
