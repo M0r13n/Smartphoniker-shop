@@ -77,7 +77,8 @@ def init_extensions(app):
 
 
 def init_talisman(app):
-    talisman.init_app(app, **TALISMAN_CONFIG)
+    if not app.config['DEBUG']:
+        talisman.init_app(app, **TALISMAN_CONFIG)
 
 
 def init_login(app):
