@@ -5,6 +5,7 @@ from sqlalchemy import Index, desc, func, any_, bindparam, asc
 from project.server import db
 from project.server.models.crud import CRUDMixin
 from project.server.models.image import ImageMixin
+from project.server.models.orderable import OrderableMixin
 
 color_device_table = db.Table('color_device',
                               db.Column('color_id', db.Integer, db.ForeignKey('color.id')),
@@ -28,7 +29,7 @@ class Color(db.Model, CRUDMixin):
         return self.internal_name
 
 
-class Device(db.Model, CRUDMixin, ImageMixin):
+class Device(db.Model, CRUDMixin, ImageMixin, OrderableMixin):
     __tablename__ = "device"
 
     id = db.Column(db.Integer, primary_key=True)

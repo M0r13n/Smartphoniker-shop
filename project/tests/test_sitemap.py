@@ -5,15 +5,15 @@ from webtest import TestResponse
 class TestSitemap:
 
     def test_sitemap_renders_without_errors(self, db, testapp):
-        response = testapp.get("/sitemap.xml")
+        response = testapp.get("/sitemap.xml").follow()
         assert response.status_code == 200
 
     def test_robots_txt_exists(self, testapp):
-        response = testapp.get("/robots.txt")
+        response = testapp.get("/robots.txt").follow()
         assert response.status_code == 200
 
     def test_links_in_sitemap_valid(self, db, testapp):
-        response: TestResponse = testapp.get("/sitemap.xml")
+        response: TestResponse = testapp.get("/sitemap.xml").follow()
         soup = BeautifulSoup(response.body)
         tags = soup.find_all("sitemap")
         for sitemap in tags:

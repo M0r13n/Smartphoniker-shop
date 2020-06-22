@@ -216,7 +216,7 @@ def test():
 def cov():
     """Runs the unit tests with coverage."""
     import pytest
-    rv = pytest.main(["--verbose", "--cov=project project/tests", "--cov", "--cov-report=term"])
+    rv = pytest.main(["-x", "--verbose", "--cov=project project/tests", "--cov", "--cov-report=term"])
     sys.exit(rv)
 
 

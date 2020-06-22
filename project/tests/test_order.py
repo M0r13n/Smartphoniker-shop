@@ -132,3 +132,14 @@ class TestOrder:
             problem_description="ABBBCCC"
         )
         assert order1.device == sample_repair.device
+
+    def test_delete(self, db, sample_repair, sample_color):
+        order1 = Order.create(
+            color=sample_color,
+            repairs=sample_repair,
+            problem_description="123"
+        )
+        assert len(sample_repair.orders) == 1
+
+        order1.delete()
+        assert len(sample_repair.orders) == 0

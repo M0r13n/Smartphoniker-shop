@@ -41,7 +41,7 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
     referral = db.relationship("Referral", uselist=False, back_populates="order")
 
     # Repairs
-    _repairs = db.relationship("OrderRepairAssociation", back_populates="order")
+    _repairs = db.relationship("OrderRepairAssociation", back_populates="order", cascade="all, delete-orphan")
 
     def __repr__(self):
         return f"<Order: {self.device.name}>"

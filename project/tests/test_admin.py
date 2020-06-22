@@ -1,5 +1,6 @@
 # project/server/tests/test_main.py
 from flask import url_for
+from webtest import AppError
 
 
 class TestAdmin:
@@ -19,7 +20,7 @@ class TestAdmin:
 
     def test_admin_is_active(self, testapp):
         response = testapp.get("/admin")
-        assert response.status_code == 308
+        assert response.status_code in (308, 302)
 
         # follow all redirects
         while response.status_code in (302, 308):
@@ -33,7 +34,7 @@ class TestAdmin:
 
     def test_admin_login_works(self, user, testapp):
         # Goes to homepage
-        res = testapp.get("/admin/login/")
+        res = testapp.get("/admin/login/").follow()
         form = res.forms[0]
         form["email"] = user.email
         form["password"] = "admin"
@@ -46,11 +47,14 @@ class TestAdmin:
         assert res.status_code == 200
 
     def test_admin_change_pw_protected(self, testapp):
-        res = testapp.get(url_for('admin.change_password_view'), expect_errors=True)
-        assert res.status_code == 403
+        try:
+            res = testapp.get(url_for('admin.change_password_view')).follow()
+            assert res.status_code == 403
+        except AppError as e:
+            assert "Bad response: 403 FORBIDDEN" in str(e)
 
     def test_that_every_page_at_least_loads(self, user, some_devices, db, testapp):
-        res = testapp.get("/admin/login/")
+        res = testapp.get("/admin/login/").follow()
         form = res.forms[0]
         form["email"] = user.email
         form["password"] = "admin"
@@ -71,5 +75,5 @@ class TestAdmin:
         for endpoint in endpoints:
             url = url_for(endpoint)
             print(url)
-            response = testapp.get(url)
+            response = testapp.get(url).follow()
             assert response.status_code == 200

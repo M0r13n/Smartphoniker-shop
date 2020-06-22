@@ -174,12 +174,17 @@ class DeviceView(AdminExportableModelView):
     """ Create and manage devices """
     form_excluded_columns = ['orders', 'repairs']
 
-    column_list = ('manufacturer', 'series', 'name', 'image', 'is_tablet', 'colors')
+    column_default_sort = ("order_index", False)
+    column_list = ('manufacturer', 'series', 'name', 'image', 'is_tablet', 'colors', 'order_index')
     column_filters = ('series.name', 'series.manufacturer.name')
     column_labels = {'series.name': 'Serie', 'series.manufacturer.name': 'Hersteller'}
     column_editable_list = ['series', 'image', 'is_tablet', 'name', 'colors']
 
-    @action('merge', 'Zusammenführen', 'Bist du sicher, dass du die gewählten Geräte mergen willst? ')
+    @action(
+        "merge",
+        "Zusammenführen",
+        "Bist du sicher, dass du die gewählten Geräte mergen willst?"
+    )
     def action_approve(self, ids):
         try:
             merger = Device.merge(ids)
@@ -192,6 +197,41 @@ class DeviceView(AdminExportableModelView):
             return
         flash(f"Die Geräte wurden erfolgreich zu {merger.name} zusammengeführt. Bitte passe den Namen an und prüfe die Bilder.")
         return redirect(url_for('device.edit_view', id=merger.id))
+
+    @action(
+        "normalize",
+        "Normalisieren",
+        "Sollen die ausgewählten Elemente nach normalisiert werden?",
+    )
+    def action_normalize(self, ids):
+        self.model.normalize()
+        return redirect(url_for(".index_view"))
+
+    @action(
+        "move_up",
+        "Nach oben bewegen",
+        "Sollen die ausgewählten Elemente nach oben verschoben werden?",
+    )
+    def action_move_up(self, ids):
+        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
+            self.model.order_index
+        )
+        for item in selected:
+            item.move_up()
+        return redirect(url_for(".index_view"))
+
+    @action(
+        "move_down",
+        "Nach unten bewegen",
+        "Sollen die ausgewählten Elemente nach unten verschoben werden?",
+    )
+    def action_move_down(self, ids):
+        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
+            self.model.order_index.desc()
+        )
+        for item in selected:
+            item.move_down()
+        return redirect(url_for(".index_view"))
 
 
 class ColorView(AdminExportableModelView):
