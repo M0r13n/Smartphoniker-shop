@@ -204,7 +204,28 @@ class DeviceView(AdminExportableModelView):
         "Sollen die ausgewählten Elemente nach normalisiert werden?",
     )
     def action_normalize(self, ids):
-        self.model.normalize()
+        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
+            self.model.name.desc()
+        )
+        for i, model in enumerate(selected):
+            model.order_index = i
+            model.save()
+        return redirect(url_for(".index_view"))
+
+    @action(
+        "normalize_by_name",
+        "Normalisieren nach Name",
+        "Sollen die ausgewählten Elemente nach ihrem Namen normalisiert werden?",
+    )
+    def action_normalize_by_name(self, ids):
+        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
+            self.model.name.desc()
+        )
+
+        for i, model in enumerate(selected):
+            model.order_index = i
+            model.save()
+
         return redirect(url_for(".index_view"))
 
     @action(
