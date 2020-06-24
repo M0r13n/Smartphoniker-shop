@@ -65,6 +65,9 @@ def init_blueprints(app):
     from project.server.main.sitemap import sitemap_blueprint
     app.register_blueprint(sitemap_blueprint)
 
+    from project.server.health.views import health_bp
+    app.register_blueprint(health_bp)
+
 
 def init_admin(app):
     """ Setup Flask-Admin"""
