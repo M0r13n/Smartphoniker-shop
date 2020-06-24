@@ -10,3 +10,7 @@ minify-css:
 
 test:
 	python manage.py test && python manage.py flake
+
+
+run:
+	python manage.py run

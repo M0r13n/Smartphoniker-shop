@@ -7,7 +7,6 @@ def default_order_index(context) -> int:
     """
     Get the current highest index
     """
-    print(context)
     if context:
         try:
             return db.session.query(func.max(context.current_column.table.c.order_index)).first()[0] + 1

@@ -201,11 +201,11 @@ class DeviceView(AdminExportableModelView):
     @action(
         "normalize",
         "Normalisieren",
-        "Sollen die ausgewählten Elemente nach normalisiert werden?",
+        "Sollen die ausgewählten Elemente normalisiert werden?",
     )
     def action_normalize(self, ids):
         selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
-            self.model.name.desc()
+            self.model.order_index
         )
         for i, model in enumerate(selected):
             model.order_index = i

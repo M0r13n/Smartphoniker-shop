@@ -3,12 +3,9 @@
 
 import os
 
-import sentry_sdk
 from flask import Flask, render_template
-from sentry_sdk.integrations.flask import FlaskIntegration
 
-from .config import TALISMAN_CONFIG
-from .extensions import login_manager, bcrypt, toolbar, db, migrate, flask_admin, celery, tricoma_client, tricoma_api, alchemydumps, redis_client, talisman
+from .extensions import db, flask_admin, init_extensions
 
 
 def create_app(script_info=None):
@@ -59,35 +56,6 @@ def create_app(script_info=None):
     return app
 
 
-def init_extensions(app):
-    login_manager.init_app(app)
-    bcrypt.init_app(app)
-    toolbar.init_app(app)
-    db.init_app(app)
-    migrate.init_app(app, db)
-    tricoma_client.init_app(app)
-    tricoma_api.init_app(app)
-    init_login(app)
-    init_celery(app)
-    alchemydumps.init_app(app, db)
-    redis_client.init_app(app)
-    init_talisman(app)
-    # finally set up sentry
-    init_sentry(app)
-
-
-def init_talisman(app):
-    talisman.init_app(app, **TALISMAN_CONFIG)
-
-
-def init_login(app):
-    from project.server.models import User
-
-    @login_manager.user_loader
-    def load_user(user_id):
-        return User.query.filter(User.id == int(user_id)).first()
-
-
 def init_blueprints(app):
     """ Register all blueprints"""
     # register blueprints
@@ -106,36 +74,3 @@ def init_admin(app):
     # Add the admin panel
     with app.app_context():
         pass
-
-
-def init_celery(app=None):
-    """ Setup celery with application factory """
-    app = app or create_app()
-    celery.conf.broker_url = app.config["CELERY_BROKER_URL"]
-    celery.conf.result_backend = app.config["CELERY_RESULT_BACKEND"]
-    # This is needed to fix the indefinite hang of delay and apply_async if celery is down
-    celery.conf.broker_transport_options = {"max_retries": 2, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
-    celery.conf.redis_socket_timeout = 2.0
-    celery.conf.update(app.config)
-
-    class ContextTask(celery.Task):
-        """Make celery tasks work with Flask app context"""
-
-        def __call__(self, *args, **kwargs):
-            with app.app_context():
-                return self.run(*args, **kwargs)
-
-    celery.Task = ContextTask
-    return celery
-
-
-def init_sentry(app):
-    """ Enable remote logging to Sentry.io"""
-    if app.config.get('SENTRY_DSN'):
-        # Only init sentry if the DSN is set in the current environment
-        sentry_sdk.init(
-            app.config.get('SENTRY_DSN'),
-            integrations=[
-                FlaskIntegration()
-            ]
-        )
