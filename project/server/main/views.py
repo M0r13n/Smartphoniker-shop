@@ -187,7 +187,7 @@ def other():
         form.create_model()
         flash("Danke. Wir haben Ihre Anfrage erhalten!", "success")
         return redirect(url_for("main.home"))
-    return render_template('main/other.html', form=form)
+    return render_template('main/other.html', other_inquiry_form=form)
 
 
 @main_blueprint.route("/api/search/<string:device_name>/")
