@@ -1,8 +1,9 @@
 {% extends "_base.html" %}
+{% from "macros.html" import render_field with context %}
 
 {% block content %}
     <form action="#" method="POST" novalidate>
-
+        <!-- Hero Section -->
         <div class="container container--small">
             <section class="hero hero--nocontent">
                 <h1 class="hero__heading">Sonstige Anfrage</h1>
@@ -12,28 +13,44 @@
             </section>
         </div>
 
+        <!-- Main Error Message -->
         <div class="container container--small">
-            {% for field, errors in form.errors.items() %}
+            {% for field, errors in other_inquiry_form.errors.items() %}
                 <p class="form__error form__error--center">
-                    {{ form[field].label }} : {{ ', '.join(errors) }}
+                    {{ other_inquiry_form[field].label }} : {{ ', '.join(errors) }}
                 </p>
             {% endfor %}
             <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
         </div>
 
+        <!-- Form Section -->
         <div class="container container--small">
-            <section class="form">
-                {#  TODO wir brauchen ne Mail vom Kunden #}
-                <h2 class="form__heading"><label for="{{ form.problem_description.name }}">Beschreibung</label></h2>
-                <div class="grid__content grid__content--error">
-                    {#
-                    <p class="form__error">other_form.error </p>
-                    #}
-                    <p id="description" class="form__error">Bitte füllen Sie das Feld mit Ihrer Beschreibung aus.</p>
-                </div>
-                <div class="form__content">
-                    <textarea id="{{ form.problem_description.name }}" class="form__textarea" name="{{ form.problem_description.name }}" placeholder="Beschreiben Sie ihre Anfrage so genau wie möglich"></textarea>
-                    <button id="Submit" class="form__button" type="submit">Abschicken</button>
+            <section class="customer">
+                <h2 class="customer__heading">Wie können wir helfen?</h2>
+                <div class="customer__content customer__content--infosection">
+                    <div class="customer__inputs">
+                        <!-- email Field -->
+                        {{ render_field(other_inquiry_form.email, "customer__inputwrapper customer__inputwrapper--full", "Ihre E-Mail Adresse") }}
+                        <!-- Problem Description Field -->
+                        <div class="customer__inputwrapper customer__inputwrapper--full">
+                            <label for="Problem_description" class="customer__label">Problembeschreibung<sup>*</sup></label>
+                            <textarea id="{{ other_inquiry_form.problem_description.name.capitalize() }}" class="customer__input customer__input--textarea" name="{{ other_inquiry_form.problem_description.name }}"></textarea>
+                            <!-- Error Message -->
+                            {% for error in other_inquiry_form.problem_description.errors %}
+                                <p style="display: block;" class="form__error">{{ error }}</p>
+                            {% endfor %}
+                            <p id="{{ other_inquiry_form.problem_description.name }}" class="form__error">Bitte geben Sie Ihre Problembeschreibung an.</p>
+                        </div>
+                        <!-- Submit Button -->
+                        <div class="customer__buttonwrapper">
+                            <button id="Submit" class="customer__button">Abschicken</button>
+                        </div>
+                    </div>
+                    <!-- Information about data use -->
+                    <div class="customer__infowrapper">
+                        <p class="customer__text"><sup>*</sup> = Feld ist erforderlich</p>
+                        <p class="customer__text">Ihre e-Mail Adresse wird lediglich zur Zuordnung und als Kontaktmöglichkeit gespeichert.</p>
+                    </div>
                 </div>
             </section>
         </div>
