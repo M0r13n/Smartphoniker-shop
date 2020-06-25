@@ -1460,14 +1460,6 @@ footer {
             text-align: center;
         }
     }
-
-    &__button {
-        @extend .cta;
-        border: none;
-        height: 40px;
-        margin-top: 1em;
-        padding: 0 2em;
-    }
 } // done
 
 .price {
@@ -1829,6 +1821,11 @@ footer {
         &:focus {
             border: 2px solid map-get($map: $colors, $key: primary);
             outline: none;
+        }
+
+        &--textarea {
+            height: 100px;
+            resize: none;
         }
     }
 

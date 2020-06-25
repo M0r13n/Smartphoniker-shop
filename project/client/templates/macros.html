@@ -1,0 +1,15 @@
+{% macro render_field(field, wrapper_class, msg = null) %}
+    <div class="{{ wrapper_class }}">
+        <label for="{{ field.name.capitalize() }}" class="customer__label">{{ field.label }}{% if field.flags.required %}<sup>*</sup>{% endif %}</label>
+        <input id="{{ field.name.capitalize() }}" class="customer__input" type="{{ field.type }}" name="{{ field.name }}" {% if field.data and field.data|length>0 %}value="{{ field.data }}"{% endif %}">
+
+        <!-- Fehlermeldung -->
+        {% for error in field.errors %}
+            <p style="display: block;" class="form__error">{{ error }}</p>
+        {% endfor %}
+
+        {% if msg %}
+            <p id="{{ field.name }}" class="form__error">Bitte geben Sie {{ msg }} an.</p>
+        {% endif %}
+    </div>
+{% endmacro %}

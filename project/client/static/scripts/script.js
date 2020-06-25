@@ -23,14 +23,16 @@ const toInt = (str) => {
 
 /**
  * Shorthand for document.getElementById()
+ * @param str
  * @returns {object} HTML-DOM-Reference
  */
 function $(id) {
     return document.getElementById(id);
-}
+};
 
 /**
  * Shorthand for document.querySelectorAll()
+ * @param str
  * @returns {NodeList} Liste mit passenden Elementen
  */
 function byQuery(query) {
@@ -50,6 +52,7 @@ const scrollToTop = () => {
 
 /**
  * Search Funtion.
+ * @param {string}
  */
 function appendURL(path = '/search/') {
     const origin = window.location.origin;
@@ -70,6 +73,8 @@ function hide(elem) {
 /**
  * Show a given element by setting it's display attr.
  * second argument allows specifying the display attribute
+ * @param {object}
+ * @param {string}
  */
 function show(elem, displayattr = false) {
     if (displayattr) {
@@ -81,6 +86,8 @@ function show(elem, displayattr = false) {
 
 /**
  * Returns plain text in html object
+ * @param object
+ * @param string
  * @returns {string}
  */
 const extractPlainText = (htmlObject, query = false) => {
@@ -100,7 +107,7 @@ function filterFunction() {
 
     for (const heading of questionHeadings) {
         input.length > 0 ? hide(heading) : show(heading);
-    }  
+    }
 
     let list = $('FaqList').querySelectorAll('li.faq__item');
     for (const item of list) {
@@ -117,6 +124,7 @@ function filterFunction() {
 
 /**
  * validates if e-mail is a correct e-mail and shows error if so
+ * @param {string} mail
  * @returns {boolean}
  */
 const validateMail = (element) => {
@@ -125,11 +133,11 @@ const validateMail = (element) => {
         show(element, 'block');
         return false;
     }
-    return true;    
+    return true;
 }
 
 /**
- * filters questions with user-input 
+ * filters questions with user-input
  */
 const faqJS = () => {
     $('Search').addEventListener('keyup', () => {
@@ -162,7 +170,7 @@ const faqJS = () => {
 };
 
 /**
- * eventlisteners for device-search 
+ * eventlisteners for device-search
  */
 const searchJS = () => {
     $('Submit').addEventListener('click', () => {
@@ -177,6 +185,7 @@ const searchJS = () => {
 
 /**
  * returns array of values of elements selected by a css query
+ * @param {string}
  * @returns {Array}
  */
 const getPrices = (selector) => {
@@ -185,7 +194,7 @@ const getPrices = (selector) => {
 }
 
 /**
- * calculate total on modell.html 
+ * calculate total on modell.html
  */
 const totalJS = () => {
     const repairs = document.getElementsByName('repairs');
@@ -202,7 +211,7 @@ const totalJS = () => {
             $('Total').innerHTML = checkedRepairPrices[0] || 0;
         }
     }
-    
+
     for (const repair of repairs) {
         repair.addEventListener('change', () => {
             calculateSum()
@@ -211,7 +220,7 @@ const totalJS = () => {
 }
 
 /**
- * register EventListeners for Colors on modell.html 
+ * register EventListeners for Colors on modell.html
  */
 const colorJS = () => {
     const radios = document.getElementsByName('color');
@@ -228,7 +237,7 @@ const colorJS = () => {
     }
 }
 /**
- * checks select on order page and shows error 
+ * checks select on order page and shows error
  */
 const orderValidation = () => {
     let okay = true;
@@ -242,7 +251,7 @@ const orderValidation = () => {
 }
 
 /**
- * checks every input with given name, shows error message and 
+ * checks every input with given name, shows error message and
  * returns array of bools with the result
  * @param {Array} names input names which should be tested
  * @returns {Array} with a bool for each name
@@ -257,7 +266,7 @@ const selectionValidation = (names) => {
         if (checkedInputs.length === 0) {
             checked = false;
         }
-        
+
         // shows individual error message
         if (!checked) {
             show($(name), 'block');
@@ -270,13 +279,16 @@ const selectionValidation = (names) => {
     return validated;
 }
 
+/**
+ * @param {Array}
+ */
 const inputValidation = (names) => {
     const validated = [];
 
     for (const name of names) {
         let checked = true;
-        const inputValue = byQuery('input[name=' + name + ']')[0].value;
-        if (inputValue === undefined || inputValue === '') {
+        const inputValue = byQuery('[name=' + name + ']')[0].value;
+        if (inputValue === undefined || inputValue == '') {
             checked = false;
         }
         // shows individual error message
@@ -285,28 +297,6 @@ const inputValidation = (names) => {
         } else {
             hide($(name));
         }
-        console.log(inputValue);
-        validated.push(checked);
-    }
-    return validated;
-}
-
-const textareaValidation = (names) => {
-    const validated = [];
-
-    for (const name of names) {
-        let checked = true;
-        const inputValue = byQuery('textarea[name=' + name + ']')[0].value;
-        if (inputValue === undefined || inputValue === '') {
-            checked = false;
-        }
-        // shows individual error message
-        if (!checked) {
-            show($(name), 'block');
-        } else {
-            hide($(name));
-        }
-        console.log(inputValue);
         validated.push(checked);
     }
     return validated;
@@ -322,7 +312,6 @@ const formsJS = (formName) => {
     if(!$('Submit')) return false;
     // addeventlistener
     $('Submit').addEventListener('click', (evt) => {
-        evt.preventDefault();
         // check specific inputs varying on the form
         switch (formName) {
             // form where customers choose repair / detaill page for each phone
@@ -336,7 +325,7 @@ const formsJS = (formName) => {
                 break;
             // other inquiry form
             case 'Other':
-                okay.push(...textareaValidation(['description']));
+                okay.push(...inputValidation(['email', 'problem_description']));
                 break;
         }
         // prevent form from sending + show top error message

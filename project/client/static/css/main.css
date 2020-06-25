@@ -121,7 +121,7 @@ option {
   font-size: 1.2em;
 }
 
-.cta, .hero__cta, .bestseller__cta, .search__button, .grid__button, .grid__back, .form__button, .price__button, .order__button, .customer__button, .success__button, .error__button {
+.cta, .hero__cta, .bestseller__cta, .search__button, .grid__button, .grid__back, .price__button, .order__button, .customer__button, .success__button, .error__button {
   font-weight: 400;
   color: white;
   background-color: #FF6C00;
@@ -144,7 +144,7 @@ option {
   border-radius: 2px;
 }
 
-.cta:hover, .hero__cta:hover, .bestseller__cta:hover, .search__button:hover, .grid__button:hover, .grid__back:hover, .form__button:hover, .price__button:hover, .order__button:hover, .customer__button:hover, .success__button:hover, .error__button:hover {
+.cta:hover, .hero__cta:hover, .bestseller__cta:hover, .search__button:hover, .grid__button:hover, .grid__back:hover, .price__button:hover, .order__button:hover, .customer__button:hover, .success__button:hover, .error__button:hover {
   -webkit-transform: scale(0.98);
           transform: scale(0.98);
 }
@@ -1474,13 +1474,6 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   text-align: center;
 }
 
-.form__button {
-  border: none;
-  height: 40px;
-  margin-top: 1em;
-  padding: 0 2em;
-}
-
 .price__content {
   margin: 0 auto;
   height: 3em;
@@ -1846,6 +1839,11 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
 .customer__input:focus {
   border: 2px solid #FF6C00;
   outline: none;
+}
+
+.customer__input--textarea {
+  height: 100px;
+  resize: none;
 }
 
 .customer__buttonwrapper {
