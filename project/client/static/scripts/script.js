@@ -297,7 +297,31 @@ const inputValidation = (names) => {
         } else {
             hide($(name));
         }
+        console.log(inputValue);
+        validated.push(checked);
+    }
+    return validated;
+}
 
+/**
+ * @param {Array}
+ */
+const textareaValidation = (names) => {
+    const validated = [];
+
+    for (const name of names) {
+        let checked = true;
+        const inputValue = byQuery('textarea[name=' + name + ']')[0].value;
+        if (inputValue === undefined || inputValue == '') {
+            checked = false;
+        }
+        // shows individual error message
+        if (!checked) {
+            show($(name), 'block');
+        } else {
+            hide($(name));
+        }
+        console.log(inputValue);
         validated.push(checked);
     }
     return validated;
@@ -313,6 +337,7 @@ const formsJS = (formName) => {
     if(!$('Submit')) return false;
     // addeventlistener
     $('Submit').addEventListener('click', (evt) => {
+        evt.preventDefault();
         // check specific inputs varying on the form
         switch (formName) {
             // form where customers choose repair / detaill page for each phone
@@ -323,6 +348,10 @@ const formsJS = (formName) => {
             case 'Customer':
                 okay.push(...inputValidation(['first_name', 'last_name', 'street', 'zip_code', 'city', 'email']));
                 okay.push(validateMail($('Email')));                
+                break;
+            // other inquiry form
+            case 'Other':
+                okay.push(...textareaValidation(['description']));
                 break;
         }
         // prevent form from sending + show top error message
@@ -409,6 +438,10 @@ const main = () => {
 
         case "/order":
             orderJS();
+            break;
+
+        case "/anfrage":
+            formsJS('Other');
             break;
 
         default:

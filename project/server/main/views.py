@@ -178,6 +178,12 @@ def references():
     """ Render references page """
     return render_template('main/references.html')
 
+# TODO form stuff
+@main_blueprint.route("/anfrage")
+def other():
+    """ Render other inquiry page """
+    return render_template('main/other.html')
+
 
 @main_blueprint.route("/api/search/<string:device_name>/")
 def search_api(device_name):

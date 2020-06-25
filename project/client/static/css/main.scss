@@ -1460,6 +1460,14 @@ footer {
             text-align: center;
         }
     }
+
+    &__button {
+        @extend .cta;
+        border: none;
+        height: 40px;
+        margin-top: 1em;
+        padding: 0 2em;
+    }
 } // done
 
 .price {
