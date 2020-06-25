@@ -4,7 +4,7 @@ from typing import Iterable, Optional
 
 import requests as r
 
-from project.common.tricoma_api import TricomaCustomer
+from project.server.common.tricoma_api import TricomaCustomer
 
 
 def extract_customers(raw_data: str) -> Optional[Iterable[TricomaCustomer]]:

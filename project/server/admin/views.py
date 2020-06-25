@@ -18,10 +18,10 @@ from project.server.models import Customer, MailLog, Shop, Order, Device, Manufa
 # Create customized model view class
 from .column_formatters import customer_formatter, ref_formatter, link_to_device_formatter
 from .forms import LoginForm, ChangePasswordForm, ImportRepairForm
+from ..common.import_repair import import_repairs
 from ..extensions import redis_client
 from ..models.device import Color
 from ..models.misc import MiscEnquiry
-from ...common.import_repair import import_repairs
 
 
 class ProtectedBaseView(BaseView):
@@ -155,6 +155,16 @@ class SubmittedOrderView(OrderView):
     can_delete = False
 
     column_list = ('timestamp', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description', 'customer_wishes_shipping_label')
+    column_labels = {
+        'timestamp': 'Zeitstempel',
+        'kva': 'Kostenvoranschlag',
+        'shop': 'Shop',
+        'color': 'Farbe',
+        'customer': 'Kunde',
+        'repairs': 'Reparatur(en)',
+        'problem_description': 'Problembeschreibung',
+        'customer_wishes_shipping_label': 'Versandlabel erwünscht',
+    }
 
     def get_query(self):
         return self.session.query(self.model).filter(self.model.complete == True).order_by(self.model.timestamp.desc())  # noqa

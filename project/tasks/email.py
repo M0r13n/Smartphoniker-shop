@@ -1,14 +1,27 @@
 from celery.exceptions import MaxRetriesExceededError, Retry
-from flask import current_app
+from flask import current_app, render_template
+from kombu.exceptions import OperationalError
 
-from project.common.email.backend import EmailBackend
-from project.common.email.message import EmailMessage, EmailMultiAlternatives
+from project.server.common.email.backend import EmailBackend
+from project.server.common.email.message import EmailMultiAlternatives, EmailMessage, make_html_mail
 from project.server.extensions import celery
 from project.server.models import MailLog
 from project.server.models.mail_log import MailStatus
 
 MAX_TRIES = 10
 DELAYS = [30, 60, 120, 300, 600, 1800, 3600, 3600, 7200]
+
+
+def send_email(msg):
+    log = MailLog.create(recipients="; ".join(msg['to']))
+    try:
+        mail = send_email_task.apply_async(args=[msg, log.id])
+        return mail
+    except OperationalError as e:
+        log.err_traceback = str(e)
+        log.status = MailStatus.ERROR
+
+    return None
 
 
 @celery.task(name='send_email', bind=True, max_retries=None)
@@ -71,3 +84,32 @@ def _send_mail(mail_dto: dict):
                       password=conf['MAIL_PASSWORD'], use_tls=conf['MAIL_USE_TLS'], use_ssl=conf['MAIL_USE_SSL']) as conn:
         msg.connection = conn
         msg.send()
+
+
+def notify_shop(order):
+    """
+    Notify shops that there is a new inquiry
+    """
+    mail_body = render_template("mails/order.html", order=order)
+    notification = make_html_mail(
+        to_list=current_app.config['NOTIFICATION_MAILS'],
+        from_address=current_app.config['MAIL_DEFAULT_SENDER'],
+        subject="Neue Anfrage über den Pricepicker",
+        html_body=mail_body,
+        text_body=mail_body
+    )
+    send_email(notification)
+
+
+def send_confirmation(order):
+    """
+    Notify customer that we received the order
+    """
+    mail_body = render_template("mails/confirmation.html")
+    confirmation = make_html_mail(
+        to_list=[order.customer.email],
+        from_address=current_app.config['MAIL_DEFAULT_SENDER'],
+        subject="Ihre Anfrage bei Smartphoniker",
+        html_body=mail_body
+    )
+    send_email(confirmation)

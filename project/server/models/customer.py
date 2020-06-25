@@ -3,7 +3,7 @@ import datetime
 import typing
 
 from project.server import db
-from project.server.utils.session_mixin import SessionStoreMixin
+from project.server.models.session_mixin import SessionStoreMixin
 from .crud import CRUDMixin
 
 

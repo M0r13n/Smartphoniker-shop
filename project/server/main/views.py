@@ -1,20 +1,16 @@
 # project/server/main/views.py
-import logging
+
 import typing
 
-from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, current_app, flash, request, session
+from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, flash, session, request
 
-from project.common.email.message import make_html_mail
-from project.common.referral import is_referred_user, REF_ID_KW, save_referral_to_session, create_referral, get_referral_from_session
+from project.server.common.referral import is_referred_user, save_referral_to_session, REF_ID_KW, create_referral_if_applicable
 from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm, MiscForm
 from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
 from project.server.models.queries import get_bestsellers
-from project.server.utils.mail import send_email
-from project.tasks.tricoma import register_customer as tricoma_register
+from project.tasks.tricoma import register_tricoma_if_enabled
 
 main_blueprint = Blueprint("main", __name__)
-
-logger = logging.getLogger(__name__)
 
 
 @main_blueprint.route("/")
@@ -71,7 +67,7 @@ def model(manufacturer_name, series_name, device_name):
         order = Order.create(
             color=repair_form.get_color(),
             repairs=repair_form.get_repairs(),
-            problem_description=repair_form.problem_description.data
+            problem_description=repair_form.problem_description.data,
         )
         order.save()
         order.save_to_session()
@@ -115,9 +111,8 @@ def order_overview():
         # ORDER SUBMITTED
         form.populate_order(order)
         order.save()
-        # send confirmation mail to customer and notify shop
-        send_mails(form.kva_button.data, form.shipping_label.data)
-        create_referral(get_referral_from_session(), order)
+        order.notify()
+        create_referral_if_applicable(order)
         return redirect(url_for('main.success'))
 
     return render_template(
@@ -212,45 +207,3 @@ def check_referral():
     """ Check if the customer is a new customer who was redirected by a ref link. """
     if is_referred_user(request.args):
         save_referral_to_session(request.args[REF_ID_KW])
-
-
-def send_mails(kva: bool, shipping: bool):
-    order_dto: Order = Order.get_from_session()
-    customer: Customer = Customer.get_from_session()
-    body = render_template(
-        "mails/order.html",
-        tricoma_id=customer.tricoma_id,
-        first_name=customer.first_name,
-        last_name=customer.last_name,
-        email=customer.email,
-        tel=customer.tel,
-        street=customer.street,
-        zip=customer.zip_code,
-        city=customer.city,
-        kva=kva,
-        shop=order_dto.shop,
-        device=order_dto.device,
-        repairs=order_dto.repairs,
-        discount=order_dto.discount,
-        total_price=order_dto.total_cost_including_tax_and_discount,
-        shipping_required=shipping,
-        problem_description=order_dto.problem_description,
-        color=order_dto.color
-    )
-    order = make_html_mail(to_list=current_app.config['NOTIFICATION_MAILS'], from_address=current_app.config['MAIL_DEFAULT_SENDER'],
-                           subject="Neue Anfrage über den Pricepicker", html_body=body, text_body=body)
-
-    send_email(order)
-    confirmation = make_html_mail(to_list=[customer.email], from_address=current_app.config['MAIL_DEFAULT_SENDER'],
-                                  subject="Ihre Anfrage bei Smartphoniker", html_body=render_template("mails/confirmation.html"))
-    send_email(confirmation)
-
-
-def register_tricoma_if_enabled(customer: Customer):
-    """ Register the customer on tricoma if TRICOMA_API_URL and is set """
-    conf = current_app.config
-    if conf.get("TRICOMA_API_URL") and conf.get("REGISTER_CUSTOMER_IN_TRICOMA"):
-        try:
-            tricoma_register.apply_async(args=(customer.serialize(),))
-        except Exception as e:
-            current_app.logger.error(e)

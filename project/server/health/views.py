@@ -1,8 +1,8 @@
 from flask import Blueprint, current_app
 from sqlalchemy.exc import OperationalError
 
-from project.common.stats import celery_status, redis_status
 from project.server import db
+from project.server.common.stats import celery_status, redis_status
 
 health_bp = Blueprint("health", __name__, url_prefix='/status')
 

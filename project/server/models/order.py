@@ -4,7 +4,8 @@ from functools import reduce
 
 from project.server import db
 from project.server.models.crud import CRUDMixin
-from project.server.utils.session_mixin import SessionStoreMixin
+from project.server.models.session_mixin import SessionStoreMixin
+from project.tasks.email import notify_shop, send_confirmation
 
 
 class OrderRepairAssociation(db.Model, CRUDMixin):
@@ -119,3 +120,11 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
     def set_complete(self) -> None:
         self.complete = True
         self.save()
+
+    def notify(self) -> None:
+        """
+        Finish an order.
+        This included sending emails and checking for referrals
+        """
+        notify_shop(self)
+        send_confirmation(self)

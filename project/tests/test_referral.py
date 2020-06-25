@@ -3,7 +3,7 @@ from uuid import UUID
 
 from sqlalchemy.exc import IntegrityError
 
-from project.common.referral import is_referred_user, create_referral
+from project.server.common import is_referred_user, create_referral
 from project.server.models import Order
 from project.server.models.referral_program import ReferralPartner, Referral
 

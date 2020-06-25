@@ -1,4 +1,4 @@
-from project.common.email.message import make_email, EmailMessage, make_html_mail, EmailMultiAlternatives
+from project.server.common import make_email, EmailMessage, make_html_mail, EmailMultiAlternatives
 
 
 class TestEMail:

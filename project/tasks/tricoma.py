@@ -1,8 +1,20 @@
-from project.common.tricoma_api import TricomaCustomer
-from project.common.tricoma_client import extract_customers
+from flask import current_app
+
+from project.server.common.tricoma_api import TricomaCustomer
+from project.server.common.tricoma_client import extract_customers
 from project.server.extensions import celery
 from project.server.extensions import tricoma_client, tricoma_api
 from project.server.models import Customer
+
+
+def register_tricoma_if_enabled(customer):
+    """ Register the customer on tricoma if TRICOMA_API_URL and is set """
+    conf = current_app.config
+    if conf.get("TRICOMA_API_URL") and conf.get("REGISTER_CUSTOMER_IN_TRICOMA"):
+        try:
+            register_customer.apply_async(args=(customer.serialize(),))
+        except Exception as e:
+            current_app.logger.error(e)
 
 
 @celery.task(bind=True, max_retries=3)

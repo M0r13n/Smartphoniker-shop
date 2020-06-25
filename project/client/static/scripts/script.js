@@ -23,16 +23,14 @@ const toInt = (str) => {
 
 /**
  * Shorthand for document.getElementById()
- * @param str
  * @returns {object} HTML-DOM-Reference
  */
 function $(id) {
     return document.getElementById(id);
-};
+}
 
 /**
  * Shorthand for document.querySelectorAll()
- * @param str
  * @returns {NodeList} Liste mit passenden Elementen
  */
 function byQuery(query) {
@@ -52,7 +50,6 @@ const scrollToTop = () => {
 
 /**
  * Search Funtion.
- * @param {string}
  */
 function appendURL(path = '/search/') {
     const origin = window.location.origin;
@@ -73,8 +70,6 @@ function hide(elem) {
 /**
  * Show a given element by setting it's display attr.
  * second argument allows specifying the display attribute
- * @param {object}
- * @param {string}
  */
 function show(elem, displayattr = false) {
     if (displayattr) {
@@ -86,8 +81,6 @@ function show(elem, displayattr = false) {
 
 /**
  * Returns plain text in html object
- * @param object
- * @param string
  * @returns {string}
  */
 const extractPlainText = (htmlObject, query = false) => {
@@ -124,7 +117,6 @@ function filterFunction() {
 
 /**
  * validates if e-mail is a correct e-mail and shows error if so
- * @param {string} mail
  * @returns {boolean}
  */
 const validateMail = (element) => {
@@ -185,7 +177,6 @@ const searchJS = () => {
 
 /**
  * returns array of values of elements selected by a css query
- * @param {string}
  * @returns {Array}
  */
 const getPrices = (selector) => {
@@ -279,16 +270,13 @@ const selectionValidation = (names) => {
     return validated;
 }
 
-/**
- * @param {Array}
- */
 const inputValidation = (names) => {
     const validated = [];
 
     for (const name of names) {
         let checked = true;
         const inputValue = byQuery('input[name=' + name + ']')[0].value;
-        if (inputValue === undefined || inputValue == '') {
+        if (inputValue === undefined || inputValue === '') {
             checked = false;
         }
         // shows individual error message
@@ -303,16 +291,13 @@ const inputValidation = (names) => {
     return validated;
 }
 
-/**
- * @param {Array}
- */
 const textareaValidation = (names) => {
     const validated = [];
 
     for (const name of names) {
         let checked = true;
         const inputValue = byQuery('textarea[name=' + name + ']')[0].value;
-        if (inputValue === undefined || inputValue == '') {
+        if (inputValue === undefined || inputValue === '') {
             checked = false;
         }
         // shows individual error message

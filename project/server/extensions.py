@@ -10,9 +10,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
 from sentry_sdk.integrations.flask import FlaskIntegration
 
-from project.common.redis import FlaskRedis
-from project.common.tricoma_api import TricomaAPI
-from project.common.tricoma_client import TricomaClient
+from project.server.common.redis import FlaskRedis
+from project.server.common.tricoma_api import TricomaAPI
+from project.server.common.tricoma_client import TricomaClient
 # instantiate the extensions
 from project.server.config import TALISMAN_CONFIG
 
