@@ -1,5 +1,6 @@
 # project/server/customer.py
 import datetime
+import typing
 
 from project.server import db
 from project.server.utils.session_mixin import SessionStoreMixin
@@ -12,8 +13,8 @@ class Customer(CRUDMixin, db.Model, SessionStoreMixin):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     tricoma_id = db.Column(db.String, nullable=True, index=True)
-    first_name = db.Column(db.String(255), nullable=False, unique=False, index=True)
-    last_name = db.Column(db.String(255), nullable=False, unique=False, index=True)
+    first_name = db.Column(db.String(255), nullable=True, unique=False, index=True)
+    last_name = db.Column(db.String(255), nullable=True, unique=False, index=True)
     tricoma_username = db.Column(db.String(255), nullable=True, unique=False, index=False)
     street = db.Column(db.String(255), nullable=True, unique=False, index=True)
     zip_code = db.Column(db.String(10), nullable=True, unique=False, index=True)
@@ -24,6 +25,7 @@ class Customer(CRUDMixin, db.Model, SessionStoreMixin):
 
     # Relations
     orders = db.relationship("Order", back_populates="customer")
+    enquiries = db.relationship("MiscEnquiry", back_populates="customer")
 
     def __repr__(self):
         return self.first_name + " " + self.last_name
@@ -36,6 +38,10 @@ class Customer(CRUDMixin, db.Model, SessionStoreMixin):
             return instance
         except KeyError as error:
             raise ValueError(f"{obj} is an invalid CustomerRepairDTO") from error
+
+    @classmethod
+    def query_by_mail(cls, email: str) -> typing.Optional:
+        return cls.query.filter(cls.email == email).first()
 
     def serialize(self) -> dict:
         return dict(

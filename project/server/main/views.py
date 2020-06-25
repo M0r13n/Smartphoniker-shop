@@ -6,7 +6,7 @@ from flask import render_template, Blueprint, jsonify, abort, redirect, url_for,
 
 from project.common.email.message import make_html_mail
 from project.common.referral import is_referred_user, REF_ID_KW, save_referral_to_session, create_referral, get_referral_from_session
-from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm
+from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm, MiscForm
 from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
 from project.server.models.queries import get_bestsellers
 from project.server.utils.mail import send_email
@@ -178,11 +178,16 @@ def references():
     """ Render references page """
     return render_template('main/references.html')
 
-# TODO form stuff
+
 @main_blueprint.route("/anfrage")
 def other():
-    """ Render other inquiry page """
-    return render_template('main/other.html')
+    """ Render other enquiry page """
+    form = MiscForm()
+    if form.validate_on_submit():
+        form.create_model()
+        flash("Danke. Wir haben Ihre Anfrage erhalten!", "success")
+        return redirect(url_for("main.home"))
+    return render_template('main/other.html', form=form)
 
 
 @main_blueprint.route("/api/search/<string:device_name>/")

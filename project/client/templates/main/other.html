@@ -13,25 +13,26 @@
         </div>
 
         <div class="container container--small">
-            {# for field, errors in repair_form.errors.items() #}
+            {% for field, errors in form.errors.items() %}
                 <p class="form__error form__error--center">
-                    {# repair_form[field].label #}: {# ', '.join(errors) #}
+                    {{ form[field].label }} : {{ ', '.join(errors) }}
                 </p>
-            {# endfor #}
+            {% endfor %}
             <p id="Error0" class="form__error form__error--center">Es sind nicht alle Felder korrekt ausgefüllt.</p>
         </div>
 
         <div class="container container--small">
             <section class="form">
-                <h2 class="form__heading"><label for="{# other_form.problem_description.name #}">Beschreibung</label></h2>
+                {#  TODO wir brauchen ne Mail vom Kunden #}
+                <h2 class="form__heading"><label for="{{ form.problem_description.name }}">Beschreibung</label></h2>
                 <div class="grid__content grid__content--error">
-                    {# TODO if other_form.error #}
-                        <p class="form__error">{# other_form.error #}</p>
-                    {# endif #}
+                    {#
+                    <p class="form__error">other_form.error </p>
+                    #}
                     <p id="description" class="form__error">Bitte füllen Sie das Feld mit Ihrer Beschreibung aus.</p>
                 </div>
                 <div class="form__content">
-                    <textarea id="Description" class="form__textarea" name="{# other_form.problem_description.name TODO this should be named 'description' otherwise validation wont work#}" placeholder="Beschreiben Sie ihre Anfrage so genau wie möglich"></textarea>
+                    <textarea id="{{ form.problem_description.name }}" class="form__textarea" name="{{ form.problem_description.name }}" placeholder="Beschreiben Sie ihre Anfrage so genau wie möglich"></textarea>
                     <button id="Submit" class="form__button" type="submit">Abschicken</button>
                 </div>
             </section>

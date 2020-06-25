@@ -20,6 +20,7 @@ from .column_formatters import customer_formatter, ref_formatter, link_to_device
 from .forms import LoginForm, ChangePasswordForm, ImportRepairForm
 from ..extensions import redis_client
 from ..models.device import Color
+from ..models.misc import MiscEnquiry
 from ...common.import_repair import import_repairs
 
 
@@ -343,10 +344,19 @@ class ImportView(ProtectedBaseView):
         return send_from_directory('../data/', 'sample_csv.csv')
 
 
+class MiscEnquiryView(ProtectedModelView):
+    """ Misc enquiries """
+    # Make customer col clickable and redirect to customer object
+    column_formatters = dict(customer=customer_formatter)
+
+    can_create = False
+
+
 # Register ModelViews
 admin.add_view(CustomerListView(Customer, db.session, name="Kunden"))  # Customer
 admin.add_view(SubmittedOrderView(Order, db.session, name="Aufträge", endpoint="orders"))  # Orders
 admin.add_view(PendingOrderView(Order, db.session, name="Nicht abgeschlossene Aufträge", endpoint="pending"))  # Orders
+admin.add_view(MiscEnquiryView(MiscEnquiry, db.session, name="Anfragen"))  # Misc
 
 admin.add_view(ManufacturerView(Manufacturer, db.session, name="Hersteller"))  # Manufacturers
 admin.add_view(DeviceSeriesView(DeviceSeries, db.session, name="Serien"))  # Manufacturers

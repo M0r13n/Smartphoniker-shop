@@ -80,10 +80,6 @@ def init_sentry(app):
         )
 
 
-def init_dashboard(app):
-    dashboard.bind(app)
-
-
 def init_extensions(app):
     login_manager.init_app(app)
     bcrypt.init_app(app)

@@ -6,7 +6,8 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Length, Email
 
-from project.server.models import Color, Repair, Shop, Order
+from project.server.models import Color, Repair, Shop, Order, Customer
+from project.server.models.misc import MiscEnquiry
 
 
 class SelectRepairForm(FlaskForm):
@@ -128,3 +129,32 @@ class FinalSubmitForm(SelectShopForm):
         order.complete = True
         order.shop = self.shop.data
         order.customer_wishes_shipping_label = self.shipping_label.data
+
+
+class MiscForm(FlaskForm):
+    email = EmailField(
+        "Mail",
+        validators=[
+            DataRequired(message="Ohne eine gültige Mail können wir uns nicht zurückmelden"),
+            Email(message="Bitte gib eine gültige Email Adresse an"),
+            Length(min=1, max=64, message="Die Email muss zwischen 1 und 255 Zeichen lang sein")
+        ]
+    )
+
+    problem_description = StringField(
+        "Beschreibung",
+        validators=[
+            DataRequired("Bitte gibt eine Beschreibung an."),
+            Length(min=30, max=5000, message="Die Beschreibung muss zwischen 30 und 5000 Zeichen lang sein")
+        ]
+    )
+
+    def create_model(self):
+        """ Create a new instance of MiscEnquiry with pre filled customer, descirption"""
+        if not self.validate():
+            raise ValueError("Form is invalid")
+        customer = Customer.query_by_mail(self.email.data)
+        if not customer:
+            customer = Customer.create(email=self.email.data)
+        enquiry = MiscEnquiry.create(customer=customer, description=self.problem_description.data)
+        return enquiry
