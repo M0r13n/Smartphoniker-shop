@@ -7,7 +7,7 @@ from wtforms.fields.html5 import EmailField
 from wtforms.validators import DataRequired, Length, Email
 
 from project.server.models import Color, Repair, Shop, Order, Customer
-from project.server.models.misc import MiscEnquiry
+from project.server.models.misc import MiscInquiry
 
 
 class SelectRepairForm(FlaskForm):
@@ -156,5 +156,5 @@ class MiscForm(FlaskForm):
         customer = Customer.query_by_mail(self.email.data)
         if not customer:
             customer = Customer.create(email=self.email.data)
-        enquiry = MiscEnquiry.create(customer=customer, description=self.problem_description.data)
-        return enquiry
+        inquiry = MiscInquiry.create(customer=customer, description=self.problem_description.data)
+        return inquiry

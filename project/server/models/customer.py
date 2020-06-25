@@ -25,7 +25,7 @@ class Customer(CRUDMixin, db.Model, SessionStoreMixin):
 
     # Relations
     orders = db.relationship("Order", back_populates="customer")
-    enquiries = db.relationship("MiscEnquiry", back_populates="customer")
+    enquiries = db.relationship("MiscInquiry", back_populates="customer")
 
     def __repr__(self):
         return self.first_name + " " + self.last_name

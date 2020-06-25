@@ -3,6 +3,7 @@
 
 {% block content %}
     <form action="#" method="POST" novalidate>
+        {{ other_inquiry_form.hidden_tag() }}
         <!-- Hero Section -->
         <div class="container container--small">
             <section class="hero hero--nocontent">
@@ -34,7 +35,7 @@
                         <!-- Problem Description Field -->
                         <div class="customer__inputwrapper customer__inputwrapper--full">
                             <label for="Problem_description" class="customer__label">Problembeschreibung<sup>*</sup></label>
-                            <textarea id="{{ other_inquiry_form.problem_description.name.capitalize() }}" class="customer__input customer__input--textarea" name="{{ other_inquiry_form.problem_description.name }}"></textarea>
+                            <textarea id="{{ other_inquiry_form.problem_description.name.capitalize() }}" class="customer__input customer__input--textarea" name="{{ other_inquiry_form.problem_description.name }}">{{ other_inquiry_form.problem_description.data or '' }}</textarea>
                             <!-- Error Message -->
                             {% for error in other_inquiry_form.problem_description.errors %}
                                 <p style="display: block;" class="form__error">{{ error }}</p>

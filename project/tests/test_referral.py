@@ -3,7 +3,7 @@ from uuid import UUID
 
 from sqlalchemy.exc import IntegrityError
 
-from project.server.common import is_referred_user, create_referral
+from project.server.common.referral import is_referred_user, create_referral
 from project.server.models import Order
 from project.server.models.referral_program import ReferralPartner, Referral
 
@@ -88,7 +88,16 @@ class TestReferral:
 
     def test_create_referral_method(self, db, app, sample_partner, sample_order, testapp):
         sample_order.set_complete()
-        assert create_referral("1243", sample_order) is None
-        assert create_referral(None, sample_order) is None
+        try:
+            create_referral("1243", sample_order)
+            assert False
+        except ValueError:
+            pass
+
+        try:
+            create_referral(None, sample_order)
+            assert False
+        except ValueError:
+            pass
         assert create_referral(sample_partner.uuid, sample_order) is not None
         assert len(sample_partner.referrals) == 1

@@ -13,7 +13,7 @@ DELAYS = [30, 60, 120, 300, 600, 1800, 3600, 3600, 7200]
 
 
 def send_email(msg):
-    log = MailLog.create(recipients="; ".join(msg['to']))
+    log = MailLog.create(recipients="; ".join(msg['to']), subject=msg['subject'])
     try:
         mail = send_email_task.apply_async(args=[msg, log.id])
         return mail
@@ -84,6 +84,18 @@ def _send_mail(mail_dto: dict):
                       password=conf['MAIL_PASSWORD'], use_tls=conf['MAIL_USE_TLS'], use_ssl=conf['MAIL_USE_SSL']) as conn:
         msg.connection = conn
         msg.send()
+
+
+def notify_shop_about_inquiry(inquiry):
+    mail_body = render_template("mails/inquiry.html", email=inquiry.customer.email, description=inquiry.description)
+    notification = make_html_mail(
+        to_list=current_app.config['NOTIFICATION_MAILS'],
+        from_address=current_app.config['MAIL_DEFAULT_SENDER'],
+        subject="Neue Anfrage über den Pricepicker",
+        html_body=mail_body,
+        text_body=mail_body
+    )
+    send_email(notification)
 
 
 def notify_shop(order):

@@ -21,7 +21,7 @@ from .forms import LoginForm, ChangePasswordForm, ImportRepairForm
 from ..common.import_repair import import_repairs
 from ..extensions import redis_client
 from ..models.device import Color
-from ..models.misc import MiscEnquiry
+from ..models.misc import MiscInquiry
 
 
 class ProtectedBaseView(BaseView):
@@ -130,6 +130,9 @@ class MailLogView(AdminExportableModelView):
     can_create = False
     can_edit = False
     can_delete = False
+
+    def get_query(self):
+        return self.model.query.order_by(self.model.timestamp.desc())
 
 
 class ShopView(AdminExportableModelView):
@@ -366,7 +369,7 @@ class MiscEnquiryView(ProtectedModelView):
 admin.add_view(CustomerListView(Customer, db.session, name="Kunden"))  # Customer
 admin.add_view(SubmittedOrderView(Order, db.session, name="Aufträge", endpoint="orders"))  # Orders
 admin.add_view(PendingOrderView(Order, db.session, name="Nicht abgeschlossene Aufträge", endpoint="pending"))  # Orders
-admin.add_view(MiscEnquiryView(MiscEnquiry, db.session, name="Anfragen"))  # Misc
+admin.add_view(MiscEnquiryView(MiscInquiry, db.session, name="Anfragen"))  # Misc
 
 admin.add_view(ManufacturerView(Manufacturer, db.session, name="Hersteller"))  # Manufacturers
 admin.add_view(DeviceSeriesView(DeviceSeries, db.session, name="Serien"))  # Manufacturers

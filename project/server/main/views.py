@@ -8,6 +8,7 @@ from project.server.common.referral import is_referred_user, save_referral_to_se
 from project.server.main.forms import SelectRepairForm, RegisterCustomerForm, FinalSubmitForm, MiscForm
 from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
 from project.server.models.queries import get_bestsellers
+from project.tasks.email import notify_shop_about_inquiry
 from project.tasks.tricoma import register_tricoma_if_enabled
 
 main_blueprint = Blueprint("main", __name__)
@@ -174,12 +175,13 @@ def references():
     return render_template('main/references.html')
 
 
-@main_blueprint.route("/anfrage")
+@main_blueprint.route("/anfrage", methods=['GET', 'POST'])
 def other():
     """ Render other enquiry page """
     form = MiscForm()
     if form.validate_on_submit():
-        form.create_model()
+        inquiry = form.create_model()
+        notify_shop_about_inquiry(inquiry)
         flash("Danke. Wir haben Ihre Anfrage erhalten!", "success")
         return redirect(url_for("main.home"))
     return render_template('main/other.html', other_inquiry_form=form)

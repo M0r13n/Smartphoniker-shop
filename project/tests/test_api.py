@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from project.server.common import TricomaCustomer, TricomaAPI, extract_customer_data, TRICOMA_DATE_FMT
+from project.server.common.tricoma_api import TricomaAPI, TricomaCustomer, extract_customer_data, TRICOMA_DATE_FMT
 from project.server.common.tricoma_client import TricomaClient, extract_customers
 from project.server.models import Customer
 

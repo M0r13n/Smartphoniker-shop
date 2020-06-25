@@ -1,6 +1,6 @@
 from project.server.main.forms import MiscForm
 from project.server.models import Customer
-from project.server.models.misc import MiscEnquiry
+from project.server.models.misc import MiscInquiry
 
 
 class TestMisc:
@@ -28,12 +28,12 @@ class TestMisc:
             email="leon@mail.com",
             problem_description="A" * 30
         )
-        assert MiscEnquiry.query.count() == 0
-        enquiry: MiscEnquiry = form.create_model()
+        assert MiscInquiry.query.count() == 0
+        enquiry: MiscInquiry = form.create_model()
         assert enquiry
         assert isinstance(enquiry.customer, Customer)
         assert enquiry.description == "A" * 30
-        assert MiscEnquiry.query.count() == 1
+        assert MiscInquiry.query.count() == 1
 
     def test_customer_submits_twice(self, db, app):
         form = MiscForm(
@@ -43,5 +43,5 @@ class TestMisc:
         form.create_model()
         form.create_model()
         form.create_model()
-        assert MiscEnquiry.query.count() == 3
+        assert MiscInquiry.query.count() == 3
         assert Customer.query.count() == 1

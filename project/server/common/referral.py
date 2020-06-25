@@ -29,6 +29,9 @@ def create_referral(ref_id: str, order: Order) -> typing.Optional[Referral]:
         db.session.rollback()
         raise ValueError(f"{ref_id} is not a valid Referral ID") from error
 
+    if not partner:
+        raise ValueError(f"Partner #{ref_id} not found!")
+
     return Referral.create(partner=partner, order=order)
 
 

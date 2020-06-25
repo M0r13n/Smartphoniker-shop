@@ -21,6 +21,7 @@ class MailLog(UserMixin, CRUDMixin, db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     timestamp = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+    subject = db.Column(db.String(255), nullable=True)
     recipients = db.Column(db.Text())
     retries = db.Column(db.Integer, default=0)
 
