@@ -1,41 +1,46 @@
 {% extends "_base.html" %}
+{% block title %}
+    Bestellung erfolgreich
+{% endblock %}
 {% block content %}
-<div class="container container--small">
-    <section class="hero hero--nocontent">
-        <h1 class="hero__heading">Ihre Bestellung war erfolgreich</h1>
-    </section>
-</div>
+    <div class="container container--small">
+        <section class="hero hero--nocontent">
+            <h1 class="hero__heading">Ihre Bestellung war erfolgreich</h1>
+        </section>
+    </div>
 
-<div class="container container--small">
-    <section class="success">
-        <h2 class="success__heading">Wie geht es weiter?</h2>
-        <div class="success__content">
-            <p class="success__text">Nachdem Sie Ihre Bestellung online abgeschickt haben, bekommen Sie eine Bestätigung per Mail zugeschickt. Dort finden Sie alle weiteren Informationen über den Ablauf Ihrer Bestellung.</p>
-        </div>
-    </section>
-</div>
+    <div class="container container--small">
+        <section class="success">
+            <h2 class="success__heading">Wie geht es weiter?</h2>
+            <div class="success__content">
+                <p class="success__text">Nachdem Sie Ihre Bestellung online abgeschickt haben, bekommen Sie eine Bestätigung per Mail zugeschickt. Dort finden Sie alle weiteren Informationen über den Ablauf Ihrer Bestellung.</p>
+            </div>
+        </section>
+    </div>
 
-<div class="container container--small">
-    <section class="success success--card">
-        <div class="success__card">
-            <img class="success__image" src="{{ url_for('static', filename='images/coupon.svg') }}" alt="5 Euro Gutschein Symbol">
-            <p class="success__text success__text--card">Empfehlen Sie uns weiter und sichern sich einen 5 Euro Gutschein für Ihre nächste Bestellung.</p>
-            <a class="success__button" href="{{ url_for('.faq', q=40) }}">Smartphoniker empfehlen</a>
-        </div>
-    </section>
-</div>
+    <div class="container container--small">
+        <section class="success success--card">
+            <div class="success__card">
+                <img class="success__image" src="{{ url_for('static', filename='images/coupon.svg') }}" alt="5 Euro Gutschein Symbol">
+                <p class="success__text success__text--card">Empfehlen Sie uns weiter und sichern sich einen 5 Euro Gutschein für Ihre nächste Bestellung.</p>
+                <a class="success__button" href="{{ url_for('.faq', q=40) }}">Smartphoniker empfehlen</a>
+            </div>
+        </section>
+    </div>
 
-<div class="container container--small">
-    <hr class="divider">
-</div>
+    <div class="container container--small">
+        <hr class="divider">
+    </div>
 
-<div class="container container--small">
-    <section class="success">
-        <h2 class="success__heading">Haben Sie Fragen?</h2>
-        <div class="success__content">
-            <p class="success__text">Schauen Sie in unserem <a class="success__link" href="">FAQ</a> vorbei, schreiben Sie uns eine Mail an <a class="success__link" href="mailto:support@smartphoniker.de">support@smartphoniker.de</a> oder rufen Sie unter <a class="success__link" href="tel:4943190700390">+49 431 / 90 700 393</a> an.</p>
-        </div>
-    </section>
-</div>
+    <div class="container container--small">
+        <section class="success">
+            <h2 class="success__heading">Haben Sie Fragen?</h2>
+            <div class="success__content">
+                <p class="success__text">Schauen Sie in unserem <a class="success__link" href="">FAQ</a> vorbei, schreiben Sie uns eine Mail an <a class="success__link" href="mailto:support@smartphoniker.de">support@smartphoniker.de</a> oder rufen Sie unter <a class="success__link"
+                                                                                                                                                                                                                                                                     href="tel:4943190700390">+49 431 / 90
+                    700 393</a> an.</p>
+            </div>
+        </section>
+    </div>
 
 {% endblock %}

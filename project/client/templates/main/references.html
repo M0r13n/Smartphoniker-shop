@@ -12,6 +12,11 @@
 {% macro render_referenceimg(src, alt) %}
     <img class="references__image" src="{{ url_for('static', filename='images/references/' + src) }}" alt="{{ alt }}">
 {% endmacro %}
+
+{% block title %}
+    Partner & Referenzen
+{% endblock %}
+
 {% block content %}
     <div class="container container--small">
         <section class="hero hero--nocontent">

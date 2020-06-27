@@ -1,4 +1,7 @@
 {% extends "_base.html" %}
+{% block title %}
+    Bestellübersicht
+{% endblock %}
 {% block content %}
     <form action="" method="POST">
         {{ form.hidden_tag() }}
@@ -116,7 +119,6 @@
             </section>
         </div>
 
-        
 
         <div class="container container--small">
             <hr class="divider">
@@ -136,7 +138,7 @@
                             <span class="order__text">Kostenvoranschlag</span>
                             <span class="order__text">kostenlos</span>
                         </li>
-                        
+
                         <li id="Labelcost" class="order__item hide">
                             <span class="order__text">Versandlabel</span>
                             <span class="order__text">kostenlos</span>
