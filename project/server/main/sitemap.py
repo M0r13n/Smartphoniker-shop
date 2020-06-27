@@ -1,8 +1,6 @@
 from flask import Blueprint, send_from_directory, request
 from flask_sitemap import Sitemap
 
-from project.server.models import Manufacturer
-
 
 class SitemapBlueprint(Blueprint):
     """
@@ -22,9 +20,6 @@ class SitemapBlueprint(Blueprint):
         ('main.series', {'manufacturer_name': 'Apple'}),
         ('main.series', {'manufacturer_name': 'Samsung'}),
         ('main.series', {'manufacturer_name': 'Huawei'}),
-        ('main.series', {'manufacturer_name': 'Sony'}),
-        ('main.series', {'manufacturer_name': 'Google'}),
-        ('main.series', {'manufacturer_name': 'Xiaomi'}),
     ]
 
     def register(self, app, options, first_registration=False):
@@ -43,20 +38,6 @@ class SitemapBlueprint(Blueprint):
 
             for route, params in self.OTHER_ROUTES:
                 yield route, params
-
-            # models
-            all_manufacturers: [Manufacturer] = Manufacturer.query.filter(Manufacturer.activated == True).all()  # noqa
-            for manufacturer in all_manufacturers:
-                for series in manufacturer.series:
-                    for device in series.devices:
-                        # last_updated = datetime.fromtimestamp(brigade['properties']['last_updated'])
-                        params = {
-                            'manufacturer_name': manufacturer.name,
-                            'series_name': series.name,
-                            'device_name': device.name,
-
-                        }
-                        yield 'main.model', params
 
 
 sitemap_blueprint = SitemapBlueprint('sitemap', __name__)
