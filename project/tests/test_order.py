@@ -19,7 +19,7 @@ class TestOrder:
         )
         assert order.customer == sample_customer
 
-    def test_color_required(self):
+    def test_color_required(self, db):
         try:
             Order.create()
             assert False
