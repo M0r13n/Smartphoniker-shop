@@ -6,7 +6,7 @@ from project.server.models import Device
 
 class TestDevice:
 
-    def test_order(self, db, sample_series, sample_color):
+    def test_order(self, sample_series, sample_color):
         letters = string.ascii_lowercase
         devices = [
             Device.create(name=''.join(random.choice(letters) for x in range(10)), colors=[sample_color], series=sample_series) for i in range(10)
@@ -15,7 +15,7 @@ class TestDevice:
         for i, device in enumerate(devices):
             assert device.order_index == i
 
-    def test_normalize(self, db, sample_series, sample_color):
+    def test_normalize(self, sample_series, sample_color):
         letters = string.ascii_lowercase
         devices = [
             Device.create(name=''.join(random.choice(letters) for x in range(10)), colors=[sample_color], series=sample_series) for i in range(10)
@@ -28,7 +28,7 @@ class TestDevice:
         for i, device in enumerate(devices):
             assert device.order_index == i
 
-    def test_move_up(self, db, sample_series, sample_color):
+    def test_move_up(self, sample_series, sample_color):
         letters = string.ascii_lowercase
         devices = [
             Device.create(name=''.join(random.choice(letters) for x in range(10)), colors=[sample_color], series=sample_series) for i in range(10)
@@ -45,7 +45,7 @@ class TestDevice:
             last.move_up()
         assert last.order_index == 0
 
-    def test_move_down(self, db, sample_series, sample_color):
+    def test_move_down(self, sample_series, sample_color):
         letters = string.ascii_lowercase
         devices = [
             Device.create(name=''.join(random.choice(letters) for x in range(10)), colors=[sample_color], series=sample_series) for i in range(10)

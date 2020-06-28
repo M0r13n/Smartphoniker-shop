@@ -73,13 +73,13 @@ def user(db):
 
 
 @pytest.fixture
-def sample_manufacturer():
+def sample_manufacturer(db):
     """Create a sample manufacturer"""
     return Manufacturer.create(name="Apple")
 
 
 @pytest.fixture
-def sample_color():
+def sample_color(db):
     """Create a sample color"""
     return Color.create(name="Black", color_code="#000000", internal_name="TEEESST")
 
@@ -103,13 +103,13 @@ def sample_series(sample_manufacturer):
 
 
 @pytest.fixture
-def sample_customer():
+def sample_customer(db):
     """ Return a sample customer """
     return Customer.create(first_name="Test", last_name="Kunde", street="Eine Straße 1", zip_code="11233", city="Kiel", tel="+49 113455665 45", email="leon.morten@gmail.com")
 
 
 @pytest.fixture
-def sample_shop():
+def sample_shop(db):
     """ Return a sample Shop """
     return Shop.create(name="Zentrale")
 
@@ -142,7 +142,7 @@ def some_devices(sample_series, sample_color):
 
 
 @pytest.fixture
-def sample_image():
+def sample_image(db):
     """ Return a sample image """
     return Image.create(name="iPhone Picture", path="phone-frames/Apple/iphone678.svg")
 

@@ -5,7 +5,7 @@ from project.server.models.misc import MiscInquiry
 
 class TestMisc:
 
-    def test_form(self, db, app):
+    def test_form(self, app):
         form = MiscForm()
         assert not form.validate()
 
@@ -23,7 +23,7 @@ class TestMisc:
         form.email.data = "hello@there.com"
         assert form.validate()
 
-    def test_create_obj(self, db, app):
+    def test_create_obj(self, app, db):
         form = MiscForm(
             email="leon@mail.com",
             problem_description="A" * 30
@@ -35,7 +35,7 @@ class TestMisc:
         assert enquiry.description == "A" * 30
         assert MiscInquiry.query.count() == 1
 
-    def test_customer_submits_twice(self, db, app):
+    def test_customer_submits_twice(self, app, db):
         form = MiscForm(
             email="leon@mail.com",
             problem_description="A" * 30

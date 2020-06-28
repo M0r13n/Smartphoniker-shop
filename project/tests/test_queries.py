@@ -4,7 +4,7 @@ from project.server.models.queries import most_selling_repairs, get_bestsellers
 
 class TestQueries:
 
-    def test_most_selling(self, db, sample_repair, sample_color, another_repair):
+    def test_most_selling(self, sample_repair, sample_color, another_repair):
         assert most_selling_repairs() == []
         Order.create(color=sample_color, repairs=[sample_repair])
         assert most_selling_repairs() == [sample_repair]
@@ -12,7 +12,7 @@ class TestQueries:
         Order.create(color=sample_color, repairs=[another_repair])
         assert most_selling_repairs() == [another_repair, sample_repair]
 
-    def test_get_bestsellers(self, db, sample_repair, another_repair, sample_color):
+    def test_get_bestsellers(self, sample_repair, another_repair, sample_color):
         assert get_bestsellers() == []
         Order.create(color=sample_color, repairs=[sample_repair])
         assert get_bestsellers() == [sample_repair.device]

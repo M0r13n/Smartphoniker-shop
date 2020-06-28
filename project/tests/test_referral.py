@@ -15,20 +15,20 @@ class TestReferral:
         assert partner.id
         assert isinstance(partner.uuid, UUID)
 
-    def test_ref_url(self, db, app):
+    def test_ref_url(self, db):
         partner = ReferralPartner.create(name="Computer Shop 123")
         assert partner.ref_link
         assert isinstance(partner.ref_link, str)
         assert '?ref_id=' + str(partner.uuid) in partner.ref_link
 
-    def test_relation(self, db, sample_order, sample_partner: ReferralPartner):
+    def test_relation(self, sample_order, sample_partner: ReferralPartner):
         assert sample_partner.referrals == []
         sample_order.set_complete()
         ref = Referral.create(partner=sample_partner, order=sample_order)
         assert sample_partner.referrals == [ref]
         assert ref.order == sample_order
 
-    def test_relation_multiple(self, db, sample_partner: ReferralPartner, sample_color):
+    def test_relation_multiple(self, sample_partner: ReferralPartner, sample_color):
         n = 10
         for i in range(n):
             order = Order.create(color=sample_color, complete=True)
@@ -45,7 +45,7 @@ class TestReferral:
         except IntegrityError:
             return True
 
-    def test_billed(self, db, sample_order, sample_partner: ReferralPartner, sample_color):
+    def test_billed(self, sample_order, sample_partner: ReferralPartner, sample_color):
         sample_order.set_complete()
         ref = Referral.create(partner=sample_partner, order=sample_order)
         assert not ref.billed
@@ -63,7 +63,7 @@ class TestReferral:
         for ref in Referral.query.all():
             assert ref.billed
 
-    def test_referral_time_filter(self, db, sample_partner, sample_order):
+    def test_referral_time_filter(self, sample_partner, sample_order):
         sample_order.set_complete()
         ref = Referral.create(partner=sample_partner, order=sample_order)
 
@@ -71,12 +71,12 @@ class TestReferral:
         assert sample_partner.referrals_between(datetime.now() - timedelta(days=24), datetime.now()).all() == [ref]
         assert sample_partner.referrals_between(datetime.now() - timedelta(days=24), datetime.now() - timedelta(days=1)).all() == []
 
-    def test_is_referred_user(self, db, app, sample_partner, testapp):
+    def test_is_referred_user(self, sample_partner, testapp):
         url = '/?ref_id=' + str(sample_partner.uuid)
         response = testapp.get(url)
         assert is_referred_user(request_args=response.request.params)
 
-    def test_is_not_referred_user(self, db, app, sample_partner, testapp):
+    def test_is_not_referred_user(self, sample_partner, testapp):
         url = '/'
         response = testapp.get(url)
         assert not is_referred_user(request_args=response.request.params)
@@ -86,7 +86,7 @@ class TestReferral:
         assert is_referred_user(dict(test=12, ref_id=123))
         assert not is_referred_user(dict(test=12))
 
-    def test_create_referral_method(self, db, app, sample_partner, sample_order, testapp):
+    def test_create_referral_method(self, sample_partner, sample_order, testapp):
         sample_order.set_complete()
         try:
             create_referral("1243", sample_order)
