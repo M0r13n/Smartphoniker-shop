@@ -42,7 +42,7 @@ class BaseConfig(object):
     MAIL_PORT = os.getenv("MAIL_PORT")
 
     NOTIFICATION_MAILS = ['support@smartphoniker.de', 'leonrichter1337@gmail.com']
-    #NOTIFICATION_MAILS = ['leonrichter1337@gmail.com']
+    # NOTIFICATION_MAILS = ['leonrichter1337@gmail.com']
 
 
 class DevelopmentConfig(BaseConfig):
