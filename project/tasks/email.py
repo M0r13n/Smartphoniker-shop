@@ -107,7 +107,7 @@ def notify_shop(order):
     notification = make_html_mail(
         to_list=current_app.config['NOTIFICATION_MAILS'],
         from_address=current_app.config['MAIL_DEFAULT_SENDER'],
-        subject="Neue Anfrage über den Pricepicker<script>alert(1);</script>",
+        subject="Neue Anfrage über den Pricepicker",
         html_body=html_body,
         text_body=mail_body
     )
