@@ -106,7 +106,6 @@ class TestTricomaAPI:
         url = os.getenv("TRICOMA_API_URL")
         if url is None:
             pytest.skip("Skipping Real World Tricoma API test, because TRICOMA_API_URL is not set.")
-            return
 
         api = TricomaAPI(base_url=url)
         assert api.is_connected
@@ -117,6 +116,27 @@ class TestTricomaAPI:
         assert isinstance(customers[0], TricomaCustomer)
         assert isinstance(customers[0].to_db_model(), Customer)
         assert customers[0].to_db_model().save()
+
+    def test_create_with_real_api(self, db):
+        url = os.getenv("TRICOMA_API_URL")
+        if url is None:
+            pytest.skip("Skipping Real World Tricoma API test, because TRICOMA_API_URL is not set.")
+
+        c = Customer.create(
+            tricoma_username="1",
+            tricoma_id="2",
+            first_name="ÖÄÜÜÜ",
+            last_name="4",
+            email="5",
+            tel="6",
+            street="7",
+            zip_code="8",
+            city="9",
+        )
+        cc = TricomaCustomer.from_db_model(c)
+        api = TricomaAPI(base_url=url)
+        customer_id = api.register_customer(cc)
+        assert customer_id
 
 
 class TestTricomaClient:

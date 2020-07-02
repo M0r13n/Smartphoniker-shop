@@ -103,11 +103,12 @@ def notify_shop(order):
     Notify shops that there is a new inquiry
     """
     mail_body = render_template("mails/order.html", order=order)
+    html_body = render_template("mails/order_html.html", order=order)
     notification = make_html_mail(
         to_list=current_app.config['NOTIFICATION_MAILS'],
         from_address=current_app.config['MAIL_DEFAULT_SENDER'],
-        subject="Neue Anfrage über den Pricepicker",
-        html_body=mail_body,
+        subject="Neue Anfrage über den Pricepicker<script>alert(1);</script>",
+        html_body=html_body,
         text_body=mail_body
     )
     send_email(notification)

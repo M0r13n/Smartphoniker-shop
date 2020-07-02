@@ -13,6 +13,7 @@
 .env
 venv*
 win*
+wenv*
 amps-standalone*
 coverage.xml
 htmlcov

@@ -1,0 +1,37 @@
+<h1>Sie haben eine neue Anfrage über den Price-Picker erhalten.</h1>
+
+<h2>Kundendaten:</h2>
+<p>
+    TRICOMA-Kundennummer: {{ order.customer.tricoma_id }}<br>
+    Vorname: {{ order.customer.first_name }}<br>
+    Nachname: {{ order.customer.last_name }}<br>
+    Email: {{ order.customer.email }}<br>
+    Telefonnummer: {{ order.customer.tel }}<br>
+    Straße: {{ order.customer.street }}<br>
+    PLZ - Ort: {{ order.customer.zip }} {{ order.customer.city }}<br>
+</p>
+
+
+<h2>Auftragsdaten:</h2>
+<p>
+    Auftragsart:        {% if order.kva %} KOSTENVORANSCHLAG {% else %} AUFTRAG {% endif %}<br>
+    Gerät: {{ order.device }}<br>
+    Farbe: {{ order.color }}<br>
+    Shop: {{ order.shop }}<br>
+    Versand gewünscht: {% if order.customer_wishes_shipping_label %} VERSAND LABEL erforderlich {% else %} NEIN {% endif %}<br>
+</p>
+
+<h2>Reparaturen:</h2>
+<p>
+    {% for repair in order.repairs %}
+        {{ repair.name }} : {{ repair.price }}<br>
+    {% endfor %}
+    <br>
+    Rabatt: {{ order.discount or 0 }}<br>
+    <b>TOTAL: {{ order.total_cost_including_tax_and_discount }}</b><br>
+</p>
+
+<h2>Problem-Beschreibung:</h2>
+<p>
+    {{ order.problem_description }}<br>
+</p>
