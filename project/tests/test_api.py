@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from project.server.common.tricoma_api import TricomaAPI, TricomaCustomer, extract_customer_data, TRICOMA_DATE_FMT
+from project.server.common.tricoma_api import TricomaAPI, TricomaCustomer, extract_customer_data, TRICOMA_DATE_FMT, TricomaFields
 from project.server.common.tricoma_client import TricomaClient, extract_customers
 from project.server.models import Customer
 
@@ -125,8 +125,8 @@ class TestTricomaAPI:
         c = Customer.create(
             tricoma_username="1",
             tricoma_id="2",
-            first_name="ÖÄÜÜÜ",
-            last_name="4",
+            first_name="Lösch mich",
+            last_name="Ich bin ein TEST Ä",
             email="5",
             tel="6",
             street="7",
@@ -137,6 +137,16 @@ class TestTricomaAPI:
         api = TricomaAPI(base_url=url)
         customer_id = api.register_customer(cc)
         assert customer_id
+
+    def test_update(self):
+        url = os.getenv("TRICOMA_API_URL")
+        if url is None:
+            pytest.skip("Skipping Real World Tricoma API test, because TRICOMA_API_URL is not set.")
+
+        test_customer_id = 35738
+        api = TricomaAPI(base_url=url)
+        customer_id = api.update_field(test_customer_id, TricomaFields.Referred_By, "PricePicker")
+        assert customer_id == test_customer_id
 
 
 class TestTricomaClient:

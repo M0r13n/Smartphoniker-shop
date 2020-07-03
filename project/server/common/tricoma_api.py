@@ -1,8 +1,11 @@
 from dataclasses import dataclass
 from datetime import datetime
+from enum import Enum
 from typing import Optional, Iterable, Any
 
 import requests as r
+
+from project.server.common.escape import cleanify_dict
 
 CUSTOMER_KEY_MAPPING = [
     ('tricoma_id', 'id'),
@@ -16,6 +19,23 @@ CUSTOMER_KEY_MAPPING = [
     ('tel', 'telefon'),
     ('email', 'mail')
 ]
+
+
+class TricomaFields(Enum):
+    Salutation = 31
+    Company = 46
+    Referred_By = 78
+    Handy = 63
+    IBAN = 77
+    Mail = 34
+    Last_Name = 8
+    First_Name = 9
+    Location = 12
+    Zip_Code = 11
+    Street = 45
+    Tel = 56
+    Title = 33
+
 
 CUSTOMER_DICT_MAPPING = dict(CUSTOMER_KEY_MAPPING)
 TRICOMA_DICT_MAPPING = dict([(x[1], x[0]) for x in CUSTOMER_KEY_MAPPING])
@@ -93,6 +113,18 @@ class TricomaAPI(object):
         if not self.is_connected:
             raise ValueError("This API is not properly set up. Please set the TRICOMA_API_URL in you environment!")
 
+    def _get_request(self, params, cleanup_string=True) -> Optional[int]:
+        """ Make a GET request and return customer id on success"""
+        self._assert_connected()
+        if cleanup_string:
+            cleanify_dict(params)
+        try:
+            resp = r.get(self.base_url, params=params)
+            customer_id = int(resp.text)
+            return customer_id
+        except ValueError:
+            return None
+
     def test_connection(self) -> bool:
         """
         Test the connection to Tricoma.
@@ -107,18 +139,15 @@ class TricomaAPI(object):
         """
         Return customer id on success
         """
-        self._assert_connected()
         _module = {'modul': 'kunden', 'modulkat': 'eintragen'}
         params = dict(customer.to_list())
         params.update(_module)
-        try:
-            resp = r.get(self.base_url, params=params)
-            customer_id = int(resp.text)
-            return customer_id
-        except ValueError:
-            return None
+        return self._get_request(params=params)
 
     def fetch_customers(self) -> Optional[Iterable[TricomaCustomer]]:
+        """
+        Return a list of all customers that can be fetched via the API.
+        """
         self._assert_connected()
         params = {'modul': 'kunden', 'modulkat': 'allekunden'}
         try:
@@ -127,3 +156,11 @@ class TricomaAPI(object):
             return extract_customer_data(resp.text)
         except ValueError:
             return None
+
+    def update_field(self, customer_id, field_id: TricomaFields, value: str) -> Optional[int]:
+        """
+        It is possible to update a single data field.
+        URL params are kundennummer, feldid, wert
+        """
+        params = {'modul': 'kunden', 'modulkat': 'aktualisieren', 'kundennummer': customer_id, 'feldid': field_id.value, 'wert': value}
+        return self._get_request(params=params)
