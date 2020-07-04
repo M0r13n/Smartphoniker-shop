@@ -82,6 +82,10 @@ def init_sentry(app):
 
 
 def start_vigil_reporter(app):
+    """
+    This should be called AFTER the app has been fully loaded!
+    Otherwise it might prevent the main thread from stopping.
+    """
     conf = app.config
     vigil_config = dict(
         url=conf['VIGIL_URL'],
@@ -112,7 +116,5 @@ def init_extensions(app):
     alchemydumps.init_app(app, db)
     redis_client.init_app(app)
     init_talisman(app)
-    # start vigil
-    start_vigil_reporter(app)
     # finally set up sentry
     init_sentry(app)
