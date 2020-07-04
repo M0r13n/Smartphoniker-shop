@@ -53,7 +53,6 @@ class BaseConfig(object):
     VIGIL_INTERVAL = int(os.getenv("VIGIL_INTERVAL", "0"))
 
 
-
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""
 

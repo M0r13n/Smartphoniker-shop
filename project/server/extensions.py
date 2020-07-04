@@ -116,4 +116,3 @@ def init_extensions(app):
     start_vigil_reporter(app)
     # finally set up sentry
     init_sentry(app)
-
