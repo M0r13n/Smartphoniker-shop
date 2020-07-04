@@ -44,6 +44,15 @@ class BaseConfig(object):
     NOTIFICATION_MAILS = ['support@smartphoniker.de', 'leonrichter1337@gmail.com']
     # NOTIFICATION_MAILS = ['leonrichter1337@gmail.com']
 
+    # Vigil
+    VIGIL_URL = os.getenv("VIGIL_URL")
+    VIGIL_TOKEN = os.getenv("VIGIL_TOKEN")
+    VIGIL_PROBE_ID = os.getenv("VIGIL_PROBE_ID")
+    VIGIL_NODE_ID = os.getenv("VIGIL_NODE_ID")
+    VIGIL_REPLICA_ID = os.getenv("VIGIL_REPLICA_ID")
+    VIGIL_INTERVAL = int(os.getenv("VIGIL_INTERVAL", "0"))
+
+
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""

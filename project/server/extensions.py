@@ -9,6 +9,7 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
 from sentry_sdk.integrations.flask import FlaskIntegration
+from vigil_reporter.reporter import VigilReporter
 
 from project.server.common.redis import FlaskRedis
 from project.server.common.tricoma_api import TricomaAPI
@@ -80,6 +81,24 @@ def init_sentry(app):
         )
 
 
+def start_vigil_reporter(app):
+    conf = app.config
+    vigil_config = dict(
+        url=conf['VIGIL_URL'],
+        token=conf['VIGIL_TOKEN'],
+        probe_id=conf['VIGIL_PROBE_ID'],
+        node_id=conf['VIGIL_NODE_ID'],
+        replica_id=conf['VIGIL_REPLICA_ID'],
+        interval=conf['VIGIL_INTERVAL']
+    )
+    try:
+        reporter = VigilReporter.from_config(vigil_config)
+        reporter.start_reporting()
+    except ValueError as e:
+        # Vigil en vars not set
+        app.logger.warning("Vigil Reporter not set up, because %s" % str(e))
+
+
 def init_extensions(app):
     login_manager.init_app(app)
     bcrypt.init_app(app)
@@ -93,5 +112,8 @@ def init_extensions(app):
     alchemydumps.init_app(app, db)
     redis_client.init_app(app)
     init_talisman(app)
+    # start vigil
+    start_vigil_reporter(app)
     # finally set up sentry
     init_sentry(app)
+

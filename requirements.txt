@@ -43,6 +43,7 @@ packaging==20.3
 pdbpp==0.10.2
 pluggy==0.13.1
 psycopg2-binary==2.8.5
+py-vigil-reporter
 py==1.8.1
 pycodestyle==2.5.0
 pycparser==2.20
