@@ -15,8 +15,8 @@
         <section class="hero">
             <h1 class="hero__heading">Alle Hersteller</h1>
             <p class="hero__chronic hide-mobile">
-                <a class="hero__chroniclink" href="{{ url_for('main.manufacturer') }}">Hersteller auswählen</a> >
-                <a class="hero__chroniclink" href="{{ url_for('main.series', manufacturer_name=manufacturer) }}">Serie auswählen</a>
+                <a class="hero__chroniclink" href="{{ url_for('.manufacturer') }}">Hersteller auswählen</a> >
+                <a class="hero__chroniclink" href="{{ url_for('.series', manufacturer_name=manufacturer) }}">Serie auswählen</a>
             </p>
             <div class="progressbar">
                 <div class="progressbar__step">
@@ -43,7 +43,7 @@
             <div class="grid__content grid__content--longlist">
                 {% for device in devices %}
                     <div class="grid__item">
-                        <a class="grid__link" href="{{ url_for('main.model', manufacturer_name=manufacturer, series_name=series, device_name=device.name) }}">
+                        <a class="grid__link" href="{{ url_for('.model', manufacturer_name=manufacturer, series_name=series, device_name=device.name) }}">
                             {% if device.get_image() %}
                                 <img class="grid__image" src="{{ device.get_image_path() }}" alt="{{ device.name }} auswählen">
                             {% endif %}
@@ -53,8 +53,8 @@
                 {% endfor %}
             </div>
             {% if not devices|length %}
-                <p class="grid__nodevices">Aktuell bieten wir keine Festpreise für Reparaturen dieser Serie an. Melden Sie sich gerne bei unserem <a class="grid__link grid__link--inline" href="{{ url_for('main.faq', q='38') }}">Kundenservice</a>, wenn Sie an einer Reparatur interessiert sind.</p>
-                <a class="grid__back" href="{{ url_for('main.series', manufacturer_name=manufacturer) }}">zurück zu den Serien</a>
+                <p class="grid__nodevices">Aktuell bieten wir keine Festpreise für Reparaturen dieser Serie an. Melden Sie sich gerne bei unserem <a class="grid__link grid__link--inline" href="{{ url_for('.faq', q='38') }}">Kundenservice</a>, wenn Sie an einer Reparatur interessiert sind.</p>
+                <a class="grid__back" href="{{ url_for('.series', manufacturer_name=manufacturer) }}">zurück zu den Serien</a>
             {% endif %}
 
         </section>

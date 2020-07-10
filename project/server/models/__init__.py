@@ -4,7 +4,6 @@ from .image import Image
 from .mail_log import MailLog
 from .manufacturer import Manufacturer
 from .order import Order, OrderRepairAssociation
-from .referral_program import ReferralPartner, Referral
 from .repair import Repair
 from .series import DeviceSeries
 from .shop import Shop
@@ -19,8 +18,6 @@ __all__ = [
     'Manufacturer',
     'Order',
     'OrderRepairAssociation',
-    'Referral',
-    'ReferralPartner',
     'Repair',
     'DeviceSeries',
     'Shop',

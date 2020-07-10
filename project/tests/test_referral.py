@@ -1,103 +1,36 @@
-from datetime import datetime, timedelta
-from uuid import UUID
-
-from sqlalchemy.exc import IntegrityError
-
-from project.server.common.referral import is_referred_user, create_referral
-from project.server.models import Order
-from project.server.models.referral_program import ReferralPartner, Referral
+from project.server.config import RAIDER_CONFIG
+from project.server.shop.actions import track_payment, perform_post_complete_actions
 
 
 class TestReferral:
 
-    def test_uuid(self, db):
-        partner = ReferralPartner.create(name="Computer Shop 123")
-        assert partner.id
-        assert isinstance(partner.uuid, UUID)
+    def test_raider_config(self, app):
+        assert RAIDER_CONFIG['host']
+        assert RAIDER_CONFIG['track_token']
+        assert RAIDER_CONFIG['default_currency']
+        assert app.config['AFFILIATE_BONUS']
 
-    def test_ref_url(self, db):
-        partner = ReferralPartner.create(name="Computer Shop 123")
-        assert partner.ref_link
-        assert isinstance(partner.ref_link, str)
-        assert '?ref_id=' + str(partner.uuid) in partner.ref_link
+    def test_track_payment(self):
+        import raider_reporter.reporter as r
+        _orig = r.RaiderReporter.track_payment
+        r.RaiderReporter.track_payment = lambda *args, **kwargs: True
+        assert track_payment("A", 123.0, "sdf")
+        r.RaiderReporter.track_payment = _orig
 
-    def test_relation(self, sample_order, sample_partner: ReferralPartner):
-        assert sample_partner.referrals == []
-        sample_order.set_complete()
-        ref = Referral.create(partner=sample_partner, order=sample_order)
-        assert sample_partner.referrals == [ref]
-        assert ref.order == sample_order
+    def test_track_payment_returns_false_but_exception_is_handled(self):
+        assert not track_payment("1234", 12.0)
 
-    def test_relation_multiple(self, sample_partner: ReferralPartner, sample_color):
-        n = 10
-        for i in range(n):
-            order = Order.create(color=sample_color, complete=True)
-            Referral.create(partner=sample_partner, order=order)
+    def test_order_post_actions(self, db):
+        import project.server.models.order as order
+        _orig = order.Order.notify
+        order.Order.notify = lambda _: True
 
-        assert len(sample_partner.referrals) == n
+        # test that a normal order call track_payment
+        # this is false because the track_id is not set for raider does not work and raises an exception
+        o = order.Order()
+        assert not perform_post_complete_actions(o)
 
-    def test_order_id_unique(self, sample_order, sample_partner):
-        sample_order.set_complete()
-        Referral.create(partner=sample_partner, order=sample_order)
-        try:
-            Referral.create(partner=sample_partner, order=sample_order)
-            assert False
-        except IntegrityError:
-            return True
-
-    def test_billed(self, sample_order, sample_partner: ReferralPartner, sample_color):
-        sample_order.set_complete()
-        ref = Referral.create(partner=sample_partner, order=sample_order)
-        assert not ref.billed
-        assert not ref.billed_timestamp
-        ref.billed = True
-        assert ref.billed
-        assert ref.billed_timestamp
-
-        n = 10
-        for i in range(n):
-            order = Order.create(color=sample_color, complete=True)
-            Referral.create(partner=sample_partner, order=order)
-
-        sample_partner.bill()
-        for ref in Referral.query.all():
-            assert ref.billed
-
-    def test_referral_time_filter(self, sample_partner, sample_order):
-        sample_order.set_complete()
-        ref = Referral.create(partner=sample_partner, order=sample_order)
-
-        # completed orders are included
-        assert sample_partner.referrals_between(datetime.now() - timedelta(days=24), datetime.now()).all() == [ref]
-        assert sample_partner.referrals_between(datetime.now() - timedelta(days=24), datetime.now() - timedelta(days=1)).all() == []
-
-    def test_is_referred_user(self, sample_partner, testapp):
-        url = '/?ref_id=' + str(sample_partner.uuid)
-        response = testapp.get(url)
-        assert is_referred_user(request_args=response.request.params)
-
-    def test_is_not_referred_user(self, sample_partner, testapp):
-        url = '/'
-        response = testapp.get(url)
-        assert not is_referred_user(request_args=response.request.params)
-
-    def test_is_ref_user_args(self):
-        assert is_referred_user(dict(ref_id=123))
-        assert is_referred_user(dict(test=12, ref_id=123))
-        assert not is_referred_user(dict(test=12))
-
-    def test_create_referral_method(self, sample_partner, sample_order, testapp):
-        sample_order.set_complete()
-        try:
-            create_referral("1243", sample_order)
-            assert False
-        except ValueError:
-            pass
-
-        try:
-            create_referral(None, sample_order)
-            assert False
-        except ValueError:
-            pass
-        assert create_referral(sample_partner.uuid, sample_order) is not None
-        assert len(sample_partner.referrals) == 1
+        # in this case it's just skipped
+        o.kva = True
+        assert perform_post_complete_actions(o)
+        order.Order.notify = _orig

@@ -2,7 +2,7 @@ from flask_login import login_user
 from wtforms import BooleanField, SubmitField
 
 from project.server.admin.forms import LoginForm, ChangePasswordForm
-from project.server.main.forms import SelectRepairForm, FinalSubmitForm
+from project.server.shop.forms import SelectRepairForm, FinalSubmitForm
 from project.server.models import Repair, Shop, Order
 
 

@@ -7,19 +7,19 @@ class SitemapBlueprint(Blueprint):
     Contains all the logic for generating a sitemap.xml
     """
     STATIC_ROUTES = [
-        'main.home',
-        'main.manufacturer',
-        'main.agb',
-        'main.datenschutz',
-        'main.faq',
-        'main.impressum',
-        'main.references',
+        'shop_blueprint.home',
+        'shop_blueprint.manufacturer',
+        'shop_blueprint.agb',
+        'shop_blueprint.datenschutz',
+        'shop_blueprint.faq',
+        'shop_blueprint.impressum',
+        'shop_blueprint.references',
     ]
 
     OTHER_ROUTES = [
-        ('main.series', {'manufacturer_name': 'Apple'}),
-        ('main.series', {'manufacturer_name': 'Samsung'}),
-        ('main.series', {'manufacturer_name': 'Huawei'}),
+        ('shop_blueprint.series', {'manufacturer_name': 'Apple'}),
+        ('shop_blueprint.series', {'manufacturer_name': 'Samsung'}),
+        ('shop_blueprint.series', {'manufacturer_name': 'Huawei'}),
     ]
 
     def register(self, app, options, first_registration=False):

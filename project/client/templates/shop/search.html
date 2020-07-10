@@ -4,7 +4,7 @@
     <section class="hero hero--nocontent">
         <h1 class="hero__heading">Schnellsuche</h1>
         <p class="hero__chronic hide-mobile">
-            <a class="hero__chroniclink" href="{{ url_for('main.shop') }}">Shop</a> > <a class="hero__chroniclink" href="{{ url_for('main.search', device_name='all') }}">Suche</a> > <a class="hero__chroniclink" href="{{ url_for('main.search', device_name=search) }}">{{ search }}</a>
+            <a class="hero__chroniclink" href="{{ url_for('.shop') }}">Shop</a> > <a class="hero__chroniclink" href="{{ url_for('.search', device_name='all') }}">Suche</a> > <a class="hero__chroniclink" href="{{ url_for('.search', device_name=search) }}">{{ search }}</a>
         </p>
     </section>
 </div>

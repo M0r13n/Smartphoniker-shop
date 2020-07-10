@@ -1,4 +1,4 @@
-from project.server.main.forms import RegisterCustomerForm
+from project.server.shop.forms import RegisterCustomerForm
 from project.server.models import Customer
 
 

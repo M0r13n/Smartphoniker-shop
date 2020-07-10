@@ -1,4 +1,4 @@
-from project.server.main.forms import MiscForm
+from project.server.shop.forms import MiscForm
 from project.server.models import Customer
 from project.server.models.misc import MiscInquiry
 

@@ -14,9 +14,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
 
 from project.server import flask_admin as admin, db
-from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries, ReferralPartner
+from project.server.models import Customer, MailLog, Shop, Order, Device, Manufacturer, Repair, Image, DeviceSeries
 # Create customized model view class
-from .column_formatters import customer_formatter, ref_formatter, link_to_device_formatter
+from .column_formatters import customer_formatter, link_to_device_formatter
 from .forms import LoginForm, ChangePasswordForm, ImportRepairForm
 from ..common.import_repair import import_repairs
 from ..extensions import redis_client
@@ -314,27 +314,6 @@ class ImageView(AdminExportableModelView):
     column_editable_list = ['name', 'device_default', 'tablet_default', 'repair_default', 'manufacturer_default']
 
 
-class ReferralManagementView(AdminExportableModelView):
-    """ Manage referral links and programs """
-    form_excluded_columns = ['uuid', 'referrals']
-
-    column_list = ('name', 'uuid', 'ref_link', 'total_referrals', 'un_billed_referral_count')
-    column_labels = {'ref_link': 'Referral-Link', 'total_referrals': 'Referrals (absolut)', 'un_billed_referral_count': 'referrals (offen)'}
-
-    # This creates a check mark that will mark all referrals as billed
-
-    @action('bill', 'Abrechnen', 'Bist du sicher, dass alle ausgewählten Partner auf \'abgrechnet\' gesetzt werden sollen?')
-    def action_bill(self, ids):
-        for i in ids:
-            p = ReferralPartner.query.get_or_404(i)
-            p.bill()
-        flash("Es wurden alle Referrals auf abgrechnet gesetzt!")
-        return redirect(url_for('referralpartner.index_view', ), code=302)
-
-    # Create a direct href to customer details
-    column_formatters = dict(ref_link=ref_formatter)
-
-
 class ImportView(ProtectedBaseView):
     @expose('/', methods=['GET', 'POST'])
     def index(self):
@@ -376,13 +355,12 @@ admin.add_view(DeviceSeriesView(DeviceSeries, db.session, name="Serien"))  # Man
 admin.add_view(DeviceView(Device, db.session, name="Geräte"))  # Devices
 admin.add_view(RepairView(Repair, db.session, name="Reparaturen"))  # Repairs
 
-admin.add_view(ShopView(Shop, db.session, name="Shop"))  # Shop
+admin.add_view(ShopView(Shop, db.session, name="Shops"))  # Shop
 admin.add_view(ColorView(Color, db.session, name="Farben"))  # Colors
 admin.add_view(ImageView(Image, db.session, name="Bilder"))  # Images
 
 admin.add_view(MailLogView(MailLog, db.session, name="Email Log"))  # Mails
 
-admin.add_view(ReferralManagementView(ReferralPartner, db.session, name="Referral Programm"))
 admin.add_view(ImportView(name="Import"))  # Import View
 
 admin.add_view(RedisView(redis_client.redis, name="Redis Konsole"))  # Redis view

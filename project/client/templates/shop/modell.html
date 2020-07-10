@@ -21,9 +21,9 @@
             <section class="hero hero--nocontent">
                 <h1 class="hero__heading">{{ device.name }}</h1>
                 <p class="hero__chronic hide-mobile">
-                    <a class="hero__chroniclink" href="{{ url_for('main.manufacturer') }}">Hersteller auswählen</a> >
-                    <a class="hero__chroniclink" href="{{ url_for('main.series', manufacturer_name=manufacturer) }}">Serie auswählen</a> >
-                    <a class="hero__chroniclink" href="{{ url_for('main.all_devices_of_series', manufacturer_name=manufacturer, series_name=series) }}">Gerät auswählen</a> >
+                    <a class="hero__chroniclink" href="{{ url_for('.manufacturer') }}">Hersteller auswählen</a> >
+                    <a class="hero__chroniclink" href="{{ url_for('.series', manufacturer_name=manufacturer) }}">Serie auswählen</a> >
+                    <a class="hero__chroniclink" href="{{ url_for('.all_devices_of_series', manufacturer_name=manufacturer, series_name=series) }}">Gerät auswählen</a> >
                 </p>
             </section>
         </div>

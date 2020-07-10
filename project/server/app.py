@@ -59,10 +59,10 @@ def create_app(script_info=None):
 def init_blueprints(app):
     """ Register all blueprints"""
     # register blueprints
-    from project.server.main.views import main_blueprint
+    from project.server.shop.views import main_blueprint
     app.register_blueprint(main_blueprint)
 
-    from project.server.main.sitemap import sitemap_blueprint
+    from project.server.shop.sitemap import sitemap_blueprint
     app.register_blueprint(sitemap_blueprint)
 
     from project.server.health.views import health_bp

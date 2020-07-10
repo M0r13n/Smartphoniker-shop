@@ -8,7 +8,7 @@ from webtest import TestApp
 
 from project.server import create_app
 from project.server import db as _db
-from project.server.models import User, Manufacturer, Color, Device, Customer, Shop, Repair, Image, DeviceSeries, Order, ReferralPartner
+from project.server.models import User, Manufacturer, Color, Device, Customer, Shop, Repair, Image, DeviceSeries, Order
 
 
 @pytest.fixture
@@ -150,8 +150,3 @@ def sample_image(db):
 @pytest.fixture
 def sample_order(db, sample_color, sample_repair):
     return Order.create(color=sample_color, repairs=sample_repair)
-
-
-@pytest.fixture
-def sample_partner(db):
-    return ReferralPartner.create(name="PC Shop 123")

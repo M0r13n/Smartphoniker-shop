@@ -39,8 +39,6 @@ class Order(db.Model, CRUDMixin, SessionStoreMixin):
     color_id = db.Column(db.Integer, db.ForeignKey('color.id'), nullable=False)
     color = db.relationship("Color")
 
-    referral = db.relationship("Referral", uselist=False, back_populates="order")
-
     # Repairs
     _repairs = db.relationship("OrderRepairAssociation", back_populates="order", cascade="all, delete-orphan")
 

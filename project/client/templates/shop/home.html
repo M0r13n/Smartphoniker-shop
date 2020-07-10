@@ -63,7 +63,7 @@
                         sehr kurzer Zeit. Egal ob iPhone, Samsung, Huawei
                         oder ganz was anderes. Hier bist du richtig!</span>
             </p>
-            <a class="hero__cta" href="{{ url_for('main.manufacturer') }}">Gerät auswählen</a>
+            <a class="hero__cta" href="{{ url_for('shop_blueprint.manufacturer') }}">Gerät auswählen</a>
         </section>
     </div>
 
@@ -75,7 +75,7 @@
                     {% for seller in bestseller %}
                         <li class="bestseller__item">
                             <img class="bestseller__img" src="{{ seller.get_image_path() }}" alt="{{ seller.name }}">
-                            <a class="bestseller__link" href="{{ url_for('main.model', manufacturer_name=seller.manufacturer.name, series_name=seller.series.name, device_name=seller.name) }}">
+                            <a class="bestseller__link" href="{{ url_for('shop_blueprint.model', manufacturer_name=seller.manufacturer.name, series_name=seller.series.name, device_name=seller.name) }}">
                                 <h3 class="bestseller__devicename">{{ seller.name }}</h3>
                             </a>
                         </li>
@@ -96,7 +96,7 @@
                 <ul class="brands__list">
                     {% for manu in specialist_manufacturers %}
                         <li class="brands__item">
-                            <a class="brands__link" href="{{ url_for('main.series', manufacturer_name=manu.name) }}">
+                            <a class="brands__link" href="{{ url_for('shop_blueprint.series', manufacturer_name=manu.name) }}">
                                 {% if manu.get_image_path() %}
                                     <img class="brands__img" src="{{ manu.get_image_path() }}" alt="show {{ manu.name }} devices">
                                 {% else %}
@@ -105,7 +105,7 @@
                             </a>
                         </li>
                     {% endfor %}
-                    <li class="brands__item"><a class="brands__link" href="{{ url_for('main.manufacturer') }}">Viele<br>mehr</a></li>
+                    <li class="brands__item"><a class="brands__link" href="{{ url_for('shop_blueprint.manufacturer') }}">Viele<br>mehr</a></li>
                 </ul>
             </div>
         </section>

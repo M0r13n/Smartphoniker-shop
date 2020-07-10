@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 from webtest import TestResponse
 
+from project.server.models import Manufacturer
+
 
 class TestSitemap:
 
@@ -15,8 +17,11 @@ class TestSitemap:
     def test_links_in_sitemap_valid(self, db, testapp):
         response: TestResponse = testapp.get("/sitemap.xml").follow()
         soup = BeautifulSoup(response.body)
-        tags = soup.find_all("sitemap")
+        tags = soup.find_all("url")
+        Manufacturer.create(name="Apple")
+        Manufacturer.create(name="Samsung")
+        Manufacturer.create(name="Huawei")
         for sitemap in tags:
             url = sitemap.findNext("loc").text
-            r = testapp.get(url)
+            r = testapp.get(url).follow()
             assert r.status_code == 200

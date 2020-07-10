@@ -45,7 +45,7 @@
             <div class="grid__content">
                 {% for manu in manufacturers %}
                     <div class="grid__item">
-                        <a class="grid__link" href="{{ url_for('main.series', manufacturer_name=manu.name) }}">
+                        <a class="grid__link" href="{{ url_for('.series', manufacturer_name=manu.name) }}">
                             {% if manu.image %}
                                 <img class="grid__image" src="{{ manu.get_image_path() }}" alt="{{ manu.name }} auswählen">
                             {% else %}
@@ -55,7 +55,7 @@
                     </div>
                 {% endfor %}
                 <div class="grid__item">
-                    <a class="grid__link" href="{{ url_for('main.other') }}">
+                    <a class="grid__link" href="{{ url_for('.other') }}">
                         <div>Sonstige Anfrage</div>
                     </a>
                 </div>

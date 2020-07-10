@@ -24,6 +24,7 @@ class BaseConfig(object):
     REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
     CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", REDIS_URL)
     CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND_URL", REDIS_URL)
+    broker_transport_options = {"max_retries": 3, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
 
     # Tricoma stuff
     TRICOMA_BASE_URL = os.getenv("TRICOMA_BASE_URL")
@@ -51,6 +52,9 @@ class BaseConfig(object):
     VIGIL_NODE_ID = os.getenv("VIGIL_NODE_ID")
     VIGIL_REPLICA_ID = os.getenv("VIGIL_REPLICA_ID")
     VIGIL_INTERVAL = int(os.getenv("VIGIL_INTERVAL", "0"))
+
+    # Affiliate Bonus
+    AFFILIATE_BONUS = os.getenv("AFFILIATE_BONUS", 10.0)
 
 
 class DevelopmentConfig(BaseConfig):
@@ -88,8 +92,12 @@ class ProductionConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 
-SELF = "'self'"
-NONE = "'none'"
 TALISMAN_CONFIG = dict(
     content_security_policy=None  # CSP not implemented (yet?)
+)
+
+RAIDER_CONFIG = dict(
+    host=os.getenv("RAIDER_TRACKING_HOST", "affiliates.smartphoniker.shop"),
+    track_token=os.getenv("RAIDER_TRACK_TOKEN", "YOUR_SECRET_TOKEN"),
+    default_currency=os.getenv("RAIDER_CURRENCY", "EUR"),
 )
