@@ -10,7 +10,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_talisman import Talisman
 from raider_reporter.reporter import RaiderReporter
 from sentry_sdk.integrations.flask import FlaskIntegration
-from vigil_reporter.reporter import VigilReporter
+from vigil_reporter.reporter import VigilReporter, RequestFailedError
 
 from project.server.common.redis import FlaskRedis
 from project.server.common.tricoma_api import TricomaAPI
@@ -96,12 +96,19 @@ def start_vigil_reporter(app):
         replica_id=conf['VIGIL_REPLICA_ID'],
         interval=conf['VIGIL_INTERVAL']
     )
-    try:
-        reporter = VigilReporter.from_config(vigil_config)
-        reporter.start_reporting()
-    except ValueError as e:
-        # Vigil en vars not set
-        app.logger.warning("Vigil Reporter not set up, because %s" % str(e))
+
+    def start():
+        print("sfsf")
+        try:
+            reporter = VigilReporter.from_config(vigil_config)
+            reporter.start_reporting()
+        except ValueError as e:
+            # Vigil en vars not set
+            app.logger.warning("Vigil Reporter not set up, because %s" % str(e))
+        except RequestFailedError as e:
+            app.logger.error(e)
+
+    app.before_first_request(start)
 
 
 def init_extensions(app):
@@ -117,5 +124,7 @@ def init_extensions(app):
     alchemydumps.init_app(app, db)
     redis_client.init_app(app)
     init_talisman(app)
+    start_vigil_reporter(app)
+
     # finally set up sentry
     init_sentry(app)

@@ -37,9 +37,3 @@ def redis():
     if not status:
         return "DOWN", 400
     return "OK", 200
-
-
-@health_bp.before_app_first_request
-def start_reporting():
-    # start vigil
-    start_vigil_reporter(current_app)
