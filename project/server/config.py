@@ -56,6 +56,9 @@ class BaseConfig(object):
     # Affiliate Bonus
     AFFILIATE_BONUS = os.getenv("AFFILIATE_BONUS", 10.0)
 
+    # Proxy Fix
+    PROXY_FIX_NUM = os.getenv("PROXY_FIX_NUM", 0)
+
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""

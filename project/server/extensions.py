@@ -98,7 +98,6 @@ def start_vigil_reporter(app):
     )
 
     def start():
-        print("sfsf")
         try:
             reporter = VigilReporter.from_config(vigil_config)
             reporter.start_reporting()

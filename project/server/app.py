@@ -4,6 +4,7 @@
 import os
 
 from flask import Flask, render_template
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .extensions import db, flask_admin, init_extensions
 
@@ -53,7 +54,15 @@ def create_app(script_info=None):
     def ctx():
         return {"app": app, "db": db}
 
+    apply_proxy_fix(app)
     return app
+
+
+def apply_proxy_fix(app):
+    num_proxies = app.config.get('PROXY_FIX_NUM')
+    if num_proxies:
+        app.wsgi_app = ProxyFix(app.wsgi_app, num_proxies)
+    app.logger.info(f"App configured to use {num_proxies} proxies")
 
 
 def init_blueprints(app):

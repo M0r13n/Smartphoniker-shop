@@ -3,7 +3,6 @@ from sqlalchemy.exc import OperationalError
 
 from project.server import db
 from project.server.common.stats import celery_status, redis_status
-from project.server.extensions import start_vigil_reporter
 
 health_bp = Blueprint("health", __name__, url_prefix='/status')
 
