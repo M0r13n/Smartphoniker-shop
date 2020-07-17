@@ -59,7 +59,10 @@ def create_app(script_info=None):
 
 
 def apply_proxy_fix(app):
-    num_proxies = app.config.get('PROXY_FIX_NUM')
+    try:
+        num_proxies = int(app.config.get('PROXY_FIX_NUM'))
+    except ValueError:
+        num_proxies = 0
     if num_proxies:
         app.wsgi_app = ProxyFix(app.wsgi_app, num_proxies)
     app.logger.info(f"App configured to use {num_proxies} proxies")
