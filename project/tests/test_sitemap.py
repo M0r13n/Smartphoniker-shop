@@ -16,7 +16,7 @@ class TestSitemap:
 
     def test_links_in_sitemap_valid(self, db, testapp):
         response: TestResponse = testapp.get("/sitemap.xml").follow()
-        soup = BeautifulSoup(response.body)
+        soup = BeautifulSoup(response.body, features="html.parser")
         tags = soup.find_all("url")
         Manufacturer.create(name="Apple")
         Manufacturer.create(name="Samsung")

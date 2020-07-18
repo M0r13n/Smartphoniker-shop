@@ -110,11 +110,17 @@ def start_vigil_reporter(app):
     app.before_first_request(start)
 
 
+def init_sqlalchemy(app):
+    db.init_app(app)
+    from project.server.models.crud import CRUDMixin
+    CRUDMixin.set_session(db.session)
+
+
 def init_extensions(app):
     login_manager.init_app(app)
     bcrypt.init_app(app)
     toolbar.init_app(app)
-    db.init_app(app)
+    init_sqlalchemy(app)
     migrate.init_app(app, db)
     tricoma_client.init_app(app)
     tricoma_api.init_app(app)

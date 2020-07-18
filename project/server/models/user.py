@@ -5,10 +5,10 @@ from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from project.server import db
-from .crud import CRUDMixin
+from project.server.models.base import BaseModel
 
 
-class User(UserMixin, CRUDMixin, db.Model):
+class User(BaseModel, UserMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

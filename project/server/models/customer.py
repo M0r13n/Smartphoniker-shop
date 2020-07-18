@@ -7,7 +7,7 @@ from project.server.models.session_mixin import SessionStoreMixin
 from .crud import CRUDMixin
 
 
-class Customer(CRUDMixin, db.Model, SessionStoreMixin):
+class Customer(db.Model, CRUDMixin, SessionStoreMixin):
     __tablename__ = "customer"
     SESSION_KW = __tablename__
 

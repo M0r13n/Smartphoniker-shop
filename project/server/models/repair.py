@@ -1,9 +1,9 @@
 from project.server import db
-from project.server.models.crud import CRUDMixin
+from project.server.models.base import BaseModel
 from project.server.models.image import ImageMixin
 
 
-class Repair(db.Model, CRUDMixin, ImageMixin):
+class Repair(BaseModel, ImageMixin):
     """ Repair """
 
     __tablename__ = 'repair'

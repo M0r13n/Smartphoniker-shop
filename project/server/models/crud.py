@@ -1,31 +1,44 @@
-import logging
+import typing
 from contextlib import contextmanager
 
-from project.server import db as _db
+from sqlalchemy.ext.declarative import declarative_base
 
-logger = logging.getLogger(__name__)
-
-
-@contextmanager
-def get_session():
-    session = _db.session
-    try:
-        yield session
-    except Exception as e:
-        session.rollback()
-        logger.error(e)
-        raise e
-    else:
-        session.commit()
+Base = declarative_base()
 
 
-class CRUDMixin(object):
+class NoSessionError(RuntimeError):
+    pass
+
+
+class SessionMixin:
+    _session = None
+
+    @classmethod
+    def set_session(cls, session):
+        cls._session = session
+
+    @classmethod
+    @contextmanager
+    def get_session(cls):
+        session = cls._session
+        try:
+            yield session
+        except Exception as e:
+            session.rollback()
+            raise e
+        else:
+            session.commit()
+
+
+class CRUDMixin(Base, SessionMixin):
+    __abstract__ = True
+
     def __repr__(self):
         return f"<{self.__class__.__name__}>"
 
-    @staticmethod
-    def session():
-        return get_session()
+    @classmethod
+    def session(cls):
+        return cls.get_session()
 
     @classmethod
     def create(cls, **kwargs):
@@ -34,6 +47,47 @@ class CRUDMixin(object):
         """
         instance = cls(**kwargs)
         return instance.save()
+
+    @classmethod
+    def all(cls):
+        """
+        Get all instances for that model class.
+        """
+        return cls.query.all()
+
+    @classmethod
+    def get(cls, _id):
+        """
+        Get the instance with the given id.
+        """
+        return cls.query.get(_id)
+
+    @classmethod
+    def first(cls):
+        """
+        Get the first instance for that model class.
+        """
+        return cls.query.first()
+
+    @classmethod
+    def destroy(cls, *ids: typing.List):
+        """
+        Delete the records with the given ids.
+        """
+        with cls.session():
+            for pk in ids:
+                cls.get(pk).delete()
+
+    def update(self, **kwargs):
+        """
+        Update a instance and saves it on success.
+        """
+        for name in kwargs.keys():
+            try:
+                setattr(self, name, kwargs[name])
+            except AttributeError as e:
+                raise KeyError("Attribute '{}' doesn't exist".format(name)) from e
+        self.save()
 
     def save(self):
         """

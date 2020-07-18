@@ -1,8 +1,8 @@
 from project.server import db
-from project.server.models.crud import CRUDMixin
+from project.server.models.base import BaseModel
 
 
-class Shop(CRUDMixin, db.Model):
+class Shop(BaseModel):
     """ Shops """
     __tablename__ = 'shop'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

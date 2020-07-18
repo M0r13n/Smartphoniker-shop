@@ -1,8 +1,8 @@
 from project.server import db
-from project.server.models.crud import CRUDMixin
+from project.server.models.base import BaseModel
 
 
-class DeviceSeries(db.Model, CRUDMixin):
+class DeviceSeries(BaseModel):
     """ Association table between Device and Manufacturer """
     __tablename__ = "device_series"
 

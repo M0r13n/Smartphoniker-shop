@@ -3,6 +3,7 @@ import typing
 from functools import reduce
 
 from project.server import db
+from project.server.models.base import BaseModel
 from project.server.models.crud import CRUDMixin
 from project.server.models.session_mixin import SessionStoreMixin
 from project.tasks.email import notify_shop, send_confirmation
@@ -17,7 +18,7 @@ class OrderRepairAssociation(db.Model, CRUDMixin):
     repair = db.relationship("Repair", back_populates="orders")
 
 
-class Order(db.Model, CRUDMixin, SessionStoreMixin):
+class Order(BaseModel, SessionStoreMixin):
     __tablename__ = "order"
     SESSION_KW = __tablename__
 

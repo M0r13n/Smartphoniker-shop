@@ -1,9 +1,9 @@
 from project.server import db
-from project.server.models.crud import CRUDMixin
+from project.server.models.base import BaseModel
 from project.server.models.image import ImageMixin
 
 
-class Manufacturer(db.Model, CRUDMixin, ImageMixin):
+class Manufacturer(BaseModel, ImageMixin):
     __tablename__ = "manufacturer"
 
     id = db.Column(db.Integer, primary_key=True)

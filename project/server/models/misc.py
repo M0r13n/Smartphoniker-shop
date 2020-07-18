@@ -1,8 +1,8 @@
 from project.server import db
-from project.server.models.crud import CRUDMixin
+from project.server.models.base import BaseModel
 
 
-class MiscInquiry(db.Model, CRUDMixin):
+class MiscInquiry(BaseModel):
     __tablename__ = "misc_enquiry"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     description = db.Column(db.Text, nullable=False)

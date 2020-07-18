@@ -11,6 +11,8 @@ minify-css:
 test:
 	python manage.py test && python manage.py flake
 
-
 run:
 	python manage.py run
+
+install:
+	pip install -r requirements.txt && python manage.py dev_db && python manage.py db upgrade
