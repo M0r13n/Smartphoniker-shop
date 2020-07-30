@@ -34,7 +34,7 @@ class SelectRepairForm(FlaskForm):
         return Color.query.get_or_404(self.color.data)
 
     def get_repairs(self) -> typing.List[Repair]:
-        return list(map(lambda repair_id: Repair.query.get_or_404(repair_id), self.repairs.data))
+        return [Repair.query.get_or_404(repair_id) for repair_id in self.repairs.data]
 
 
 class RegisterCustomerForm(FlaskForm):

@@ -15,4 +15,16 @@ run:
 	python manage.py run
 
 install:
-	pip install -r requirements.txt && python manage.py dev_db && python manage.py db upgrade
+	pip install -r requirements.txt
+
+db:
+	python manage.py create-db && python manage.py db upgrade && python manage.py create-admin && python manage.py create-data
+
+docker-build:
+	docker-compose build
+
+docker-dev:
+	docker-compose up pricepicker-dev
+
+docker-prod:
+	docker-compose up pricepicker-prod

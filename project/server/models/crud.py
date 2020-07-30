@@ -6,10 +6,6 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 
 
-class NoSessionError(RuntimeError):
-    pass
-
-
 class SessionMixin:
     _session = None
 

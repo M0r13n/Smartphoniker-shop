@@ -227,11 +227,11 @@ const colorJS = () => {
 
     for (const radio of radios) {
         if (radio.checked) {
-            $('ColorName').innerHTML = 'Aktuelle Farbauswahl: ' + radio.id.replace('_', ' ')
+            $('ColorName').innerHTML = 'Aktuelle Farbauswahl: ' + radio.id.replace(/_/g, ' ')
         }
         radio.addEventListener('change', () => {
             if (radio.checked) {
-                $('ColorName').innerHTML = 'Aktuelle Farbauswahl: ' + radio.id.replace('_', ' ')
+                $('ColorName').innerHTML = 'Aktuelle Farbauswahl: ' + radio.id.replace(/_/g, ' ')
             }
         }, false);
     }

@@ -8,7 +8,7 @@ Create and activate a virtual environment, and then install the requirements.
 
 ```sh
 $ virtualenv venv && source venv/bin/activate
-$ pip install -r requirements.txt
+$ make install
 ```
 
 ### Set Environment Variables
@@ -31,30 +31,19 @@ create user "some user" with encrypted password 'some password';
 grant all privileges on database "pricepicker-v2" to "some user";
 ```
 
-Also you need to enable the `pg_trim` and `fuzzystrmatch` extension for fuzzy searching:
-
-````postgresql
-CREATE EXTENSION pg_trgm;
-CREATE EXTENSION fuzzystrmatch;
-````
-
 Then you just need to update the `DATABASE_URL`:
 ```sh
-$ export DATABASE_URL=postgresql://picker:#@127.0.0.1/pricepicker-v2
+$ export DATABASE_URL=postgresql://<YOUR_URL>:#@127.0.0.1/<YOUR_DB>
 ```
 
 ```sh
-$ python manage.py create-db
-$ python manage.py db init
-$ python manage.py db migrate
-$ python manage.py create-admin
-$ python manage.py create-data
+$ make db
 ```
 
 ### Run the Application
 
 ```sh
-$ python manage.py run
+$ make run
 ```
 
 Access the application at the address [http://localhost:5000/](http://localhost:5000/)
@@ -73,23 +62,5 @@ $ python manage.py start-worker [loglevel]
 Without coverage:
 
 ```sh
-$ python manage.py test
-```
-
-With coverage:
-
-```sh
-$ python manage.py cov
-```
-
-Run flake8 on the app:
-
-```sh
-$ python manage.py flake
-```
-
-or
-
-```sh
-$ flake8 project
+$ make test
 ```

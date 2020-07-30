@@ -13,7 +13,7 @@ from flask_alchemydumps.cli import alchemydumps
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 from project.server.app import create_app, db
-from project.server.models import User, Shop, Manufacturer, Image
+from project.server.models import User, Shop, Manufacturer, Image, DeviceSeries, Device, Repair
 from project.server.models.device import Color
 from project.server.models.image import Default
 
@@ -50,6 +50,7 @@ def create_sample_data():
 
     # Manus
     Manufacturer.create(name="ASUS")
+    apple = Manufacturer.create(name="Apple", activated=True)
     Manufacturer.create(name="BlackBerry")
     Manufacturer.create(name="Blackview")
     Manufacturer.create(name="CAT")
@@ -74,7 +75,9 @@ def create_sample_data():
     Manufacturer.create(name="Xiaomi", activated=True)
     Manufacturer.create(name="ZTE")
 
-    User.create(email="ad@min.com", password="admin", admin=True)
+    iphone = DeviceSeries.create(manufacturer=apple, name="iPhone")
+    dev = Device.create(series=iphone, name="iPhone X")
+    Repair.create(device=dev, name="Display")
 
     # load svgs
     load_images()
@@ -141,18 +144,13 @@ def load_color():
 @cli.command()
 def create_db():
     """ Drops all existing tables and creates them afterwards """
+    print("Dropping tables...")
     db.drop_all()
+    print("Creating tables...")
     db.create_all()
+    print("Activate Extensions...")
     db.session.commit()
-
-
-@cli.command()
-def dev_db():
-    """Restore a clean DB with sample Data"""
-    db.drop_all()
-    db.create_all()
-    create_sample_data()
-    db.session.commit()
+    print("DB created successfully!")
 
 
 @cli.command()
@@ -165,22 +163,14 @@ def drop_db():
 def create_admin():
     """Creates the admin user."""
     User.create(email="ad@min.com", password="admin", admin=True)
+    print("Created default admin user: 'ad@min.com':'admin'.")
 
 
 @cli.command()
 def create_data():
     """Creates sample data."""
     create_sample_data()
-
-
-@cli.command()
-def clean_db():
-    """ Restore a clean working state """
-    db.drop_all()
-    db.create_all()
-    db.session.commit()
-    User.create(email="ad@min.com", password="admin", admin=True)
-    create_sample_data()
+    print("Created sample data.")
 
 
 @cli.command()
