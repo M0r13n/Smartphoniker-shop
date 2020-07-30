@@ -43,7 +43,7 @@ jobs:
             architecture: x64
 
       - name: Install requirements
-        run: pip install -r requirements_dev.txt
+        run: pip install -r requirements/requirements_dev.txt
       
       - name: Activate PG_TRIM
         run: PGPASSWORD=postgres psql -h 127.0.0.1 -U postgres pricepicker -c "CREATE EXTENSION pg_trgm;"
