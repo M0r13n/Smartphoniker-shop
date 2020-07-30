@@ -15,30 +15,37 @@ COPY . .
 RUN useradd -m pricy
 RUN chown -R pricy:pricy /app
 USER pricy
+
 # add /home/pricy/.local/bin' to PATH
 ENV PATH="/home/pricy/.local/bin:${PATH}"
 
-RUN pip install --user -r requirements.txt
 
 # ================================= DEVELOPMENT ================================
 FROM base AS development
+
+RUN pip install --user -r ./requirements/requirements_dev.txt
 
 EXPOSE 5000
 
 CMD [ "python", "manage.py", "run", "-h", "0.0.0.0" ]
 
+# ================================= TEST ================================
+FROM base AS test
+
+RUN pip install --user -r ./requirements/requirements_dev.txt
+
+CMD [ "make", "test" ]
+
 # ================================= PRODUCTION =================================
 FROM base AS production
 
-#COPY supervisord.conf /etc/supervisor/supervisord.conf
-#COPY supervisord_programs /etc/supervisor/conf.d
-#EXPOSE 5000
-#ENTRYPOINT ["/bin/bash", "shell_scripts/supervisord_entrypoint.sh"]
-#CMD ["-c", "/etc/supervisor/supervisord.conf"]
+RUN pip install --user -r ./requirements/requirements_prod.txt
 
-CMD [ "make", "run" ]
+COPY supervisord.conf /etc/supervisor/supervisord.conf
+COPY supervisord_programs /etc/supervisor/conf.d
 
-# =================================== MANAGE ===================================
-FROM base AS manage
+EXPOSE 5000
 
-ENTRYPOINT [ "python" , "manage.py" ]
+ENTRYPOINT ["/bin/bash", "shell_scripts/supervisord_entrypoint.sh"]
+
+CMD ["-c", "/etc/supervisor/supervisord.conf"]

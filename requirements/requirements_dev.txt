@@ -63,7 +63,6 @@ redis
 requests
 six
 soupsieve
-Flask-Talisman
 speaklater
 SQLAlchemy
 text-unidecode

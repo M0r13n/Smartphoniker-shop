@@ -7,7 +7,6 @@ from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
-from flask_talisman import Talisman
 from raider_reporter.reporter import RaiderReporter
 from sentry_sdk.integrations.flask import FlaskIntegration
 from vigil_reporter.reporter import VigilReporter, RequestFailedError
@@ -16,7 +15,7 @@ from project.server.common.redis import FlaskRedis
 from project.server.common.tricoma_api import TricomaAPI
 from project.server.common.tricoma_client import TricomaClient
 # instantiate the extensions
-from project.server.config import TALISMAN_CONFIG, RAIDER_CONFIG
+from project.server.config import RAIDER_CONFIG
 
 login_manager = LoginManager()
 bcrypt = Bcrypt()
@@ -27,18 +26,12 @@ celery = Celery()
 migrate = Migrate()
 flask_admin = Admin(name='admin', base_template='admin/admin_master.html', template_mode='bootstrap3')
 
-talisman = Talisman()
-
 redis_client = FlaskRedis()
 
 tricoma_api = TricomaAPI()
 tricoma_client = TricomaClient()
 
 raider = RaiderReporter.from_config(RAIDER_CONFIG)
-
-
-def init_talisman(app):
-    talisman.init_app(app, **TALISMAN_CONFIG)
 
 
 def init_login(app):
@@ -128,7 +121,6 @@ def init_extensions(app):
     init_celery(app)
     alchemydumps.init_app(app, db)
     redis_client.init_app(app)
-    init_talisman(app)
     start_vigil_reporter(app)
 
     # finally set up sentry

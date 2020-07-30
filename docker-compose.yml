@@ -12,12 +12,21 @@ services:
     image: postgres:12
     restart: unless-stopped
     volumes:
-      - ./project/data/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./database_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres:/var/lib/postgresql/data/
     environment:
       - POSTGRES_USER=picker
       - POSTGRES_PASSWORD=#
       - POSTGRES_DB=pricepicker-v2
+
+  testdb:
+    image: postgres:12
+    volumes:
+      - ./database_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    environment:
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=test_db
 
   pricepicker-dev:
     build:
@@ -32,6 +41,27 @@ services:
 
     depends_on:
       - db
+    environment:
+      FLASK_ENV: development
+      FLASK_DEBUG: 1
+      LOG_LEVEL: debug
+
+  pricepicker-test:
+    build:
+      context: .
+      target: test
+      args:
+        <<: *build_args
+    image: "pricepicker-test"
+    <<: *default_volumes
+
+    depends_on:
+      - testdb
+    environment:
+      FLASK_ENV: development
+      FLASK_DEBUG: 1
+      LOG_LEVEL: debug
+      DATABASE_TEST_URL: postgresql://test_user:test@testdb/test_db
 
   pricepicker-prod:
     build:
@@ -49,20 +79,6 @@ services:
       FLASK_DEBUG: 0
       LOG_LEVEL: info
       GUNICORN_WORKERS: 4
-    <<: *default_volumes
-
-  manage:
-    build:
-      context: .
-      target: manage
-    environment:
-      FLASK_ENV: production
-      FLASK_DEBUG: 0
-    depends_on:
-      - db
-    image: "pricepicker-manage"
-    stdin_open: true
-    tty: true
     <<: *default_volumes
 
 volumes:

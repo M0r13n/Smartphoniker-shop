@@ -34,7 +34,7 @@ class TestAdmin:
 
     def test_admin_login_works(self, user, testapp):
         # Goes to homepage
-        res = testapp.get("/admin/login/").follow()
+        res = testapp.get("/admin/login/")
         form = res.forms[0]
         form["email"] = user.email
         form["password"] = "admin"
@@ -54,7 +54,7 @@ class TestAdmin:
             assert "Bad response: 403 FORBIDDEN" in str(e)
 
     def test_that_every_page_at_least_loads(self, user, some_devices, db, testapp):
-        res = testapp.get("/admin/login/").follow()
+        res = testapp.get("/admin/login/")
         form = res.forms[0]
         form["email"] = user.email
         form["password"] = "admin"
@@ -74,6 +74,5 @@ class TestAdmin:
 
         for endpoint in endpoints:
             url = url_for(endpoint)
-            print(url)
-            response = testapp.get(url).follow()
+            response = testapp.get(url)
             assert response.status_code == 200

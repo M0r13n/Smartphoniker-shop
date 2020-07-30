@@ -95,10 +95,6 @@ class ProductionConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 
-TALISMAN_CONFIG = dict(
-    content_security_policy=None  # CSP not implemented (yet?)
-)
-
 RAIDER_CONFIG = dict(
     host=os.getenv("RAIDER_TRACKING_HOST", "affiliates.smartphoniker.shop"),
     track_token=os.getenv("RAIDER_TRACK_TOKEN", "YOUR_SECRET_TOKEN"),
