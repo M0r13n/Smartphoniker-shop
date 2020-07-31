@@ -25,6 +25,16 @@ Run production server:
 $ make docker-prod
 ```
 
+After you started the container you need to initialize the database:
+
+```sh
+$ docker-compose exec <YOUR_SERVER_TYPE> make db
+```
+
+where you need to replace `<YOUR_SERVER_TYPE>` with either `pricepicker-prod` or `pricepicker-dev`.
+
+
+
 Run tests:
 
 ```sh

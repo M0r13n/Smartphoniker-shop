@@ -10,6 +10,7 @@ x-default-volumes: &default_volumes
 
 x-default-environment: &default_environment
   REDIS_URL: redis://redis:6379/0
+  DATABASE_URL: postgresql://picker:#@db/pricepicker-v2
 
 services:
 
@@ -71,6 +72,7 @@ services:
       FLASK_ENV: development
       FLASK_DEBUG: 1
       LOG_LEVEL: debug
+      <<: *default_environment
 
   pricepicker-test:
     build:
