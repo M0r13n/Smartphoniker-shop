@@ -34,3 +34,6 @@ docker-test:
 
 docker-down:
 	docker-compose down
+
+publish:
+	git push scalingo master
