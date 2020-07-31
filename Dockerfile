@@ -1,6 +1,8 @@
 ARG INSTALL_PYTHON_VERSION=${INSTALL_PYTHON_VERSION:-3.8}
 FROM python:${INSTALL_PYTHON_VERSION}-slim-buster AS base
+LABEL maintainer="Leon Morten Richter <leon.morten@gmail.com>"
 
+# Install minimal dependencies which are not included in the python image
 RUN apt-get update
 RUN apt-get install -y \
     curl \
@@ -10,8 +12,10 @@ RUN apt-get install -y \
 
 WORKDIR /app
 
+# copy everything except files listed in the .dockerignore
 COPY . .
 
+# add a new user for running the app and transfer ownership of the application
 RUN useradd -m pricy
 RUN chown -R pricy:pricy /app
 USER pricy

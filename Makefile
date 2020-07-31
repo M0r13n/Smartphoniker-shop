@@ -21,7 +21,7 @@ db:
 	python manage.py create-db && python manage.py db upgrade && python manage.py create-admin && python manage.py create-data
 
 docker-build:
-	docker-compose build
+	docker-compose build && docker image prune -f
 
 docker-dev:
 	docker-compose up pricepicker-dev
@@ -31,3 +31,6 @@ docker-prod:
 
 docker-test:
 	docker-compose run --rm pricepicker-test
+
+docker-down:
+	docker-compose down

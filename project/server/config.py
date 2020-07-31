@@ -24,7 +24,6 @@ class BaseConfig(object):
     REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
     CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL", REDIS_URL)
     CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND_URL", REDIS_URL)
-    broker_transport_options = {"max_retries": 3, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
 
     # Tricoma stuff
     TRICOMA_BASE_URL = os.getenv("TRICOMA_BASE_URL")

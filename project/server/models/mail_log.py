@@ -5,7 +5,7 @@ import enum
 from flask_login import UserMixin
 
 from project.server import db
-from .crud import CRUDMixin
+from .base import BaseModel
 
 
 class MailStatus(enum.Enum):
@@ -16,7 +16,7 @@ class MailStatus(enum.Enum):
     ERROR = 5
 
 
-class MailLog(UserMixin, CRUDMixin, db.Model):
+class MailLog(BaseModel, UserMixin):
     __tablename__ = "mail_log"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

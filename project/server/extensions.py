@@ -47,10 +47,12 @@ def init_celery(app=None):
     if app is None:
         from project.server import create_app
         app = create_app()
+    celery.conf.update(app.config)
     celery.conf.broker_url = app.config["CELERY_BROKER_URL"]
     celery.conf.result_backend = app.config["CELERY_RESULT_BACKEND"]
-    celery.conf.redis_socket_timeout = 2.0
-    celery.conf.update(app.config)
+    celery.conf.broker_connection_max_retries = 3
+    celery.conf.broker_transport_options = {"max_retries": 3, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
+    celery.conf.task_publish_retry_policy = {"max_retries": 3, "interval_start": 0, "interval_step": 0.2, "interval_max": 0.5}
 
     class ContextTask(celery.Task):
         """Make celery tasks work with Flask app context"""

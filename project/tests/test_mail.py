@@ -1,4 +1,7 @@
 from project.server.common.email.message import make_email, EmailMessage, make_html_mail, EmailMultiAlternatives
+from project.server.models import MailLog
+from project.server.models.mail_log import MailStatus
+from project.tasks.email import send_email
 
 
 class TestEMail:
@@ -45,3 +48,21 @@ class TestEMail:
 
         mail.attach_alternative('A text Alternative', 'text/plain')
         assert mail.message()
+
+    def test_that_mail_log_entry_is_created(self, db):
+        # make sure that there arent any logs
+        assert not MailLog.query.all()
+        msg = make_html_mail(to_list="leon.morten@gmail.com", from_address="anfrage@smartphoniker.de",
+                             subject="Ich will das hier html drinnen ist", html_body="<h1> HEADER </h1>")
+
+        send_email(msg)
+
+        # now there should be exactly one log
+        assert len(MailLog.query.all()) == 1
+
+        # make sure that it's content is the same
+        log: MailLog = MailLog.query.first()
+        assert log.subject == msg['subject']
+        assert log.recipients == ''.join(msg['to'])
+        assert log.retries == 0
+        assert log.status == MailStatus.ERROR

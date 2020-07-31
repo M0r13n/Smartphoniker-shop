@@ -13,7 +13,7 @@ from flask_alchemydumps.cli import alchemydumps
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 from project.server.app import create_app, db
-from project.server.models import User, Shop, Manufacturer, Image, DeviceSeries, Device, Repair
+from project.server.models import *
 from project.server.models.device import Color
 from project.server.models.image import Default
 
@@ -75,13 +75,13 @@ def create_sample_data():
     Manufacturer.create(name="Xiaomi", activated=True)
     Manufacturer.create(name="ZTE")
 
-    iphone = DeviceSeries.create(manufacturer=apple, name="iPhone")
-    dev = Device.create(series=iphone, name="iPhone X")
-    Repair.create(device=dev, name="Display")
-
     # load svgs
     load_images()
     load_color_csv()
+
+    iphone = DeviceSeries.create(manufacturer=apple, name="iPhone")
+    dev = Device.create(series=iphone, name="iPhone X", colors=[Color.query.first()])
+    Repair.create(device=dev, name="Display")
 
     # Set default image for devices
     device_default_img_name = "default_phone.svg"
