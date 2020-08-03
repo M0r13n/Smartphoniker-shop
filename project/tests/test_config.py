@@ -13,13 +13,13 @@ class TestTestingConfig:
 
 class TestProductionConfig:
 
-    def test_app_is_production(self, prodapp):
-        assert prodapp
-        assert not prodapp.config['FLASK_DEBUG']
-        assert not prodapp.config['DEBUG']
-        assert not prodapp.config['DEBUG_TB_ENABLED']
-        assert prodapp.config['WTF_CSRF_ENABLED']
-        assert not prodapp.config['TESTING']
+    def test_app_is_production(self, app_prod):
+        assert app_prod
+        assert not app_prod.config['FLASK_DEBUG']
+        assert not app_prod.config['DEBUG']
+        assert not app_prod.config['DEBUG_TB_ENABLED']
+        assert app_prod.config['WTF_CSRF_ENABLED']
+        assert not app_prod.config['TESTING']
 
 
 class TestDevelopmentConfig:

@@ -9,6 +9,7 @@ from flask_admin import expose, helpers, AdminIndexView, BaseView
 from flask_admin.actions import action
 from flask_admin.contrib.rediscli import RedisCli
 from flask_admin.contrib.sqla import ModelView as _ModelView
+from flask_admin.form import SecureForm
 from flask_login import current_user, login_user, logout_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
@@ -49,7 +50,7 @@ class ProtectedBaseView(BaseView):
 
 class ProtectedModelView(_ModelView, ProtectedBaseView):
     """ Secured Model View """
-    pass
+    form_base_class = SecureForm
 
 
 class RedisView(RedisCli, ProtectedBaseView):

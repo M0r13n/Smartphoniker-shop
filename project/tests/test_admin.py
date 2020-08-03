@@ -2,6 +2,8 @@
 from flask import url_for
 from webtest import AppError
 
+from project.tests.utils import login
+
 
 class TestAdmin:
     def test_admin_config(self):
@@ -45,6 +47,10 @@ class TestAdmin:
         assert "Willkommen" in res
         assert "Log out" in res
         assert res.status_code == 200
+
+    def test_admin_login_shortcut(self, user, testapp):
+        response = login(testapp, user.email, "admin")
+        assert "Hier kannst du alle nötigen Einstellungen vornehmen und Geräte, sowie Reparaturen anlegen.".encode('utf-8') in response
 
     def test_admin_change_pw_protected(self, testapp):
         try:

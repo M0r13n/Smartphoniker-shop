@@ -1,6 +1,5 @@
 from project.server.common.email.message import make_email, EmailMessage, make_html_mail, EmailMultiAlternatives
 from project.server.models import MailLog
-from project.server.models.mail_log import MailStatus
 from project.tasks.email import send_email
 
 
@@ -65,4 +64,3 @@ class TestEMail:
         assert log.subject == msg['subject']
         assert log.recipients == ''.join(msg['to'])
         assert log.retries == 0
-        assert log.status == MailStatus.ERROR

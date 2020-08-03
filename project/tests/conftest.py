@@ -26,19 +26,24 @@ def app():
 
 
 @pytest.fixture
-def testapp(app):
-    """Create Webtest app."""
-    return TestApp(app)
-
-
-@pytest.fixture
-def prodapp(app):
+def app_prod(app):
     """Create a production app"""
     app.config.from_object("project.server.config.ProductionConfig")
     ctx = app.test_request_context()
     ctx.push()
     yield app
     ctx.pop()
+
+
+@pytest.fixture
+def testapp(app):
+    """Create Webtest app."""
+    return TestApp(app)
+
+
+@pytest.fixture
+def prodapp(app_prod):
+    return TestApp(app_prod)
 
 
 @pytest.fixture
