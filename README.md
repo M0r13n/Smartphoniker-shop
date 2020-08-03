@@ -61,7 +61,10 @@ $ make install
 Update *project/server/config.py*.
 By default the app is set to use the production configuration. If you would like to use the development configuration, you can alter the `APP_SETTINGS` environment variable:
 
-**PRO TIP**: Store all env vars inside a .env file, so that you dont have to set them all the time.
+**PRO TIP**: Store all env vars inside a `.local_env` file, so that you dont have to set them all the time.
+
+**DO NOT CREATE A `.env` file for your local dev env, because this file may be used inside docker!**
+
 ```sh
 $ export APP_SETTINGS=project.server.config.DevelopmentConfig
 ```

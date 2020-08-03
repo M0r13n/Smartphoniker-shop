@@ -33,6 +33,7 @@ def manufacturer():
     return render_template("shop/manufacturer.html", manufacturers=list(all_manufacturers_with_repairs), manufacturer_names=[manu.name for manu in all_manufacturers_with_repairs])
 
 
+@main_blueprint.route("/<string:manufacturer_name>")
 @main_blueprint.route("/<string:manufacturer_name>/series")
 def series(manufacturer_name):
     """ Return all series of the manufacturer, e.g. iPhone, iPad, etc """

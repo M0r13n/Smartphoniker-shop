@@ -10,7 +10,7 @@
 .coverage.*
 .eggs/
 .tox/
-.env
+.local_env
 venv*
 win*
 wenv*
