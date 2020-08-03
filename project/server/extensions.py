@@ -3,6 +3,7 @@ from celery import Celery
 from flask_admin import Admin
 from flask_alchemydumps import AlchemyDumps
 from flask_bcrypt import Bcrypt
+from flask_caching import Cache
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -20,6 +21,7 @@ from project.server.config import RAIDER_CONFIG
 login_manager = LoginManager()
 bcrypt = Bcrypt()
 alchemydumps = AlchemyDumps()
+cache = Cache()
 toolbar = DebugToolbarExtension()
 db = SQLAlchemy()
 celery = Celery()
@@ -111,9 +113,14 @@ def init_sqlalchemy(app):
     CRUDMixin.set_session(db.session)
 
 
+def init_cache(app):
+    cache.init_app(app)
+
+
 def init_extensions(app):
     login_manager.init_app(app)
     bcrypt.init_app(app)
+    init_cache(app)
     toolbar.init_app(app)
     init_sqlalchemy(app)
     migrate.init_app(app, db)

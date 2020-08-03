@@ -58,6 +58,12 @@ class BaseConfig(object):
     # Proxy Fix
     PROXY_FIX_NUM = os.getenv("PROXY_FIX_NUM", 0)
 
+    # Cacheing
+
+    CACHE_TYPE = os.getenv("CACHE_TYPE", "simple")
+    CACHE_DEFAULT_TIMEOUT = 300
+    CACHE_REDIS_URL = os.getenv("CACHE_REDIS_URL", REDIS_URL)
+
 
 class DevelopmentConfig(BaseConfig):
     """Development configuration."""

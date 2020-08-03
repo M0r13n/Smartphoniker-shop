@@ -4,6 +4,7 @@ import typing
 
 from flask import render_template, Blueprint, jsonify, abort, redirect, url_for, flash, session, request
 
+from project.server.extensions import cache
 from project.server.models import Manufacturer, DeviceSeries, Device, Customer, Order
 from project.server.models.queries import get_bestsellers
 from project.server.shop.actions import perform_post_complete_actions
@@ -16,8 +17,13 @@ main_blueprint = Blueprint("shop_blueprint", __name__)
 
 @main_blueprint.route("/")
 @main_blueprint.route("/home")
+@cache.cached()
 def home():
-    """ Render Homepage """
+    """
+    Render Homepage
+    --------------------------------------------------------------
+    This site should be cached, because it is the main entry point for many users.
+    """
     bestseller: typing.List[Device] = get_bestsellers()
     specialist_manufacturers = Manufacturer.query.filter(
         (Manufacturer.name == "Apple") | (Manufacturer.name == "Samsung") | (Manufacturer.name == "Huawei")
@@ -26,8 +32,13 @@ def home():
 
 
 @main_blueprint.route("/manufacturer")
+@cache.cached()
 def manufacturer():
-    """ Render a list of all manufacturers as a starting point """
+    """
+    Render a list of all manufacturers as a starting point
+    --------------------------------------------------------------
+    This site should be cached, because it is the main entry point for many users.
+    """
     all_manufacturers: typing.List[Manufacturer] = Manufacturer.query.filter(Manufacturer.activated == True).all()  # noqa
     all_manufacturers_with_repairs = filter(lambda manu: len(manu.series) > 0, all_manufacturers)
     return render_template("shop/manufacturer.html", manufacturers=list(all_manufacturers_with_repairs), manufacturer_names=[manu.name for manu in all_manufacturers_with_repairs])

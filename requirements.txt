@@ -19,15 +19,16 @@ entrypoints
 factory-boy
 Faker
 fancycompleter
-flake8
 sentry-sdk[flask]
 Flask
 Flask-Admin
 Flask-AlchemyDumps
 Flask-Bcrypt
+Flask-Caching
 Flask-DebugToolbar
 Flask-Login
 Flask-Migrate
+Flask-Sitemap
 Flask-SQLAlchemy
 Flask-Testing
 Flask-WTF
@@ -68,11 +69,14 @@ SQLAlchemy
 text-unidecode
 urllib3
 vine
-waitress
 wcwidth
 WebOb
 WebTest
 Werkzeug
 wmctrl
 WTForms
-Flask-Sitemap
+
+
+# Deployment
+gunicorn>=19.9.0
+supervisor==4.2.0
