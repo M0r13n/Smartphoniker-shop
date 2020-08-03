@@ -51,6 +51,7 @@ jobs:
       - name: Run tests with coverage and create report as xml file
         run: python manage.py cov
         env:
+          DATABASE_URL: postgresql://postgres:postgres@127.0.0.1/pricepicker
           APP_SETTINGS: project.server.config.TestingConfig
 
       - name: Run Flake8
