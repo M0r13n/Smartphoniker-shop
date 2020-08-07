@@ -1,5 +1,5 @@
 {% extends "_base.html" %}
-{% from "macros.html" import render_field with context %}
+{% from "macros.html" import render_field %}
 
 {% block content %}
     <form action="#" method="POST" novalidate>
@@ -30,6 +30,8 @@
                 <h2 class="customer__heading">Wie können wir helfen?</h2>
                 <div class="customer__content customer__content--infosection">
                     <div class="customer__inputs">
+                        {{ render_field(other_inquiry_form.first_name, "customer__inputwrapper customer__inputwrapper--full") }}
+                        {{ render_field(other_inquiry_form.last_name, "customer__inputwrapper customer__inputwrapper--full") }}
                         <!-- email Field -->
                         {{ render_field(other_inquiry_form.email, "customer__inputwrapper customer__inputwrapper--full", "Ihre E-Mail Adresse") }}
                         <!-- Problem Description Field -->

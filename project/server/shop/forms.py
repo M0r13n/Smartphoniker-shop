@@ -132,6 +132,22 @@ class FinalSubmitForm(SelectShopForm):
 
 
 class MiscForm(FlaskForm):
+    first_name = StringField(
+        "Vorname",
+        validators=[
+            DataRequired("Dieses Feld wird benötigt"),
+            Length(min=1, max=255, message="Der Name muss zwischen 1 und 255 Zeichen lang sein")
+        ]
+    )
+
+    last_name = StringField(
+        "Name",
+        validators=[
+            DataRequired("Dieses Feld wird benötigt"),
+            Length(min=1, max=255, message="Der Name muss zwischen 1 und 255 Zeichen lang sein")
+        ]
+    )
+
     email = EmailField(
         "Mail",
         validators=[
@@ -149,12 +165,13 @@ class MiscForm(FlaskForm):
         ]
     )
 
-    def create_model(self):
-        """ Create a new instance of MiscEnquiry with pre filled customer, descirption"""
+    def create_inquiry(self):
+        """ Create a new instance of MiscEnquiry with pre filled customer, description"""
         if not self.validate():
             raise ValueError("Form is invalid")
-        customer = Customer.query_by_mail(self.email.data)
+        customer: Customer = Customer.query_by_mail(self.email.data)
         if not customer:
             customer = Customer.create(email=self.email.data)
+        self.populate_obj(customer)
         inquiry = MiscInquiry.create(customer=customer, description=self.problem_description.data)
         return inquiry

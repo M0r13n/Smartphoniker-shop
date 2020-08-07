@@ -192,7 +192,7 @@ def other():
     """ Render other enquiry page """
     form = MiscForm()
     if form.validate_on_submit():
-        inquiry = form.create_model()
+        inquiry = form.create_inquiry()
         notify_shop_about_inquiry(inquiry)
         flash("Danke. Wir haben Ihre Anfrage erhalten!", "success")
         return redirect(url_for(".home"))
