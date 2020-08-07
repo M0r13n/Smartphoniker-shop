@@ -35,7 +35,7 @@ Flask-WTF
 idna
 itsdangerous
 Jinja2
-kombu
+kombu==4.6.11
 Mako
 MarkupSafe
 mccabe
