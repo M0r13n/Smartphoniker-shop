@@ -87,7 +87,7 @@ def _send_mail(mail_dto: dict):
 
 
 def notify_shop_about_inquiry(inquiry):
-    mail_body = render_template("mails/inquiry.html", email=inquiry.customer.email, description=inquiry.description)
+    mail_body = render_template("mails/inquiry.html", customer=inquiry.customer, description=inquiry.description)
     notification = make_html_mail(
         to_list=current_app.config['NOTIFICATION_MAILS'],
         from_address=current_app.config['MAIL_DEFAULT_SENDER'],
