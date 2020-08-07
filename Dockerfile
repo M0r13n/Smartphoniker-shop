@@ -23,6 +23,8 @@ USER pricy
 # add /home/pricy/.local/bin' to PATH
 ENV PATH="/home/pricy/.local/bin:${PATH}"
 
+# install deps which are the same for all apps
+RUN pip install --user -r ./requirements/requirements_base.txt
 
 # ================================= DEVELOPMENT ================================
 FROM base AS development
