@@ -22,10 +22,10 @@ with open(os.path.join('project', '__init__.py')) as f:
             break
 
 REQS: list = []
-with open(os.path.join('requirements', 'requirements_base.txt')) as f:
+with open(os.path.join('misc/requirements', 'requirements_base.txt')) as f:
     [REQS.append(line) for line in f.readlines()]
 
-with open(os.path.join('requirements', 'requirements_prod.txt')) as f:
+with open(os.path.join('misc/requirements', 'requirements_prod.txt')) as f:
     [REQS.append(line) for line in f.readlines()]
 
 setup(
