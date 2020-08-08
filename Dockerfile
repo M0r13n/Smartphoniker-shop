@@ -24,12 +24,12 @@ USER pricy
 ENV PATH="/home/pricy/.local/bin:${PATH}"
 
 # install deps which are the same for all apps
-RUN pip install --user -r ./requirements/requirements_base.txt
+RUN pip install --user -r ./misc/requirements/requirements_base.txt
 
 # ================================= DEVELOPMENT ================================
 FROM base AS development
 
-RUN pip install --user -r ./requirements/requirements_dev.txt
+RUN pip install --user -r ./misc/requirements/requirements_dev.txt
 
 EXPOSE 5000
 
@@ -38,20 +38,20 @@ CMD [ "python", "manage.py", "run", "-h", "0.0.0.0" ]
 # ================================= TEST ================================
 FROM base AS test
 
-RUN pip install --user -r ./requirements/requirements_dev.txt
+RUN pip install --user -r ./misc/requirements/requirements_dev.txt
 
 CMD [ "make", "test" ]
 
 # ================================= PRODUCTION =================================
 FROM base AS production
 
-RUN pip install --user -r ./requirements/requirements_prod.txt
+RUN pip install --user -r ./misc/requirements/requirements_prod.txt
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
-COPY supervisord_programs /etc/supervisor/conf.d
+COPY misc/supervisord_programs /etc/supervisor/conf.d
 
 EXPOSE 5000
 
-ENTRYPOINT ["/bin/bash", "shell_scripts/supervisord_entrypoint.sh"]
+ENTRYPOINT ["/bin/bash", "misc/supervisord_entrypoint.sh"]
 
 CMD ["-c", "/etc/supervisor/supervisord.conf"]

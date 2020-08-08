@@ -15,13 +15,13 @@ run:
 	python manage.py run
 
 install:
-	pip install -r ./requirements/requirements_base.txt && pip install -r ./requirements/requirements_dev.txt
+	pip install -r ./misc/requirements/requirements_base.txt && pip install -r ./misc/requirements/requirements_dev.txt
 
 db:
 	python manage.py create-db && python manage.py db upgrade && python manage.py create-admin && python manage.py create-data
 
-docker-build:
-	docker-compose build && docker image prune -f
+docker-build: docker-down
+	docker-compose build --parallel && docker image prune -f
 
 docker-dev:
 	docker-compose up pricepicker-dev
@@ -34,6 +34,3 @@ docker-test:
 
 docker-down:
 	docker-compose down
-
-publish:
-	git push scalingo master

@@ -38,7 +38,7 @@ services:
     stop_grace_period: 3s
     volumes:
       # all scripts in the /docker-entrypoint-initdb.d/init.sql will be executed when Postgres is initialized
-      - ./database_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./misc/database_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
       # add a new volume which will persist the database
       - postgres:/var/lib/postgresql/data/
     environment:
@@ -49,7 +49,7 @@ services:
   testdb:
     image: postgres:12
     volumes:
-      - ./database_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./misc/database_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       - POSTGRES_USER=test_user
       - POSTGRES_PASSWORD=test
