@@ -5,7 +5,7 @@ An online website for repair shops of smartphones.
 ## Getting Started
 
 
-### Docker (recommended)
+### Docker
 
 Build the application with `docker-compose` (the first build can take some time):
 
@@ -38,16 +38,10 @@ where you need to replace `<YOUR_SERVER_TYPE>` with either `pricepicker-prod` or
 Run tests:
 
 ```sh
-$ make docker-test
-```
-
-Execute command inside docker container. E.G. add sample data to your local dev server:
-
-```sh
 $ docker-compose exec pricepicker-dev make db
 ```
 
-### Without Docker (not recommended)
+### Without Docker
 
 Create and activate a virtual environment, and then install the requirements.
 

@@ -9,7 +9,7 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from .extensions import db, flask_admin, init_extensions
 
 
-def create_app(script_info=None):
+def create_app(app_settings: str = None):
     # instantiate the app
     app = Flask(
         __name__,
@@ -18,9 +18,11 @@ def create_app(script_info=None):
     )
 
     # set config
-    app_settings = os.getenv(
-        "APP_SETTINGS", "project.server.config.ProductionConfig"
-    )
+    if not app_settings:
+        app_settings = os.getenv(
+            "APP_SETTINGS", "project.server.config.ProductionConfig"
+        )
+
     app.config.from_object(app_settings)
 
     # set up extensions

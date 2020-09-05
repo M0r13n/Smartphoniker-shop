@@ -29,8 +29,5 @@ docker-dev:
 docker-prod:
 	docker-compose up pricepicker-prod
 
-docker-test:
-	docker-compose run --rm pricepicker-test
-
 docker-down:
 	docker-compose down

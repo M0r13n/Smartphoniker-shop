@@ -4,6 +4,8 @@ version: '3.7'
 x-build-args: &build_args
   INSTALL_PYTHON_VERSION: 3.8
 
+# mount the current directory to include all code
+# this overwrites things added by ADD/COPY
 x-default-volumes: &default_volumes
   volumes:
     - ./:/app
@@ -46,14 +48,6 @@ services:
       - POSTGRES_PASSWORD=#
       - POSTGRES_DB=pricepicker-v2
 
-  testdb:
-    image: postgres:12
-    volumes:
-      - ./misc/database_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
-    environment:
-      - POSTGRES_USER=test_user
-      - POSTGRES_PASSWORD=test
-      - POSTGRES_DB=test_db
 
   pricepicker-dev:
     # dev container
@@ -74,27 +68,8 @@ services:
       FLASK_ENV: development
       FLASK_DEBUG: 1
       LOG_LEVEL: debug
+      DATABASE_TEST_URL: postgresql://test:test@db/pricepickertest
       <<: *default_environment
-
-  pricepicker-test:
-    build:
-      context: .
-      target: test
-      args:
-        <<: *build_args
-    image: "pricepicker-test"
-    <<: *default_volumes
-
-    depends_on:
-      - testdb
-      - worker
-    environment:
-      FLASK_ENV: development
-      FLASK_DEBUG: 1
-      LOG_LEVEL: debug
-      DATABASE_TEST_URL: postgresql://test_user:test@testdb/test_db
-      DATABASE_URL: postgresql://test_user:test@testdb/test_db
-      REDIS_URL: redis://redis:6379/0
 
   pricepicker-prod:
     # production ready container with Celery worker and Redis
@@ -116,7 +91,6 @@ services:
       LOG_LEVEL: info
       GUNICORN_WORKERS: 4
       <<: *default_environment
-    <<: *default_volumes
 
   worker:
     # Celery background worker

@@ -2,6 +2,7 @@
 """Defines fixtures available to all tests."""
 
 import logging
+from project.server.config import TestingConfig
 
 import pytest
 from webtest import TestApp
@@ -14,8 +15,7 @@ from project.server.models import User, Manufacturer, Color, Device, Customer, S
 @pytest.fixture
 def app():
     """Create application for the tests."""
-    _app = create_app("tests.settings")
-    _app.config.from_object("project.server.config.TestingConfig")
+    _app = create_app("project.server.config.TestingConfig")
     _app.logger.setLevel(logging.CRITICAL)
     ctx = _app.test_request_context()
     ctx.push()
@@ -29,6 +29,7 @@ def app():
 def app_prod(app):
     """Create a production app"""
     app.config.from_object("project.server.config.ProductionConfig")
+    app.config['SQLALCHEMY_DATABASE_URI'] = TestingConfig.SQLALCHEMY_DATABASE_URI
     ctx = app.test_request_context()
     ctx.push()
     yield app
