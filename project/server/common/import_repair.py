@@ -31,7 +31,7 @@ def import_repairs(repair_file_content: str) -> typing.Tuple[int, str]:
             price = str_to_dec(price_str)
 
             if not color and color_string:
-                return False, f"Farbe {color} existiert nicht im System. Bitte wähle eine existierende! Achte darauf, dass der internal_name als Name erwartet wird."
+                return False, f"Farbe {color} existiert nicht im System. Bitte wähle eine existierende! Achte darauf, dass der *internal_name* als Name erwartet wird."
 
             if price is None:
                 return False, f"Der Preis '{price_str}' scheint kein valider Preis zu sein."
