@@ -97,11 +97,12 @@ class TestAdmin:
         assert len(result) == Repair.query.count() + 1
 
         for repair in Repair.query.all():
-            assert [
-                       repair.device.manufacturer.name,
-                       repair.device.series.name,
-                       repair.device.name,
-                       repair.name,
-                       "".join(color.name for color in repair.device.colors),
-                       str(repair.price)
-                   ] in result
+            entry = [
+                repair.device.manufacturer.name,
+                repair.device.series.name,
+                repair.device.name,
+                repair.name,
+                "".join(color.name for color in repair.device.colors),
+                str(repair.price)
+            ]
+            assert entry in result

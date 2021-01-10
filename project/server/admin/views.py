@@ -173,8 +173,13 @@ class SubmittedOrderView(OrderView):
     }
 
     def get_query(self):
-        return self.session.query(self.model).filter(self.model.complete == True).order_by(
-            self.model.timestamp.desc())  # noqa
+        return self.session.query(
+            self.model
+        ).filter(
+            self.model.complete == True  # noqa
+        ).order_by(
+            self.model.timestamp.desc()
+        )
 
 
 class PendingOrderView(OrderView):
@@ -185,8 +190,11 @@ class PendingOrderView(OrderView):
     column_list = ('timestamp', 'color', 'customer', 'repairs', 'problem_description')
 
     def get_query(self):
-        return self.session.query(self.model).filter(self.model.complete == False).order_by(
-            self.model.timestamp.desc())  # noqa
+        return self.session.query(self.model).filter(
+            self.model.complete == False  # noqa
+        ).order_by(
+            self.model.timestamp.desc()
+        )
 
 
 class DeviceView(AdminExportableModelView):
