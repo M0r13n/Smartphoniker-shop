@@ -345,7 +345,7 @@ class ImportView(ProtectedBaseView):
             if not count:
                 flash(err_msg, "danger")
             else:
-                flash(f"Import erfolgreich. Es wurden {count} Reparatruren erstellt")
+                flash(f"Import erfolgreich. Es wurden {count} Reparatruren erstellt oder aktualisiert!")
 
         self._template_args['form'] = form
         return self.render('admin/import/import.html')

@@ -38,7 +38,7 @@ def import_repairs(repair_file_content: str) -> typing.Tuple[int, str]:
                 return False, f"Der Preis '{price_str}' scheint kein valider Preis zu sein."
 
             repair = create_new_or_skip_existing(repair, device, price)
-            repair.colors = colors
+            repair.device.colors = colors
             repair.save()
             if repair:
                 counter += 1
@@ -69,7 +69,7 @@ def create_new_or_skip_existing(rep_name: str, device: Device, price: decimal.De
     if rep.price != price:
         flash(f"Updating {rep}: Setting price from {rep.price} to {price}")
     else:
-        logger.debug(f"Skipping {rep} because it exists.")
+        logger.info(f"Skipping {rep} because it exists.")
     return rep
 
 
@@ -97,4 +97,4 @@ def device_create_or_get(series: DeviceSeries, device_name: str) -> Device:
 
 def get_colors(color: str) -> typing.List[Color]:
     colors = color.split(",")
-    return [Color.query.filter(Color.name == color).first() for color in colors]
+    return Color.query.filter(Color.name.in_(color.strip() for color in colors)).all()

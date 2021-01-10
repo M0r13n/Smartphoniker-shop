@@ -105,6 +105,3 @@ class TestAdmin:
                        "".join(color.name for color in repair.device.colors),
                        str(repair.price)
                    ] in result
-
-    def test_import(self):
-        pass
