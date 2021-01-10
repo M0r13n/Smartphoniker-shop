@@ -319,7 +319,7 @@ class RepairView(AdminExportableModelView):
     column_formatters = {'device.name': link_to_device_formatter}
 
     # Define the export
-    column_export_list = ['device.manufacturer', 'device.series', 'device.name', 'device.colors', 'name', 'price']
+    column_export_list = ['device.manufacturer', 'device.series', 'device.name', 'name', 'device.colors', 'price']
     # Default is None, which would cause Flask-Admin to use :column_formatters:
     # :column_formatters: currently transforms the name of each device into a clickable link.
     # In order to prevent this behaviour we set column_formatters_export to an empty dict.

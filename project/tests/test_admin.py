@@ -1,7 +1,10 @@
 # project/server/tests/test_main.py
+import csv
+
 from flask import url_for
 from webtest import AppError
 
+from project.server.models import Repair
 from project.tests.utils import login
 
 
@@ -50,7 +53,8 @@ class TestAdmin:
 
     def test_admin_login_shortcut(self, user, testapp):
         response = login(testapp, user.email, "admin")
-        assert "Hier kannst du alle nötigen Einstellungen vornehmen und Geräte, sowie Reparaturen anlegen.".encode('utf-8') in response
+        assert "Hier kannst du alle nötigen Einstellungen vornehmen und Geräte, sowie Reparaturen anlegen.".encode(
+            'utf-8') in response
 
     def test_admin_change_pw_protected(self, testapp):
         try:
@@ -82,3 +86,25 @@ class TestAdmin:
             url = url_for(endpoint)
             response = testapp.get(url)
             assert response.status_code == 200
+
+    def test_export(self, user, sample_repair, another_repair, db, testapp):
+        login(testapp, user.email, "admin")
+        response = testapp.get("http://localhost:5000/admin/repair/export/csv/")
+        cr = csv.reader(response.text.splitlines(), delimiter=',')
+
+        result = list(cr)
+
+        assert len(result) == Repair.query.count() + 1
+
+        for repair in Repair.query.all():
+            assert [
+                       repair.device.manufacturer.name,
+                       repair.device.series.name,
+                       repair.device.name,
+                       repair.name,
+                       "".join(color.name for color in repair.device.colors),
+                       str(repair.price)
+                   ] in result
+
+    def test_import(self):
+        pass
