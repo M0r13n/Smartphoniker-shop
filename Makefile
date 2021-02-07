@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 all: minify
 
 minify: minify-css minify-js

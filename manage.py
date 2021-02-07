@@ -148,7 +148,7 @@ def create_db():
     db.drop_all()
     print("Creating tables...")
     db.create_all()
-    print("Activate Extensions...")
+    print("Committing...")
     db.session.commit()
     print("DB created successfully!")
 

@@ -1,5 +1,5 @@
 alembic
-celery
+celery==4.4.7 # Next version 5.0 introduces breaking changes
 coverage
 entrypoints
 Faker
@@ -16,7 +16,7 @@ Flask-SQLAlchemy
 Flask-Testing
 Flask-WTF
 Jinja2
-kombu == 4.6.11
+kombu==4.6.11
 psycopg2-binary
 py-vigil-reporter
 py-raider-reporter
@@ -25,6 +25,7 @@ pytest-cov
 python-dateutil
 python-dotenv
 redis
+vine==1.3.0 # 5.0.0 has no fice.py file
 speaklater
 email_validator
 sentry-sdk[flask]
