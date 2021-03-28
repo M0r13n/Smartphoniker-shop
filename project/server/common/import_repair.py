@@ -6,6 +6,7 @@ from io import StringIO
 
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import FlushError
+from flask import flash
 
 from project.server import db
 from project.server.models import Manufacturer, DeviceSeries, Device, Color, Repair
@@ -22,21 +23,23 @@ def import_repairs(repair_file_content: str) -> typing.Tuple[int, str]:
         return False, "Es werden genau 6 Spalten benötigt. Herstelle,Serie,Gerät,Farbe,Reparatur,Preis (in €)"
 
     counter = 0
-    for manufacturer, series, device, color_string, repair, price_str in csv_reader:
+    for manufacturer, series, device, repair, color_string, price_str in csv_reader:
         try:
             manufacturer = manufacturer_create_or_get(manufacturer)
             series = series_create_or_get(manufacturer, series)
             device = device_create_or_get(series, device)
-            color = get_color(color_string)
+            colors = get_colors(color_string)
             price = str_to_dec(price_str)
 
-            if not color and color_string:
-                return False, f"Farbe {color} existiert nicht im System. Bitte wähle eine existierende! Achte darauf, dass der internal_name als Name erwartet wird."
+            if not colors and color_string:
+                return False, f"Farbe {color_string} existiert nicht im System. Bitte wähle eine existierende! Achte darauf, dass der *internal_name* als Name erwartet wird."
 
             if price is None:
                 return False, f"Der Preis '{price_str}' scheint kein valider Preis zu sein."
 
             repair = create_new_or_skip_existing(repair, device, price)
+            repair.device.colors = colors
+            repair.save()
             if repair:
                 counter += 1
         except (IntegrityError, FlushError,) as e:
@@ -57,11 +60,17 @@ def str_to_dec(price: str) -> typing.Optional[decimal.Decimal]:
 
 
 def create_new_or_skip_existing(rep_name: str, device: Device, price: decimal.Decimal) -> typing.Optional[Repair]:
-    repair = list(filter(lambda rep: rep.name == rep_name, device.repairs))
-    if not repair:
+    repairs: typing.List[Repair] = list(filter(lambda rep: rep.name == rep_name, device.repairs))
+    if not repairs:
         return Repair.create(name=rep_name, device=device, price=price)
-    logger.debug(f"Skipping {repair} because it exists.")
-    return None
+
+    # Repair does already exist:
+    rep = repairs[0]
+    if rep.price != price:
+        flash(f"Updating {rep}: Setting price from {rep.price} to {price}")
+    else:
+        logger.info(f"Skipping {rep} because it exists.")
+    return rep
 
 
 def manufacturer_create_or_get(manufacturer: str) -> Manufacturer:
@@ -86,5 +95,6 @@ def device_create_or_get(series: DeviceSeries, device_name: str) -> Device:
     return device
 
 
-def get_color(color: str) -> typing.Optional[Color]:
-    return Color.query.filter(Color.internal_name == color).first()
+def get_colors(color: str) -> typing.List[Color]:
+    colors = color.split(",")
+    return Color.query.filter(Color.name.in_(color.strip() for color in colors)).all()

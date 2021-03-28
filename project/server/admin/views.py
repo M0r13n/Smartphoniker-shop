@@ -158,7 +158,9 @@ class SubmittedOrderView(OrderView):
     """ Submitted Orders """
     can_delete = False
 
-    column_list = ('timestamp', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description', 'customer_wishes_shipping_label')
+    column_list = (
+        'timestamp', 'kva', 'shop', 'color', 'customer', 'repairs', 'problem_description',
+        'customer_wishes_shipping_label')
     column_labels = {
         'timestamp': 'Zeitstempel',
         'kva': 'Kostenvoranschlag',
@@ -171,7 +173,13 @@ class SubmittedOrderView(OrderView):
     }
 
     def get_query(self):
-        return self.session.query(self.model).filter(self.model.complete == True).order_by(self.model.timestamp.desc())  # noqa
+        return self.session.query(
+            self.model
+        ).filter(
+            self.model.complete == True  # noqa
+        ).order_by(
+            self.model.timestamp.desc()
+        )
 
 
 class PendingOrderView(OrderView):
@@ -182,7 +190,11 @@ class PendingOrderView(OrderView):
     column_list = ('timestamp', 'color', 'customer', 'repairs', 'problem_description')
 
     def get_query(self):
-        return self.session.query(self.model).filter(self.model.complete == False).order_by(self.model.timestamp.desc())  # noqa
+        return self.session.query(self.model).filter(
+            self.model.complete == False  # noqa
+        ).order_by(
+            self.model.timestamp.desc()
+        )
 
 
 class DeviceView(AdminExportableModelView):
@@ -210,7 +222,8 @@ class DeviceView(AdminExportableModelView):
         except IndexError:
             flash("Bitte wähle mindestens 1 Gerät aus.")
             return
-        flash(f"Die Geräte wurden erfolgreich zu {merger.name} zusammengeführt. Bitte passe den Namen an und prüfe die Bilder.")
+        flash(
+            f"Die Geräte wurden erfolgreich zu {merger.name} zusammengeführt. Bitte passe den Namen an und prüfe die Bilder.")
         return redirect(url_for('device.edit_view', id=merger.id))
 
     @action(
@@ -302,10 +315,23 @@ class RepairView(AdminExportableModelView):
     column_sortable_list = ['device.name', 'name', 'image', 'price']
     column_editable_list = ['device', 'name', 'price', 'image']
     column_list = ['device.name', 'name', 'price', 'image']
-    column_labels = {'device.name': 'Gerät'}
+    column_labels = {
+        'device.name': 'Gerät',
+        'device.manufacturer': 'Hersteller',
+        'device.series': 'Serie',
+        'device.colors': 'Farben',
+        'price': 'Preis ',
+    }
     column_filters = ('device.name', 'name', 'price')
 
     column_formatters = {'device.name': link_to_device_formatter}
+
+    # Define the export
+    column_export_list = ['device.manufacturer', 'device.series', 'device.name', 'name', 'device.colors', 'price']
+    # Default is None, which would cause Flask-Admin to use :column_formatters:
+    # :column_formatters: currently transforms the name of each device into a clickable link.
+    # In order to prevent this behaviour we set column_formatters_export to an empty dict.
+    column_formatters_export = {}
 
 
 class ImageView(AdminExportableModelView):
@@ -327,7 +353,7 @@ class ImportView(ProtectedBaseView):
             if not count:
                 flash(err_msg, "danger")
             else:
-                flash(f"Import erfolgreich. Es wurden {count} Reparatruren erstellt")
+                flash(f"Import erfolgreich. Es wurden {count} Reparatruren erstellt oder aktualisiert!")
 
         self._template_args['form'] = form
         return self.render('admin/import/import.html')
