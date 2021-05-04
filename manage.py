@@ -9,7 +9,6 @@ from pathlib import Path
 import click
 import coverage
 from flask.cli import FlaskGroup
-from flask_alchemydumps.cli import alchemydumps
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 from project.server.app import create_app, db
@@ -19,9 +18,6 @@ from project.server.models.image import Default
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
-
-# Sub groups
-cli.add_command(alchemydumps)
 
 HERE = os.path.abspath(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.join(HERE, "project")

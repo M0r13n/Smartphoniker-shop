@@ -5,7 +5,6 @@ entrypoints
 Faker
 Flask
 Flask-Admin
-Flask-AlchemyDumps
 Flask-Bcrypt
 Flask-Caching
 Flask-DebugToolbar
