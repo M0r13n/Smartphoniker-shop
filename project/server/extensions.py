@@ -1,7 +1,6 @@
 import sentry_sdk
 from celery import Celery
 from flask_admin import Admin
-from flask_alchemydumps import AlchemyDumps
 from flask_bcrypt import Bcrypt
 from flask_caching import Cache
 from flask_debugtoolbar import DebugToolbarExtension
@@ -20,7 +19,6 @@ from project.server.config import RAIDER_CONFIG
 
 login_manager = LoginManager()
 bcrypt = Bcrypt()
-alchemydumps = AlchemyDumps()
 cache = Cache()
 toolbar = DebugToolbarExtension()
 db = SQLAlchemy()
@@ -128,7 +126,6 @@ def init_extensions(app):
     tricoma_api.init_app(app)
     init_login(app)
     init_celery(app)
-    alchemydumps.init_app(app, db)
     redis_client.init_app(app)
     start_vigil_reporter(app)
 
