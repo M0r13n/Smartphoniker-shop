@@ -88,6 +88,58 @@
                         </div>
                     {% endfor %}
                 </div>
+                {% if manufacturer == "Apple" %}
+                    <div class="grid__info">
+                        <p class="grid__text">Wie unterscheidet sich ein Standard-Display von einem Premium-Display?</p>
+                        <ul class="grid__list">
+                            <li>
+                                <span>Eigenschaft</span>
+                                <span>Premium</span>
+                                <span>Standard</span>
+                            </li>
+                            <li>
+                                <span>Displaydicke (wie Original)</span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                                <span>etwas dicker</span>
+                            </li>
+                            <li>
+                                <span>Helligkeit (wie Original)</span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                                <span>etwas dunkler</span>
+                            </li>
+                            <li>
+                                <span>Farbqualität (wie Original)</span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                                <span>etwas weniger Brillianz</span>
+                            </li>
+                            <li>
+                                <span>True Tone (ab iPhone 8)</span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                                <span>nicht vorhanden</span>
+                            </li>
+                            <li>
+                                <span>3D Touch (iphone 6s-X)</span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                            </li>
+                            <li>
+                                <span>Pre-Qualitätscheck</span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                            </li>
+                            <li>
+                                <span>lebenslange Garantie</span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                            </li>
+                            <li>
+                                <span>Bruchsicherheit (wie Original)</span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                                <span><img src="{{ url_for('static', filename='images/checkmark.svg') }}" alt="Checkmark"></span>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
             </section>
         </div>
 
