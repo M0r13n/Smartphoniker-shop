@@ -26,7 +26,7 @@ def home():
     """
     bestseller: typing.List[Device] = get_bestsellers()
     specialist_manufacturers = Manufacturer.query.filter(
-        (Manufacturer.name == "Apple") | (Manufacturer.name == "Samsung") | (Manufacturer.name == "Huawei")
+        (Manufacturer.name == "Samsung") | (Manufacturer.name == "Huawei")
     ).all()
     return render_template("shop/home.html", bestseller=bestseller, specialist_manufacturers=specialist_manufacturers)
 
