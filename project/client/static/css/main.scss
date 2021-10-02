@@ -57,9 +57,9 @@ $xxxlarge: 2560px;
 // -------------  General Styling  ---------------
 // -----------------------------------------------
 
-* {
-    // outline: .5px dashed red;
-}
+// * {
+//     outline: .5px dashed red;
+// }
 
 .preload * {
     -webkit-transition: none !important;
@@ -2074,5 +2074,80 @@ footer {
         margin: 0 auto;
         max-width: 240px;
         height: 40px;
+    }
+}
+
+
+// -----------------------------------------------
+// --------------  Cookie-Banner  ----------------
+// -----------------------------------------------
+
+
+#cookies-eu-banner {
+    z-index: 100000;
+    position: fixed;
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    @include color(primary, true);
+    // background-color: black;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 16px;
+    filter: drop-shadow(40px px -4px rgba(0, 0, 0, 1));
+
+    @media screen and (min-width: $large) {
+        justify-content: center;
+        flex-wrap: nowrap;
+    }
+
+    & p {
+        color: white;
+        margin-bottom: 16px;
+        width: 100%;
+        max-width: calc(100% - 32px);
+        font-size: 14px;
+
+        & > a {
+            color: white;
+            text-transform: none;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+
+        @media screen and (min-width: $large) {
+            margin-bottom: 0;
+            width: unset;
+        }
+    }
+
+    & button {
+        font-size: 100%;
+        border: 0;
+        background-color: transparent;
+        color: white;
+        width: 45%;
+        padding: 4px 8px;
+        max-width: 140px;
+        transition: transform 0.2s ease;
+
+        &:last-of-type {
+            background-color: white;
+            color: black;
+
+            @media screen and (min-width: $medium) {
+                margin-right: 32px;
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+            transform: scale(1.1);
+        }
+
+        @media screen and (min-width: $medium) {
+            width: 140px;
+        }
     }
 }

@@ -40,6 +40,7 @@
 
 <body class="preload">
 
+{% include 'cookie-banner.html' %}
 {% include 'header.html' %}
 
 <main>
@@ -65,9 +66,28 @@
 {% if config['DEBUG'] %}
     {# Dev #}
     <script src="{{ url_for('static', filename='scripts/script.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='scripts/cookie-banner.js') }}" type="text/javascript"></script>
+    <script>
+        // Cookie Banner Function
+        new CookiesEuBanner(function () {
+            console.log("analytics accepted");
+        }, true);
+    </script>
 {% else %}
     {# Prod #}
     <script src="{{ url_for('static', filename='scripts/script.min.js') }}" type="text/javascript"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BF14NH0P4R"></script>
+    <script src="{{ url_for('static', filename='scripts/cookie-banner.min.js') }}" type="text/javascript"></script>
+    <script>
+        // Cookie Banner Function
+        new CookiesEuBanner(function () {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+    
+            gtag('config', 'G-BF14NH0P4R');
+        }, true);
+    </script>    
 {% endif %}
 </body>
 </html>
