@@ -6,6 +6,7 @@ minify: minify-css minify-js
 
 minify-js:
 	curl -X POST -s --data-urlencode 'input@project/client/static/scripts/script.js' https://javascript-minifier.com/raw > project/client/static/scripts/script.min.js
+	curl -X POST -s --data-urlencode 'input@project/client/static/scripts/cookie-banner.js' https://javascript-minifier.com/raw > project/client/static/scripts/cookie-banner.min.js
 
 minify-css:
 	curl -X POST -s --data-urlencode 'input@project/client/static/css/main.css' https://cssminifier.com/raw > project/client/static/css/main.min.css

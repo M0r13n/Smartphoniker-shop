@@ -2,9 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap");
 .preload * {
   -webkit-transition: none !important;
-  -moz-transition: none !important;
-  -ms-transition: none !important;
-  -o-transition: none !important;
+  transition: none !important;
 }
 
 body {
@@ -1111,6 +1109,46 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   max-height: 450px !important;
 }
 
+.grid__info {
+  margin-top: 4em;
+}
+
+.grid__list {
+  padding-left: 0;
+}
+
+.grid__list li {
+  color: #424242;
+  width: 80%;
+  margin: .5em 0;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 40% 1fr 1fr;
+      grid-template-columns: 40% 1fr 1fr;
+  font-weight: 300;
+}
+
+.grid__list li:first-of-type {
+  color: black;
+  background-color: #D8D8D8;
+  height: 2em;
+  display: -ms-grid;
+  display: grid;
+  place-items: center left;
+  font-weight: 400;
+}
+
+.grid__list li img {
+  max-height: 1em;
+  width: 5em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
 .grid__content {
   display: -ms-grid;
   display: grid;
@@ -1960,6 +1998,11 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   margin-top: 1em;
 }
 
+.success__button--small {
+  max-width: 400px;
+  margin-bottom: 4em;
+}
+
 .success__link {
   color: #FF6C00;
   word-wrap: break-word;
@@ -2036,4 +2079,78 @@ footer .footer__credit-links:visited, footer .footer__credit-links:active, foote
   max-width: 240px;
   height: 40px;
 }
-/*# sourceMappingURL=shop.css.map */
+
+#cookies-eu-banner {
+  position: fixed;
+  text-align: center;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 16px;
+  -webkit-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+          filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}
+
+@media screen and (min-width: 800px) {
+  #cookies-eu-banner {
+    width: 65%;
+    margin: 0;
+    padding-top: 1em;
+  }
+}
+
+#cookies-eu-banner p {
+  color: white;
+  margin-bottom: 16px;
+  width: 100%;
+  font-size: 12px;
+}
+
+#cookies-eu-banner p > a {
+  color: white;
+  text-transform: none;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+@media screen and (min-width: 800px) {
+  #cookies-eu-banner p {
+    margin-bottom: 0;
+    width: unset;
+  }
+}
+
+#cookies-eu-banner button {
+  color: grey;
+  width: 45%;
+  padding: 4px 8px;
+  max-width: 140px;
+}
+
+#cookies-eu-banner button:last-of-type {
+  background-color: white;
+  color: black;
+  -webkit-transition: -webkit-transform 0.2s ease;
+  transition: -webkit-transform 0.2s ease;
+  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, -webkit-transform 0.2s ease;
+}
+
+#cookies-eu-banner button:last-of-type:hover {
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+@media screen and (min-width: 800px) {
+  #cookies-eu-banner button {
+    width: 140px;
+  }
+}
+/*# sourceMappingURL=main.css.map */
