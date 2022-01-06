@@ -1,5 +1,5 @@
 alembic
-celery==4.4.7 # Next version 5.0 introduces breaking changes
+celery==5.2.2 # Next version 5.0 introduces breaking changes
 coverage
 entrypoints
 Faker
