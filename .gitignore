@@ -11,6 +11,7 @@
 .eggs/
 .tox/
 .local_env
+.env
 venv*
 win*
 wenv*

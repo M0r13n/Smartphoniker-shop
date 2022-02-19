@@ -8,13 +8,16 @@ from pathlib import Path
 
 import click
 import coverage
+from flask import current_app
 from flask.cli import FlaskGroup
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 from project.server.app import create_app, db
+from project.server.common.email.message import make_html_mail
 from project.server.models import *
 from project.server.models.device import Color
 from project.server.models.image import Default
+from project.tasks.email import _send_mail
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -219,6 +222,16 @@ def test_sentry():
     logger.error("I am a test log message")
     raise ValueError("This should be visible on sentry.io")
 
+@cli.command()
+def send_mail():
+    mail = make_html_mail(
+        to_list=current_app.config['NOTIFICATION_MAILS'],
+        from_address=current_app.config['MAIL_DEFAULT_SENDER'],
+        subject="Neue Anfrage über den Pricepicker",
+        html_body="<b>This ia a test mail</b>",
+        text_body="This ia a test mail"
+    )
+    _send_mail(mail)
 
 if __name__ == "__main__":
     cli()
