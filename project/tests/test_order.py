@@ -1,6 +1,5 @@
 from flask import session
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm.exc import FlushError
 
 from project.server.models import Repair, Order
 
@@ -61,7 +60,7 @@ class TestOrder:
         try:
             order.repairs = [sample_repair, sample_repair]
             assert False
-        except FlushError:
+        except IntegrityError:
             return True
 
     def test_deserialize(self, sample_color, sample_repair, sample_shop):

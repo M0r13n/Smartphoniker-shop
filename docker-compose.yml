@@ -33,7 +33,7 @@ services:
 
     volumes:
       # persist redis data - uncomment this if you do not want to persist redis data
-      # - redis_data:/var/lib/redis
+      - redis_data:/var/lib/redis
       # copy redis.conf
       - ./redis.conf:/usr/local/etc/redis/redis.conf
 
