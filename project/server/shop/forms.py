@@ -1,9 +1,8 @@
 import typing
 
+from flask_admin.contrib.sqla.fields import QuerySelectField
 from flask_wtf import FlaskForm
-from wtforms import SelectField, TextAreaField, SelectMultipleField, StringField, BooleanField, SubmitField
-from wtforms_sqlalchemy.fields import QuerySelectField
-from wtforms.fields import EmailField
+from wtforms import SelectField, TextAreaField, SelectMultipleField, StringField, BooleanField, SubmitField, EmailField
 from wtforms.validators import DataRequired, Length, Email
 
 from project.server.models import Color, Repair, Shop, Order, Customer

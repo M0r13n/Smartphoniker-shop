@@ -49,7 +49,8 @@ class Device(db.Model, CRUDMixin, ImageMixin, OrderableMixin):
         back_populates="devices"
     )
 
-    repairs = db.relationship("Repair", back_populates="device", cascade="all, delete-orphan")
+    repairs = db.relationship("Repair", back_populates="device", cascade="all, delete-orphan",
+                              order_by='Repair.order_index.asc()')
 
     __table_args__ = (
         Index(

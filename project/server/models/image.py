@@ -2,7 +2,7 @@ import enum
 import typing
 
 from flask import url_for
-from sqlalchemy.ext.declarative.base import declared_attr
+from sqlalchemy.orm.decl_api import declared_attr
 
 from project.server import db
 from project.server.models.crud import CRUDMixin
