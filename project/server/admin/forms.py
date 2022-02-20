@@ -11,11 +11,11 @@ from project.server.models import User
 class LoginForm(FlaskForm):
     email = StringField(
         validators=[
-            validators.required(),
+            validators.DataRequired(),
             validators.Email()
         ]
     )
-    password = PasswordField(validators=[validators.required()])
+    password = PasswordField(validators=[validators.DataRequired()])
 
     def validate_email(self, field):
         user = self.get_user()
@@ -29,13 +29,13 @@ class LoginForm(FlaskForm):
 class ChangePasswordForm(FlaskForm):
     old_password = PasswordField(
         validators=[
-            validators.required()
+            validators.DataRequired()
         ]
     )
     new_password = PasswordField(
         "New Password",
         validators=[
-            validators.required(),
+            validators.DataRequired(),
             validators.Length(min=8, message="You need at least 8 characters"),
             validators.EqualTo('new_password_confirmation', message='Passwords must match')
         ]

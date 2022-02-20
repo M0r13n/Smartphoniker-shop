@@ -2,7 +2,7 @@ version: '3.7'
 
 # default params
 x-build-args: &build_args
-  INSTALL_PYTHON_VERSION: 3.8
+  INSTALL_PYTHON_VERSION: 3.9
 
 # mount the current directory to include all code
 # this overwrites things added by ADD/COPY
@@ -14,6 +14,12 @@ x-default-environment: &default_environment
   CACHE_TYPE: redis
   DATABASE_URL: postgresql://picker:#@db/pricepicker-v2
   REDIS_URL: redis://redis:6379/0
+  MAIL_DEFAULT_SENDER: ${MAIL_DEFAULT_SENDER}
+  MAIL_USERNAME: ${MAIL_USERNAME}
+  MAIL_PASSWORD: ${MAIL_PASSWORD}
+  MAIL_SERVER: ${MAIL_SERVER}
+  MAIL_USE_SSL: ${MAIL_USE_SSL}
+  MAIL_PORT: ${MAIL_PORT}
 
 services:
 
@@ -95,7 +101,7 @@ services:
   worker:
     # Celery background worker
     build: .
-    command: celery worker -A project.server.celery_app:app --loglevel=info
+    command: celery -A project.server.celery_app:app worker --loglevel=debug
     depends_on:
       - redis
     environment:

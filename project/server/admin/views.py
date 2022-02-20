@@ -197,7 +197,49 @@ class PendingOrderView(OrderView):
         )
 
 
-class DeviceView(AdminExportableModelView):
+class SortableMixin:
+    @action(
+        "normalize",
+        "Normalisieren",
+        "Sollen die ausgewählten Elemente normalisiert werden?",
+    )
+    def action_normalize(self: BaseView, ids):
+        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
+            self.model.order_index
+        )
+        for i, model in enumerate(selected):
+            model.order_index = i
+            model.save()
+        return redirect(url_for(".index_view"))
+
+    @action(
+        "move_up",
+        "Nach oben bewegen",
+        "Sollen die ausgewählten Elemente nach oben verschoben werden?",
+    )
+    def action_move_up(self: BaseView, ids):
+        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
+            self.model.order_index
+        )
+        for item in selected:
+            item.move_up()
+        return redirect(url_for(".index_view"))
+
+    @action(
+        "move_down",
+        "Nach unten bewegen",
+        "Sollen die ausgewählten Elemente nach unten verschoben werden?",
+    )
+    def action_move_down(self: BaseView, ids):
+        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
+            self.model.order_index.desc()
+        )
+        for item in selected:
+            item.move_down()
+        return redirect(url_for(".index_view"))
+
+
+class DeviceView(AdminExportableModelView, SortableMixin):
     """ Create and manage devices """
     form_excluded_columns = ['orders', 'repairs']
 
@@ -215,7 +257,7 @@ class DeviceView(AdminExportableModelView):
     def action_approve(self, ids):
         try:
             merger = Device.merge(ids)
-        except (IntegrityError, FlushError)as e:
+        except (IntegrityError, FlushError) as e:
             flash("Zusammenführen fehlgeschlagen", "danger")
             current_app.logger.error(e)
             return
@@ -225,20 +267,6 @@ class DeviceView(AdminExportableModelView):
         flash(
             f"Die Geräte wurden erfolgreich zu {merger.name} zusammengeführt. Bitte passe den Namen an und prüfe die Bilder.")
         return redirect(url_for('device.edit_view', id=merger.id))
-
-    @action(
-        "normalize",
-        "Normalisieren",
-        "Sollen die ausgewählten Elemente normalisiert werden?",
-    )
-    def action_normalize(self, ids):
-        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
-            self.model.order_index
-        )
-        for i, model in enumerate(selected):
-            model.order_index = i
-            model.save()
-        return redirect(url_for(".index_view"))
 
     @action(
         "normalize_by_name",
@@ -254,32 +282,6 @@ class DeviceView(AdminExportableModelView):
             model.order_index = i
             model.save()
 
-        return redirect(url_for(".index_view"))
-
-    @action(
-        "move_up",
-        "Nach oben bewegen",
-        "Sollen die ausgewählten Elemente nach oben verschoben werden?",
-    )
-    def action_move_up(self, ids):
-        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
-            self.model.order_index
-        )
-        for item in selected:
-            item.move_up()
-        return redirect(url_for(".index_view"))
-
-    @action(
-        "move_down",
-        "Nach unten bewegen",
-        "Sollen die ausgewählten Elemente nach unten verschoben werden?",
-    )
-    def action_move_down(self, ids):
-        selected = self.model.query.filter(self.model.id.in_(ids)).order_by(
-            self.model.order_index.desc()
-        )
-        for item in selected:
-            item.move_down()
         return redirect(url_for(".index_view"))
 
 
@@ -304,7 +306,7 @@ class DeviceSeriesView(AdminExportableModelView):
     column_editable_list = ['name', 'manufacturer']
 
 
-class RepairView(AdminExportableModelView):
+class RepairView(AdminExportableModelView, SortableMixin):
     """ Repair View """
     form_excluded_columns = ['orders']
     form_widget_args = {
@@ -312,9 +314,9 @@ class RepairView(AdminExportableModelView):
         }
     }
 
-    column_sortable_list = ['device.name', 'name', 'image', 'price']
-    column_editable_list = ['device', 'name', 'price', 'image']
-    column_list = ['device.name', 'name', 'price', 'image']
+    column_sortable_list = ['device.name', 'name', 'image', 'price', 'order_index']
+    column_editable_list = ['device', 'name', 'price', 'image', 'order_index']
+    column_list = ['device.name', 'name', 'price', 'image', 'order_index']
     column_labels = {
         'device.name': 'Gerät',
         'device.manufacturer': 'Hersteller',
