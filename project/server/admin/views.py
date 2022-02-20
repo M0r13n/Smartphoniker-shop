@@ -210,7 +210,6 @@ class SortableMixin:
         for i, model in enumerate(selected):
             model.order_index = i
             model.save()
-        return redirect(url_for(".index_view"))
 
     @action(
         "move_up",
@@ -223,7 +222,6 @@ class SortableMixin:
         )
         for item in selected:
             item.move_up()
-        return redirect(url_for(".index_view"))
 
     @action(
         "move_down",
@@ -236,7 +234,6 @@ class SortableMixin:
         )
         for item in selected:
             item.move_down()
-        return redirect(url_for(".index_view"))
 
 
 class DeviceView(AdminExportableModelView, SortableMixin):
